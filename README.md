@@ -18,3 +18,4 @@ Here's an example structure for a tournament with 4 knockout matches, including 
 A match is always generated automatically. If we delete a player from a group, or we repair or remove score in a match, then the next match will be modified or deleted.
 
 ## er-diagram
+![er-diagram](https://github.com/Trophien/football-tournament/assets/44240562/43f3ed81-e524-45a2-84ec-c8c00f2ced79)
