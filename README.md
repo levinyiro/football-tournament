@@ -19,3 +19,17 @@ A match is always generated automatically. If we delete a player from a group, o
 
 ## er-diagram
 ![er-diagram](https://github.com/Trophien/football-tournament/assets/44240562/43f3ed81-e524-45a2-84ec-c8c00f2ced79)
+
+## projected endpoints
+- /tournament - GET, POST, PUT, DELETE (if there aren't any done matches yet)
+    - username and password is basic and protected by JWT
+- /hat - GET (must includes players data), POST
+- /hat/:id - PUT, DELETE
+- /group - GET (must includes players data, and matches too), POST
+- /group/:id - GET (must includes matches), PUT, DELETE
+- /player - POST, PUT, DELETE (if there aren't any done matches yet)
+- /raffle - POST (just raffle into groups, if there aren't any done matches yet)
+- /match/:id - PUT (in body I can modify just scoreA and scoreB, and I can modify Match and knockout too)
+
+## references
+https://github.com/leventenyiro/poll it can be a good reference for using nodejs
