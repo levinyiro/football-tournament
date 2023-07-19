@@ -21,6 +21,11 @@ function Tournament() {
             Knockout
           </a>
         </li>
+        <li className="nav-item">
+          <a className={`nav-link ${actualTab === 'matches' ? 'active' : ''}`} onClick={() => setActualTab('matches')}>
+            Matches
+          </a>
+        </li>
       </ul>
 
       {actualTab === 'group' && (
@@ -34,6 +39,13 @@ function Tournament() {
         <div className="tab-content">
           <h2>Knockout Content</h2>
           {/* Add your content specific to the "Knockout" tab */}
+        </div>
+      )}
+
+      {actualTab === 'matches' && (
+        <div className="tab-content">
+          <h2>Matches Content</h2>
+          {/* Add your content specific to the "Matches" tab */}
         </div>
       )}
     </div>
