@@ -1,7 +1,7 @@
 # football-tournament
 
 ## user story
-I have an empty league. I add 2 hats - strong and weak players. In a hat I will add 4-4 players. I will raffle into two groups (A and B). In a group there will be two strong and two weak player. This step will generate the matches. A match will have scores and there will be 6 match in that case in a group. At the end of the matches of a group the programme will choose the two best player into a knock match. This step will generate the first knockmatches (group A first vs. group B second and group A second vs. group B first).
+I have an empty tournament. I add 2 hats - strong and weak players. In a hat I will add 4-4 players. In every tournament I have to add players (so the name won't be unique in tournament table). I will raffle into two groups (A and B). In a group there will be two strong and two weak player. This step will generate the matches. A match will have scores and there will be 6 match in that case in a group. At the end of the matches of a group the programme will choose the two best player into a knock match. This step will generate the first knockmatches (group A first vs. group B second and group A second vs. group B first).
 
 If a player win a knockout match, there will be generated a new knockout match with a round and a matchnumber.
 
