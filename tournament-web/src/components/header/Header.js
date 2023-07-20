@@ -1,12 +1,26 @@
+import { useAuth } from '../../contexts/AuthContext';
 import './Header.scss';
 
 function Header() {
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
 
     const collapseNavbar = () => {
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        navbarToggler.classList.remove('show');
-        navbarCollapse.classList.remove('show');
+        // const navbarToggler = document.querySelector('.navbar-toggler');
+        // const navbarCollapse = document.querySelector('.navbar-collapse');
+        // navbarToggler.classList.remove('show');
+        // navbarCollapse.classList.remove('show');
+    }
+
+    // here open modal
+    const handleLogin = () => {
+        const jwtToken = 'your_jwt_token_here';
+        localStorage.setItem('jwtToken', jwtToken);
+        setIsLoggedIn(true);
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('jwtToken');
+        setIsLoggedIn(false);
     }
 
     return (
