@@ -1,7 +1,12 @@
+const express = require('express');
+const cors = require('cors');
+const http = require('http');
+const { Server } = require("socket.io");
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const env_variables = require("../env_variables.js");
+const env_variables = require("./env-variables.js");
 
 const environment = process.env.NODE_ENV || env_variables.SERVER.NODE_ENV;
 const hostname = process.env.HOSTNAME || env_variables.SERVER.HOSTNAME;
