@@ -62,7 +62,9 @@ function Header() {
             </nav >
 
             <Modal onHide={() => setShowModal(false)} show={showModal}>
-                <Modal.Header closeButton style={{border: 0}}></Modal.Header>
+                <Modal.Header closeButton style={{border: 0}}>
+                    <Modal.Title>Login</Modal.Title>
+                </Modal.Header>
                 <Modal.Body>
                     <form>
                         <div className="mb-3">
