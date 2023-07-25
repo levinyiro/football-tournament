@@ -5,19 +5,23 @@ import './App.scss';
 import Tournaments from './pages/tournaments/Tournaments';
 import Tournament from './pages/tournament/Tournament';
 import NotFound from './pages/NotFound';
+import Header from './components/header/Header';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    // <div className="App">
-    //     <div>hello</div>
-    // </div>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Tournaments />} />
-        <Route path="/tournament/:id" element={<Tournament />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <AuthProvider>
+        <Header />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Tournaments />} />
+            <Route path="/tournament/:id" element={<Tournament />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </div>
   );
 }
 

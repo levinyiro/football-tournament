@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import './Tournament.scss';
 
 function Tournament() {
   const { id } = useParams();
-  const [actualTab, setActualTab] = useState('group');
+  const [ actualTab, setActualTab ] = useState('group');
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   return (
     <div className="Tournament">
@@ -30,8 +32,10 @@ function Tournament() {
 
       {actualTab === 'group' && (
         <div className="tab-content">
+          {isLoggedIn && (
+            <h2>Hats</h2>
+          )}
           <h2>Group Content</h2>
-          {/* Add your content specific to the "Group" tab */}
         </div>
       )}
 
