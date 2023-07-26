@@ -10,7 +10,7 @@ import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App text-light">
       <AuthProvider>
         <Header />
         <BrowserRouter>

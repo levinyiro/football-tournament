@@ -3,3 +3,42 @@
     min-width: 20%;
     text-align: center;
 }
+
+.card {
+    box-shadow: 10px 10px 0 0 #3a86ff;
+}
+
+table {
+    text-align: center;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+th, tr {
+    height: 50px;
+}
+
+th {
+    color: gray;
+    font-size: small;
+    font-weight: 500;
+}
+
+.matches-tab {
+    font-size: xx-large;
+}
+
+.tournament-nav-link {
+    color: white;
+    border: 1px solid #3a86ff;
+    margin-right: 10px;
+    transition: .2s;
+}
+
+.tournament-nav-link:hover {
+    box-shadow: 5px 5px 0 0 #3a86ff;
+    transition: .2s;
+    color: white;
+}
