@@ -1,7 +1,7 @@
 # football-tournament
 
 ## user story
-I have an empty tournament. I add 2 hats - strong and weak players. In a hat I will add 4-4 players. In every tournament I have to add players (so the name won't be unique in tournament table). I will raffle into two groups (A and B). In a group there will be two strong and two weak player. This step will generate the matches. A match will have scores and there will be 6 match in that case in a group. At the end of the matches of a group the programme will choose the two best player into a knock match. This step will generate the first knockmatches (group A first vs. group B second and group A second vs. group B first).
+First of all, I initialize the data of tournament. I decide how much groups there will be, and how many person can be in the knockout (2, 4, 8, 16). There will be Team1, Team2, etc... and I can rename all of that. In every tournament I have to add players (so the name won't be unique in tournament table). This step will generate the matches. A match will have scores. At the end of the matches of a group the program will choose the for example two best player into a knock match. This step will generate the first knockmatches (group A first vs. group B second and group A second vs. group B first).
 
 If a player win a knockout match, there will be generated a new knockout match with a round and a matchnumber.
 
@@ -18,17 +18,14 @@ Here's an example structure for a tournament with 4 knockout matches, including 
 A match is always generated automatically. If we delete a player from a group, or we repair or remove score in a match, then the next match will be modified or deleted.
 
 ## er-diagram
-![image](https://github.com/Trophien/football-tournament/assets/44240562/158d5162-5fbd-4ecb-942b-6618e1b8989c)
+![image](https://github.com/Trophien/football-tournament/assets/44240562/8cfe36f1-c41f-41a3-8e89-ca6bec4e0490)
 
 ## projected endpoints
 - /tournament - GET, POST, PUT, DELETE (if there aren't any done matches yet)
     - username and password is basic and protected by JWT
-- /hat - GET (must includes players data), POST
-- /hat/:id - PUT, DELETE
 - /group - GET (must includes players data, and matches too), POST
 - /group/:id - GET (must includes matches), PUT, DELETE
-- /player - POST, PUT, DELETE (if there aren't any done matches yet)
-- /raffle - POST (just raffle into groups, if there aren't any done matches yet)
+- /player - PUT (if there aren't any done matches yet)
 - /match/:id - PUT (in body I can modify just scoreA and scoreB, and I can modify Match and knockout too)
 
 ## references
