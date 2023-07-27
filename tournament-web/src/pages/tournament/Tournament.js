@@ -9,10 +9,10 @@ function Tournament() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   return (
-    <div className="Tournament">
-      <h1>Tournament ID: {id}</h1>
+    <div className="Tournament container">
+      <h1 class="mb-3">Tournament ID: {id}</h1>
 
-      <ul className="nav nav-pills">
+      <ul className="nav nav-pills mb-3">
         <li className="nav-item">
           <a className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''}`} aria-current="page" onClick={() => setActualTab('group')}>
             Group
@@ -35,7 +35,7 @@ function Tournament() {
           <h2>Group Content</h2>
           
           <div class="container card p-5">
-            <h3>Group A</h3>
+            <h3 style={{fontWeight: 900}}>Group A</h3>
             <table>
               <thead>
                 <th>Pos</th>
@@ -93,7 +93,7 @@ function Tournament() {
           </div>
 
           <div class="container card my-5 p-5">
-            <h3>Group B</h3>
+            <h3 style={{fontWeight: 900}}>Group B</h3>
             <table class="table table-striped">
               <thead>
                 <th>Pos</th>

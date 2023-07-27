@@ -3,6 +3,9 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     padding: 10px 0;
     backdrop-filter: blur(5px) contrast(1.4);
+    background-color: white;
+    color: black;
+    box-shadow: 5px 5px 0 0 #3a86ff;
     transition: 0.2s;
     
     div {
@@ -13,7 +16,8 @@
 }
 
 .row-box:hover {
-    box-shadow: rgba(100, 100, 111, 0.5) 0 3px 10px;
+    box-shadow: 7px 7px 0 0 #3a86ff;
     transition: 0.2s;
+    background-color: #eeeeee;
     cursor: pointer;
 }
