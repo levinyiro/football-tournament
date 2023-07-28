@@ -34,7 +34,7 @@ function Tournament() {
         <div className="tab-content">
           <h2>Group Content</h2>
           
-          <div class="container card p-5">
+          <div class="container card p-5 mb-5">
             <h3 style={{fontWeight: 900}}>Group A</h3>
             <table>
               <thead>
@@ -92,9 +92,9 @@ function Tournament() {
             </table>
           </div>
 
-          <div class="container card my-5 p-5">
+          <div class="container card p-5 mb-5">
             <h3 style={{fontWeight: 900}}>Group B</h3>
-            <table class="table table-striped">
+            <table>
               <thead>
                 <th>Pos</th>
                 <th>Name</th>
