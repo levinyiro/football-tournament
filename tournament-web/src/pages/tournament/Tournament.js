@@ -5,7 +5,7 @@ import './Tournament.scss';
 
 function Tournament() {
   const { id } = useParams();
-  const [ actualTab, setActualTab ] = useState('group');
+  const [actualTab, setActualTab] = useState('group');
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   return (
@@ -33,9 +33,9 @@ function Tournament() {
       {actualTab === 'group' && (
         <div className="tab-content">
           <h2>Group Content</h2>
-          
+
           <div class="container card p-5 mb-5">
-            <h3 style={{fontWeight: 900}}>Group A</h3>
+            <h3 style={{ fontWeight: 900 }}>Group A</h3>
             <table>
               <thead>
                 <th>Pos</th>
@@ -56,7 +56,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -66,7 +66,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -76,7 +76,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -86,14 +86,14 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div class="container card p-5 mb-5">
-            <h3 style={{fontWeight: 900}}>Group B</h3>
+            <h3 style={{ fontWeight: 900 }}>Group B</h3>
             <table>
               <thead>
                 <th>Pos</th>
@@ -114,7 +114,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -124,7 +124,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -134,7 +134,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
                 <tr>
                   <td>1</td>
@@ -144,7 +144,7 @@ function Tournament() {
                   <td>2</td>
                   <td>3</td>
                   <td>1</td>
-                  <td style={{fontWeight: 'bold'}}>{ 2 * 3 + 3 }</td>
+                  <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
                 </tr>
               </tbody>
             </table>
@@ -153,9 +153,75 @@ function Tournament() {
       )}
 
       {actualTab === 'knockout' && (
-        <div className="tab-content">
-          <h2>Knockout Content</h2>
-          {/* Add your content specific to the "Knockout" tab */}
+        <div className="knockout-tab">
+          <h2 className='mb-5'>Knockout Content</h2>
+
+          <h3 className='text-center mb-4 lead'>Semi-final</h3>
+          <div class="container card p-4 mb-4">
+            <div className='row d-flex align-items-center'>
+              <div className='col-4 text-center team winner'>
+                <h3>Levi</h3>
+                <p>Manchester City</p>
+              </div>
+              <div className='col-1'></div>
+              <div className='col-2 result py-2 text-center'>4 - 3</div>
+              <div className='col-1'></div>
+              <div className='col-4 text-center team'>
+                <h3>Kapocsi</h3>
+                <p>Paris Saint-Germain</p>
+              </div>
+            </div>
+
+            <hr className='m-4' />
+
+            <div className='row d-flex align-items-center'>
+              <div className='col-4 text-center team'>
+                <h3>Zsombor</h3>
+                <p>Manchester United</p>
+              </div>
+              <div className='col-1'></div>
+              <div className='col-2 result py-2 text-center'>0 - 1</div>
+              <div className='col-1'></div>
+              <div className='col-4 text-center team winner'>
+                <h3>Lancz</h3>
+                <p>AC Milan</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 className='text-center mb-4 lead mt-5'>Play-off</h3>
+          <div class="container card p-4 mb-4 gold">
+            <div className='row d-flex align-items-center'>
+              <div className='col-4 text-center team winner'>
+                <h3>Levi</h3>
+                <p>Manchester City</p>
+              </div>
+              <div className='col-1'></div>
+              <div className='col-2 result py-2 text-center'>2 - 1</div>
+              <div className='col-1'></div>
+              <div className='col-4 text-center team'>
+                <h3>Lancz</h3>
+                <p>AC Milan</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 className='text-center mb-4 lead mt-5'>Third place</h3>
+          <div class="container card p-4 mb-4 bronze">
+            <div className='row d-flex align-items-center'>
+              <div className='col-4 text-center team winner'>
+                <h3>Kapocsi</h3>
+                <p>Paris Saint-Germain</p>
+              </div>
+              <div className='col-1'></div>
+              <div className='col-2 result py-2 text-center'>1 - 0</div>
+              <div className='col-1'></div>
+              <div className='col-4 text-center team'>
+                <h3>Zsombor</h3>
+                <p>Manchester United</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

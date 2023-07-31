@@ -26,10 +26,6 @@ th {
     font-weight: 500;
 }
 
-.matches-tab {
-    font-size: xx-large;
-}
-
 .tournament-nav-link {
     color: white;
     border: 1px solid #3a86ff;
@@ -41,4 +37,30 @@ th {
     box-shadow: 5px 5px 0 0 #3a86ff;
     transition: .2s;
     color: white;
+}
+
+.team {
+    line-height: 80%;
+}
+
+.winner {
+    h3, p {
+        font-weight: 900;
+    }
+}
+
+.result {
+    background-color: #3a0ca3;
+    color: white;
+    border-radius: 8px;
+    font-size: Xx-large;
+    font-weight: 900;
+}
+
+.gold {
+    background-color: #e4c970;
+}
+
+.bronze {
+    background-color: #ddb8a5;
 }
