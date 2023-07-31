@@ -7,6 +7,8 @@ import './Tournaments.scss';
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
   const [showAddTournamentModal, setShowAddTournamentModal] = useState(false);
+  const [inputParticipantsValue, setInputParticipantsValue] = useState('');
+  const totalPromotedOptions = [2, 4, 8, 16, 32, 64];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +20,10 @@ function Tournaments() {
     fetchTournaments();
   }, []);
 
+  const handleInputParticipantsChange = (event) => {
+    setInputParticipantsValue(event.target.value);
+  };
+
   const openTournament = (id) => {
     navigate(`/tournament/${id}`);
   }
@@ -25,6 +31,8 @@ function Tournaments() {
   const addTournament = () => {
     setShowAddTournamentModal(false);
   }
+
+  const numbers = Array.from({ length: 62 }, (_, index) => index + 3);
 
   return (
     <div className="Tournaments container">
@@ -76,11 +84,18 @@ function Tournaments() {
             </div>
 
             <label htmlFor="inputParticipants" className="form-label">Participants</label>
-            <select className="form-select mb-3" aria-label="Default select example">
-              <option value="" disabled selected>Select a number</option>
-              {Array.from({ length: 62 }, (_, index) => (
-                <option key={index + 3} value={index + 3}>
-                  {index + 3}
+            <select
+              className="form-select mb-3"
+              aria-label="Default select example"
+              value={inputParticipantsValue}
+              onChange={handleInputParticipantsChange}
+            >
+              <option value="" disabled>
+                Select a number
+              </option>
+              {numbers.map((number) => (
+                <option key={number} value={number}>
+                  {number}
                 </option>
               ))}
             </select>
@@ -90,20 +105,26 @@ function Tournaments() {
               <label className="form-check-label" for="flexSwitchCheckDefault">Round-robin</label>
             </div>
 
-            <div className="form-check form-switch">
+            <div className="form-check form-switch mb-3">
               <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
               <label className="form-check-label" for="flexSwitchCheckDefault">Knockout</label>
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="inputPassword" className="form-label">Password</label>
-              <input required type="password" className="form-control" id="inputPassword" name="password" />
-              <div className="invalid-feedback">Password is required</div>
-            </div>
+            <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
+            <select className="form-select mb-3" aria-label="Default select example">
+              <option value="" disabled selected>
+                Select a number
+              </option>
+              {totalPromotedOptions.filter((value) => value <= inputParticipantsValue).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
 
             <div className="row">
               <div className="col-5">
-                <button className="btn btn-primary" onClick={() => addTournament()}>Login</button>
+                <button className="btn btn-primary" onClick={() => addTournament()}>Create</button>
               </div>
             </div>
           </form>
