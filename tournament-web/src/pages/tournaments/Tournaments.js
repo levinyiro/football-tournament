@@ -30,6 +30,10 @@ function Tournaments() {
 
   const addTournament = () => {
     setShowAddTournamentModal(false);
+
+    // mock
+    let id = 5;
+    navigate(`/tournament/${id}`);
   }
 
   const numbers = Array.from({ length: 62 }, (_, index) => index + 3);
