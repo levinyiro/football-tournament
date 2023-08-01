@@ -1,0 +1,197 @@
+[
+    {
+      "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
+      "title": "Fifa tournament 2023H1",
+      "date": "2023-04-23T18:25:43.511Z",
+      "groups": [
+        {
+          "name": "Group A",
+          "teams": [
+            {
+                "name": "Levi",
+                "team": "Manchester United"
+            },
+            {
+                "name": "Zsombor",
+                "team": "Manchester United"
+            },
+            {
+                "name": "Levi",
+                "team": "Manchester United"
+            },
+            {
+                "name": "Levi",
+                "team": "Manchester United"
+            }
+          ],
+          "matches": [
+            {
+              "id": "match1",
+              "teamA": "Team 1",
+              "teamB": "Team 2",
+              "result": "3 - 2",
+              "orderNumber": 1
+            },
+            {
+              "id": "match2",
+              "teamA": "Team 3",
+              "teamB": "Team 4",
+              "result": "1 - 1",
+              "orderNumber": 3
+            },
+            {
+              "id": "match3",
+              "teamA": "Team 1",
+              "teamB": "Team 3",
+              "result": null,
+              "orderNumber": 5
+            },
+            {
+              "id": "match4",
+              "teamA": "Team 2",
+              "teamB": "Team 4",
+              "venue": "Stadium 1",
+              "result": null,
+              "orderNumber": 7
+            },
+            {
+              "id": "match5",
+              "teamA": "Team 1",
+              "teamB": "Team 4",
+              "date": "2023-05-09T19:15:00Z",
+              "venue": "Stadium 2",
+              "result": null,
+              "orderNumber": 9
+            },
+            {
+              "id": "match6",
+              "teamA": "Team 2",
+              "teamB": "Team 3",
+              "date": "2023-05-10T20:00:00Z",
+              "result": null,
+              "orderNumber": 11
+            }
+          ]
+        },
+        {
+            "name": "Group A",
+            "teams": [
+              "Team 1",
+              "Team 2",
+              "Team 3",
+              "Team 4"
+            ],
+            "matches": [
+              {
+                "id": "match1",
+                "teamA": "Team 1",
+                "teamB": "Team 2",
+                "date": "2023-05-01T14:00:00Z",
+                "venue": "Stadium 1",
+                "result": "3 - 2"
+              },
+              {
+                "id": "match2",
+                "teamA": "Team 3",
+                "teamB": "Team 4",
+                "date": "2023-05-02T15:30:00Z",
+                "venue": "Stadium 2",
+                "result": "1 - 1"
+              },
+              {
+                "id": "match3",
+                "teamA": "Team 1",
+                "teamB": "Team 3",
+                "date": "2023-05-05T12:00:00Z",
+                "venue": "Stadium 3",
+                "result": null
+              },
+              {
+                "id": "match4",
+                "teamA": "Team 2",
+                "teamB": "Team 4",
+                "date": "2023-05-06T16:45:00Z",
+                "venue": "Stadium 1",
+                "result": null
+              },
+              {
+                "id": "match5",
+                "teamA": "Team 1",
+                "teamB": "Team 4",
+                "date": "2023-05-09T19:15:00Z",
+                "venue": "Stadium 2",
+                "result": null
+              },
+              {
+                "id": "match6",
+                "teamA": "Team 2",
+                "teamB": "Team 3",
+                "date": "2023-05-10T20:00:00Z",
+                "venue": "Stadium 3",
+                "result": null
+              }
+            ]
+          },
+      ],
+      "knockout": {
+        "roundOf16": [
+          {
+            "id": "knockoutMatch1",
+            "teamA": "Group A Winner",
+            "teamB": "Group B Runner-up",
+            "date": "2023-06-01T18:30:00Z",
+            "venue": "Stadium 4",
+            "result": null
+          },
+          {
+            "id": "knockoutMatch2",
+            "teamA": "Group C Winner",
+            "teamB": "Group D Runner-up",
+            "date": "2023-06-02T19:00:00Z",
+            "venue": "Stadium 5",
+            "result": null
+          },
+          // Add more round of 16 matches here
+        ],
+        "quarterFinals": [
+          {
+            "id": "quarterFinalMatch1",
+            "teamA": "Quarterfinal 1 Winner",
+            "teamB": "Quarterfinal 2 Winner",
+            "date": "2023-06-15T20:30:00Z",
+            "venue": "Stadium 6",
+            "result": null
+          },
+          // Add more quarter-final matches here
+        ],
+        "semiFinals": [
+          {
+            "id": "semiFinalMatch1",
+            "teamA": "Semifinal 1 Winner",
+            "teamB": "Semifinal 2 Winner",
+            "date": "2023-06-28T21:00:00Z",
+            "venue": "Stadium 7",
+            "result": null
+          }
+          // Add more semifinal matches here
+        ],
+        "thirdPlacePlayoff": {
+          "id": "thirdPlaceMatch",
+          "teamA": "Semifinal 1 Loser",
+          "teamB": "Semifinal 2 Loser",
+          "date": "2023-07-03T17:00:00Z",
+          "venue": "Stadium 8",
+          "result": null
+        },
+        "final": {
+          "id": "finalMatch",
+          "teamA": "Semifinal 1 Winner",
+          "teamB": "Semifinal 2 Winner",
+          "date": "2023-07-03T20:00:00Z",
+          "venue": "Stadium 8",
+          "result": null
+        }
+      }
+    }
+  ]
+  
