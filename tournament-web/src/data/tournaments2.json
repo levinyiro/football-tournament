@@ -1,0 +1,77 @@
+[
+    {
+      "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
+      "title": "Fifa tournament 2023H1",
+      "date": "2023-04-23T18:25:43.511Z",
+      "groups": [
+        {
+          "name": "Group A",
+          "teams": [
+            {
+                "name": "Levi",
+                "team": "Manchester United"
+            },
+          ],
+          "matches": [
+            {
+              "id": "match1",
+              "teamA": "Team 1",
+              "teamB": "Team 2",
+              "result": "3 - 2",
+              "orderNumber": 1
+            },
+            {
+              "id": "match2",
+              "teamA": "Team 3",
+              "teamB": "Team 4",
+              "result": "1 - 1",
+              "orderNumber": 3
+            },
+            {
+              "id": "match3",
+              "teamA": "Team 1",
+              "teamB": "Team 3",
+              "result": null,
+              "orderNumber": 5
+            },
+            {
+              "id": "match4",
+              "teamA": "Team 2",
+              "teamB": "Team 4",
+              "venue": "Stadium 1",
+              "result": null,
+              "orderNumber": 7
+            },
+            {
+              "id": "match5",
+              "teamA": "Team 1",
+              "teamB": "Team 4",
+              "date": "2023-05-09T19:15:00Z",
+              "venue": "Stadium 2",
+              "result": null,
+              "orderNumber": 9
+            },
+            {
+              "id": "match6",
+              "teamA": "Team 2",
+              "teamB": "Team 3",
+              "date": "2023-05-10T20:00:00Z",
+              "result": null,
+              "orderNumber": 11
+            }
+          ]
+        }
+      ],
+      "knockout": [
+        {
+          "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
+          "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0101",
+          "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0102",
+          "round": 1,
+          "matchNumber": 1,
+          "winner": null,
+        }
+      ]
+    }
+  ]
+  
