@@ -12,13 +12,14 @@ function Tournaments() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTournaments = async () => {
-      const data = await Data.getTournaments();
-      setTournaments(data);
-    };
-
     fetchTournaments();
   }, []);
+
+  const fetchTournaments = async () => {
+    const data = await Data.getTournaments();
+    console.log(data);
+    setTournaments(data);
+  };
 
   const handleInputParticipantsChange = (event) => {
     setInputParticipantsValue(event.target.value);
@@ -51,28 +52,20 @@ function Tournaments() {
         </div>
       </div>
 
-      <div className="row row-box mb-4" onClick={() => openTournament(5)}>
-        <div className="col-10 col-md-4 fw-semibold">
-          valami
-        </div>
-        <div className="col-md-4 d-none d-md-flex">
-          2023.01.01
-        </div>
-        <div className="col-md-4 d-none d-md-flex">
-          <button className="btn btn-primary btn-sm">Explore</button>
-        </div>
-      </div>
-
-      <div className="row row-box mb-4" onClick={() => openTournament(5)}>
-        <div className="col-10 col-md-4 fw-semibold">
-          valami
-        </div>
-        <div className="col-md-4 d-none d-md-flex">
-          2023.01.01
-        </div>
-        <div className="col-md-4 d-none d-md-flex">
-          <button className="btn btn-primary btn-sm">Explore</button>
-        </div>
+      <div>
+        {tournaments.map((tournament) => (
+          <div key={tournament.id} className="row row-box mb-4" onClick={() => openTournament(tournament.id)}>
+            <div className="col-10 col-md-4 fw-semibold">
+              {tournament.title}
+            </div>
+            <div className="col-md-4 d-none d-md-flex">
+              {new Date(tournament.date).toISOString().slice(0, 10).replace(/-/g, '.')}
+            </div>
+            <div className="col-md-4 d-none d-md-flex">
+              <button className="btn btn-primary btn-sm">Explore</button>
+            </div>
+          </div>
+        ))}
       </div>
 
       <Modal onHide={() => setShowAddTournamentModal(false)} show={showAddTournamentModal}>
@@ -125,6 +118,8 @@ function Tournaments() {
                 </option>
               ))}
             </select>
+
+            {/* number of groups */}
 
             <div className="row">
               <div className="col-5">

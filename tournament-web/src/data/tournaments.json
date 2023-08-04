@@ -131,7 +131,7 @@
                 "result": null
               }
             ]
-          },
+          }
       ],
       "knockout": {
         "roundOf16": [
@@ -150,8 +150,7 @@
             "date": "2023-06-02T19:00:00Z",
             "venue": "Stadium 5",
             "result": null
-          },
-          // Add more round of 16 matches here
+          }
         ],
         "quarterFinals": [
           {
@@ -161,8 +160,7 @@
             "date": "2023-06-15T20:30:00Z",
             "venue": "Stadium 6",
             "result": null
-          },
-          // Add more quarter-final matches here
+          }
         ],
         "semiFinals": [
           {
@@ -173,7 +171,6 @@
             "venue": "Stadium 7",
             "result": null
           }
-          // Add more semifinal matches here
         ],
         "thirdPlacePlayoff": {
           "id": "thirdPlaceMatch",
