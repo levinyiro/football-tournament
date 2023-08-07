@@ -17,6 +17,8 @@ function Tournament() {
   const fetchTournament = async () => {
     const data = await Data.getTournament(id);
     setTournament(data);
+    if (data.groups == null)
+      setActualTab('knockout');
   };
 
   return (
@@ -26,11 +28,11 @@ function Tournament() {
           <h1 className="mb-3">{tournament.title}</h1>
 
           <ul className="nav nav-pills mb-3">
-            <li className="nav-item">
+            {tournament.group === null && (<li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''}`} aria-current="page" onClick={() => setActualTab('group')}>
                 Group
               </a>
-            </li>
+            </li>)}
             <li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'knockout' ? 'active' : ''}`} onClick={() => setActualTab('knockout')}>
                 Knockout
