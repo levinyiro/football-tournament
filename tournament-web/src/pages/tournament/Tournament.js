@@ -17,6 +17,7 @@ function Tournament() {
   const fetchTournament = async () => {
     const data = await Data.getTournament(id);
     setTournament(data);
+
     if (data.groups == null)
       setActualTab('knockout');
   };
@@ -28,16 +29,16 @@ function Tournament() {
           <h1 className="mb-3">{tournament.title}</h1>
 
           <ul className="nav nav-pills mb-3">
-            {tournament.group === null && (<li className="nav-item">
+            {tournament.groups !== null && (<li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''}`} aria-current="page" onClick={() => setActualTab('group')}>
                 Group
               </a>
             </li>)}
-            <li className="nav-item">
+            {tournament.knockouts !== null && (<li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'knockout' ? 'active' : ''}`} onClick={() => setActualTab('knockout')}>
                 Knockout
               </a>
-            </li>
+            </li>)}
             <li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'matches' ? 'active' : ''}`} onClick={() => setActualTab('matches')}>
                 Matches
@@ -47,125 +48,60 @@ function Tournament() {
 
           {actualTab === 'group' && (
             <div className="tab-content mb-5">
-              <div className="container card p-5 mt-5">
-                <h3 style={{ fontWeight: 900 }}>Group A</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pos</th>
-                      <th>Name</th>
-                      <th>Team</th>
-                      <th>Games Played</th>
-                      <th>Won</th>
-                      <th>Draw</th>
-                      <th>Lose</th>
-                      <th>Points</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              {tournament.groups.map((group, index) => (
+                <div key={index} className="container card p-5 mt-5">
+                  <h3 style={{ fontWeight: 900 }}>{group.name}</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Pos</th>
+                        <th>Name</th>
+                        <th>Team</th>
+                        <th>Games Played</th>
+                        <th>Won</th>
+                        <th>Draw</th>
+                        <th>Lose</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {group.players.map((playerId, playerIndex) => {
+                        const player = tournament.players.find(p => p.id === playerId);
+                        if (!player) return null;
 
-              <div className="container card p-5 mt-5">
-                <h3 style={{ fontWeight: 900 }}>Group B</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pos</th>
-                      <th>Name</th>
-                      <th>Team</th>
-                      <th>Games Played</th>
-                      <th>Won</th>
-                      <th>Draw</th>
-                      <th>Lose</th>
-                      <th>Points</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Levi</td>
-                      <td>Manchester United</td>
-                      <td>6</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>1</td>
-                      <td style={{ fontWeight: 'bold' }}>{2 * 3 + 3}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                        const gamesPlayed = group.matches.filter(
+                          match =>
+                            match.playerAId === playerId || match.playerBId === playerId
+                        ).length;
+                        const won = group.matches.filter(
+                          match =>
+                            (match.playerAId === playerId && match.scoreA > match.scoreB) ||
+                            (match.playerBId === playerId && match.scoreB > match.scoreA)
+                        ).length;
+                        const drawn = group.matches.filter(
+                          match =>
+                            match.scoreA === match.scoreB &&
+                            (match.playerAId === playerId || match.playerBId === playerId)
+                        ).length;
+                        const lost = gamesPlayed - won - drawn;
+
+                        return (
+                          <tr key={playerIndex}>
+                            <td>{playerIndex + 1}</td>
+                            <td>{player.name}</td>
+                            <td>{player.team}</td>
+                            <td>{gamesPlayed}</td>
+                            <td>{won}</td>
+                            <td>{drawn}</td>
+                            <td>{lost}</td>
+                            <td style={{ fontWeight: 'bold' }}>{won * 3 + drawn}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
             </div>
           )}
 
