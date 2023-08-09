@@ -7,13 +7,33 @@
     "players": [
       {
         "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
-        "name": "Levi",
+        "name": "PlayerA",
         "team": "Manchester United"
       },
       {
         "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
-        "name": "Dani",
+        "name": "PlayerB",
         "team": "Paris Saint Germain"
+      },
+      {
+        "id": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+        "name": "PlayerC",
+        "team": null
+      },
+      {
+        "id": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+        "name": "PlayerD",
+        "team": null
+      },
+      {
+        "id": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+        "name": "PlayerE",
+        "team": "Manchester United"
+      },
+      {
+        "id": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+        "name": "PlayerF",
+        "team": null
       }
     ],
     "groups": [
@@ -21,7 +41,8 @@
         "name": "Group A",
         "players": [
           "47edefeb-255d-4235-bfa4-47afed0e0232",
-          "47edefeb-255d-4235-bfa4-47afed0e0233"
+          "47edefeb-255d-4235-bfa4-47afed0e0233",
+          "576c8a2e-d71c-4c3b-9563-d3083b255e19"
         ],
         "matches": [
           {
@@ -30,6 +51,56 @@
             "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0233",
             "scoreA": 3,
             "scoreB": 2,
+            "orderNumber": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9576",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 1,
+            "scoreB": 1,
+            "orderNumber": 3
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9876",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0233",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 1,
+            "scoreB": 1,
+            "orderNumber": 3
+          }
+        ]
+      },
+      {
+        "name": "Group B",
+        "players": [
+          "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+          "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+          "5628445a-c853-4f18-acfa-0e66b5c7daee"
+        ],
+        "matches": [
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9581",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": 1,
+            "scoreB": 1,
+            "orderNumber": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 2,
+            "scoreB": 2,
+            "orderNumber": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
+            "playerAId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 3,
+            "scoreB": 3,
             "orderNumber": 1
           }
         ]
