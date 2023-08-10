@@ -26,27 +26,29 @@ class Data {
     }
 
     static async getGroups(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id)
+        const tournament = jsonData.find(tournament => tournament.id === id);
 
+        const data = tournament.groups.map(group => {
+            const players = group.players.map(playerId => {
+                const playerDetails = tournament.players.find(player => player.id === playerId);
 
-        tournament.groups.map(group => {
-            const players = tournament.players.map(playerId => {
-                const player = tournament.players.find(p => p.id === playerId);
-                console.log(player);
                 const gamesPlayed = group.matches.filter(
-                    match => match.playerAId === playerId || match.playerBId === playerId
+                    match => (match.playerAId === playerId || match.playerBId === playerId) &&
+                        match.scoreA !== null && match.scoreB !== null
                 ).length;
+
                 const won = group.matches.filter(
                     match =>
                         (match.playerAId === playerId && match.scoreA > match.scoreB) ||
                         (match.playerBId === playerId && match.scoreB > match.scoreA)
                 ).length;
+
                 const drawn = group.matches.filter(
                     match =>
                         match.scoreA === match.scoreB &&
-                        (match.playerAId === playerId || match.playerBId === playerId)
+                        (match.playerAId === playerId || match.playerBId === playerId) &&
+                        match.scoreA !== null && match.scoreB !== null
                 ).length;
-                const lost = gamesPlayed - won - drawn;
 
                 const gf = group.matches
                     .filter(match => match.playerAId === playerId)
@@ -64,31 +66,42 @@ class Data {
                         .map(match => match.scoreA)
                         .reduce((a, c) => a + c, 0);
 
-                const gd = gf - ga;
-                const points = won * 3 + drawn;
-
 
                 return {
                     id: playerId,
-                    name: player.name,
-                    team: player.team,
+                    name: playerDetails.name,
+                    team: playerDetails.team,
                     matchPlayed: gamesPlayed,
                     won: won,
                     draw: drawn,
-                    lose: lost,
+                    lose: gamesPlayed - won - drawn,
                     gf: gf,
                     ga: ga,
-                    gd: gd,
-                    points: points
+                    gd: gf - ga,
+                    points: won * 3 + drawn
                 };
+            });
+
+            players.sort((a, b) => {
+                if (a.points !== b.points) {
+                    return b.points - a.points;
+                } else if (a.gd !== b.gd) {
+                    return b.gd - a.gd;
+                } else {
+                    return b.gf - a.gf;
+                }
             });
 
             return {
                 name: group.name,
-                players: players
+                players: players,
+                isReady: players.every(player => player.matchPlayed === players.length - 1)
             };
         });
 
+        console.log(data);
+        
+        return data;
     }
 
     // static updateTournaments(modifiedData) {

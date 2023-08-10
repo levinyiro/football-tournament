@@ -23,6 +23,7 @@ function Tournament() {
       setActualTab('knockout');
     else {
       const groups = await Data.getGroups(id);
+      setGroups(groups);
     }
   };
 
@@ -52,7 +53,7 @@ function Tournament() {
 
           {actualTab === 'group' && (
             <div className="tab-content mb-5">
-              {tournament.groups.map((group, index) => (
+              {groups.map((group, index) => (
                 <div key={index} className="container card p-5 mt-5">
                   <h3 style={{ fontWeight: 900 }}>{group.name}</h3>
                   <table>
@@ -72,59 +73,20 @@ function Tournament() {
                       </tr>
                     </thead>
                     <tbody>
-                      {group.players.map((playerId, playerIndex) => {
-                        const player = tournament.players.find(p => p.id === playerId);
-                        if (!player) return null;
-
-                        const gamesPlayed = group.matches.filter(
-                          match =>
-                            match.playerAId === playerId || match.playerBId === playerId
-                        ).length;
-                        const won = group.matches.filter(
-                          match =>
-                            (match.playerAId === playerId && match.scoreA > match.scoreB) ||
-                            (match.playerBId === playerId && match.scoreB > match.scoreA)
-                        ).length;
-
-                        const drawn = group.matches.filter(
-                          match =>
-                            match.scoreA === match.scoreB &&
-                            (match.playerAId === playerId || match.playerBId === playerId)
-                        ).length;
-
-                        const lost = gamesPlayed - won - drawn;
-
-                        const gf = group.matches
-                          .filter(match => match.playerAId === playerId)
-                          .map(match => match.scoreA)
-                          .reduce((a, c) => a + c, 0) + group.matches
-                          .filter(match => match.playerBId === playerId)
-                          .map(match => match.scoreB)
-                          .reduce((a, c) => a + c, 0);
-
-                        const ga = group.matches
-                          .filter(match => match.playerAId === playerId)
-                          .map(match => match.scoreB)
-                          .reduce((a, c) => a + c, 0) + group.matches
-                          .filter(match => match.playerBId === playerId)
-                          .map(match => match.scoreA)
-                          .reduce((a, c) => a + c, 0);
-
-                        const gd = gf - ga;
-
+                      {group.players.map((player, playerIndex) => {
                         return (
                           <tr key={playerIndex}>
                             <td>{playerIndex + 1}</td>
                             <td>{player.name}</td>
                             <td>{player.team}</td>
-                            <td>{gamesPlayed}</td>
-                            <td>{won}</td>
-                            <td>{drawn}</td>
-                            <td>{lost}</td>
-                            <td>{gf}</td>
-                            <td>{ga}</td>
-                            <td>{gd}</td>
-                            <td style={{ fontWeight: 'bold' }}>{won * 3 + drawn}</td>
+                            <td>{player.matchPlayed}</td>
+                            <td>{player.won}</td>
+                            <td>{player.drawn}</td>
+                            <td>{player.lost}</td>
+                            <td>{player.gf}</td>
+                            <td>{player.ga}</td>
+                            <td>{player.gd}</td>
+                            <td style={{ fontWeight: 'bold' }}>{player.points}</td>
                           </tr>
                         );
                       })}

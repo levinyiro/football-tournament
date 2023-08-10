@@ -67,7 +67,7 @@
             "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
             "scoreA": 1,
             "scoreB": 1,
-            "orderNumber": 3
+            "orderNumber": 5
           }
         ]
       },
@@ -83,9 +83,9 @@
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9581",
             "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
             "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
-            "scoreA": 1,
-            "scoreB": 1,
-            "orderNumber": 1
+            "scoreA": null,
+            "scoreB": null,
+            "orderNumber": 2
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
@@ -93,7 +93,7 @@
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
             "scoreA": 2,
             "scoreB": 2,
-            "orderNumber": 1
+            "orderNumber": 4
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
@@ -101,7 +101,7 @@
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
             "scoreA": 3,
             "scoreB": 3,
-            "orderNumber": 1
+            "orderNumber": 6
           }
         ]
       }
