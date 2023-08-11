@@ -9,6 +9,7 @@ function Tournament() {
   const [actualTab, setActualTab] = useState('group');
   const [tournament, setTournament] = useState(null);
   const [groups, setGroups] = useState(null);
+  const [matches, setMatches] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -25,6 +26,9 @@ function Tournament() {
       const groups = await Data.getGroups(id);
       setGroups(groups);
     }
+
+    const matches = await Data.getMatches(id);
+    setMatches(matches);
   };
 
   return (
@@ -53,7 +57,7 @@ function Tournament() {
 
           {actualTab === 'group' && (
             <div className="tab-content mb-5">
-              {groups.map((group, index) => (
+              {groups && groups.map((group, index) => (
                 <div key={index} className="container card p-5 mt-5">
                   <h3 style={{ fontWeight: 900 }}>{group.name}</h3>
                   <table>
@@ -181,21 +185,23 @@ function Tournament() {
 
           {actualTab === 'matches' && (
             <div className="matches-tab">
-              <div className="container card p-3 mt-5">
-                <div className='row d-flex align-items-center'>
-                  <div className='col-4 text-center team winner'>
-                    <h4>Kapocsi</h4>
-                    <p>Paris Saint-Germain</p>
-                  </div>
-                  <div className='col-1'></div>
-                  <div className='col-2 result py-2 text-center'>1 - 0</div>
-                  <div className='col-1'></div>
-                  <div className='col-4 text-center team'>
-                    <h4>Zsombor</h4>
-                    <p>Manchester United</p>
+              {matches && matches.map((match, index) => (
+                <div key={index} className="container card p-3 mt-5">
+                  <div className='row d-flex align-items-center'>
+                    <div className={`col-4 text-center team ${match.playerAId === match.winner ? 'winner' : ''}`}>
+                      <h4>{match.playerA ? match.playerA.name : '?'}</h4>
+                      <p>{match.playerA && match.playerA.team}</p>
+                    </div>
+                    <div className='col-1'></div>
+                    <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                    <div className='col-1'></div>
+                    <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
+                      <h4>{match.playerB ? match.playerB.name : '?'}</h4>
+                      <p>{match.playerB && match.playerB.team}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           )}
         </div>
