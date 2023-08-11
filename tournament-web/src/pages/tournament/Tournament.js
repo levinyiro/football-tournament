@@ -184,20 +184,20 @@ function Tournament() {
           )}
 
           {actualTab === 'matches' && (
-            <div className="matches-tab">
+            <div className="matches-tab mt-5">
               {matches && matches.map((match, index) => (
-                <div key={index} className="container card p-3 mt-5">
+                <div key={index} className="container card p-3 mb-5">
                   <div className='row d-flex align-items-center'>
                     <div className={`col-4 text-center team ${match.playerAId === match.winner ? 'winner' : ''}`}>
                       <h4>{match.playerA ? match.playerA.name : '?'}</h4>
-                      <p>{match.playerA && match.playerA.team}</p>
+                      {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
                     </div>
                     <div className='col-1'></div>
                     <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
                     <div className='col-1'></div>
                     <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
                       <h4>{match.playerB ? match.playerB.name : '?'}</h4>
-                      <p>{match.playerB && match.playerB.team}</p>
+                      {match.playerB && match.playerB.team && <p>{match.playerB.team}</p>}
                     </div>
                   </div>
                 </div>
