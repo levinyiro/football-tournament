@@ -10,6 +10,7 @@ function Tournament() {
   const [tournament, setTournament] = useState(null);
   const [groups, setGroups] = useState(null);
   const [matches, setMatches] = useState(null);
+  const [knockouts, setKnockouts] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
@@ -20,11 +21,19 @@ function Tournament() {
     const data = await Data.getTournament(id);
     setTournament(data);
 
+    // when I change tab - refresh it
+
     if (data.groups == null)
       setActualTab('knockout');
-    else {
+   
+    if (data.groups) {
       const groups = await Data.getGroups(id);
       setGroups(groups);
+    }
+
+    if (data.knockouts) {
+      const knockouts = await Data.getKnockouts(id);
+      setKnockouts(knockouts);
     }
 
     const matches = await Data.getMatches(id);

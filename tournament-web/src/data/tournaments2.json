@@ -115,6 +115,33 @@
         "scoreB": null,
         "round": 1,
         "matchNumber": 1
+      },
+      {
+        "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
+        "playerAId": "Group A 2",
+        "playerBId": "Group B 1",
+        "scoreA": null,
+        "scoreB": null,
+        "round": 1,
+        "matchNumber": 2
+      },
+      {
+        "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+        "playerAId": "",
+        "playerBId": "",
+        "scoreA": null,
+        "scoreB": null,
+        "round": 2,
+        "matchNumber": 1
+      },
+      {
+        "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+        "playerAId": "",
+        "playerBId": "",
+        "scoreA": null,
+        "scoreB": null,
+        "round": 3,
+        "matchNumber": 1
       }
     ]
   },

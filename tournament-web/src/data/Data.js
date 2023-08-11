@@ -151,11 +151,39 @@ class Data {
             });
         }
 
-        console.log(allMatches);
-
         return allMatches;
     }
 
+    static async getKnockouts(id) {
+        const tournament = jsonData.find(tournament => tournament.id === id);
+        
+        const data = tournament.knockouts.map(knockout => {
+            const playerA = tournament.players.find(player => player.id === knockout.playerAId);
+            const playerB = tournament.players.find(player => player.id === knockout.playerBId);
+            const winner = knockout.scoreA > knockout.scoreB 
+                ? knockout.playerAId 
+                : (knockout.scoreB > knockout.scoreA ? knockout.playerBId : null);
+
+            return {
+                ...knockout,
+                winner,
+                playerA,
+                playerB
+            };
+        });
+
+        data.sort((a, b) => {
+            if (a.round !== b.round) {
+                return a.round - b.round;
+            } else {
+                return a.matchNumber - b.matchNumber;
+            }
+        });
+
+        console.log(data);
+
+        return data;
+    }
 
     // static updateTournaments(modifiedData) {
     //     this.tournaments = modifiedData;
