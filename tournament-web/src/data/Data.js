@@ -66,7 +66,6 @@ class Data {
                         .map(match => match.scoreA)
                         .reduce((a, c) => a + c, 0);
 
-
                 return {
                     id: playerId,
                     name: playerDetails.name,

@@ -74,15 +74,17 @@ function Tournament() {
                     </thead>
                     <tbody>
                       {group.players.map((player, playerIndex) => {
+                        const rowClass = (group.isReady && playerIndex < 2) ? "green-row" : "";
+
                         return (
-                          <tr key={playerIndex}>
+                          <tr key={playerIndex} className={rowClass}>
                             <td>{playerIndex + 1}</td>
                             <td>{player.name}</td>
                             <td>{player.team}</td>
                             <td>{player.matchPlayed}</td>
                             <td>{player.won}</td>
-                            <td>{player.drawn}</td>
-                            <td>{player.lost}</td>
+                            <td>{player.draw}</td>
+                            <td>{player.lose}</td>
                             <td>{player.gf}</td>
                             <td>{player.ga}</td>
                             <td>{player.gd}</td>
