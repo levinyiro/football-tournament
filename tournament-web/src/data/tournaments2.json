@@ -50,24 +50,21 @@
             "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
             "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0233",
             "scoreA": 3,
-            "scoreB": 2,
-            "orderNumber": 1
+            "scoreB": 2
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9576",
             "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
             "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
             "scoreA": 1,
-            "scoreB": 1,
-            "orderNumber": 3
+            "scoreB": 1
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9876",
             "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0233",
             "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
             "scoreA": 1,
-            "scoreB": 2,
-            "orderNumber": 5
+            "scoreB": 2
           }
         ]
       },
@@ -84,64 +81,68 @@
             "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
             "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
             "scoreA": null,
-            "scoreB": null,
-            "orderNumber": 2
+            "scoreB": null
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
             "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
             "scoreA": 2,
-            "scoreB": 2,
-            "orderNumber": 4
+            "scoreB": 2
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
             "playerAId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
             "scoreA": 3,
-            "scoreB": 3,
-            "orderNumber": 6
+            "scoreB": 3
           }
         ]
       }
     ],
     "knockouts": [
       {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
-        "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0101",
-        "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0102",
-        "scoreA": null,
-        "scoreB": null,
-        "round": 1,
-        "matchNumber": 1
+        "name": "Semi-final",
+        "matches": [
+          {
+            "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": null,
+            "scoreB": null
+          },
+          {
+            "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
+            "playerAId": "Group A 2",
+            "playerBId": "Group B 1",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
       },
       {
-        "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
-        "playerAId": "Group A 2",
-        "playerBId": "Group B 1",
-        "scoreA": null,
-        "scoreB": null,
-        "round": 1,
-        "matchNumber": 2
+        "name": "Third place",
+        "matches": [
+          {
+            "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+            "playerAId": "",
+            "playerBId": "",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
       },
       {
-        "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
-        "playerAId": "",
-        "playerBId": "",
-        "scoreA": null,
-        "scoreB": null,
-        "round": 2,
-        "matchNumber": 1
-      },
-      {
-        "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
-        "playerAId": "",
-        "playerBId": "",
-        "scoreA": null,
-        "scoreB": null,
-        "round": 3,
-        "matchNumber": 1
+        "name": "Play-off",
+        "matches": [
+          {
+            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerAId": "",
+            "playerBId": "",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
       }
     ]
   },
@@ -163,7 +164,7 @@
       }
     ],
     "groups": null,
-    "knockout": [
+    "knockouts": [
       {
         "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
         "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0101",

@@ -106,8 +106,8 @@ class Data {
         const allMatches = [];
 
         if (tournament.groups) {
-            for (const group of tournament.groups) {
-                allMatches.push(...group.matches.map(match => {
+            allMatches.push(...tournament.groups.map(group => {
+                const matches = group.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
                     const winner = match.scoreA > match.scoreB 
@@ -120,69 +120,60 @@ class Data {
                         playerA,
                         playerB
                     };
-                }));
-            }
-
-            allMatches.sort((a, b) => a.orderNumber - b.orderNumber);
+                })
+                
+                return {
+                    name: group.name,
+                    matches: matches
+                }
+            }));
         }
 
         if (tournament.knockouts) {
             allMatches.push(...tournament.knockouts.map(knockout => {
-                const playerA = tournament.players.find(player => player.id === knockout.playerAId);
-                const playerB = tournament.players.find(player => player.id === knockout.playerBId);
-                const winner = knockout.scoreA > knockout.scoreB 
-                    ? knockout.playerAId 
-                    : (knockout.scoreB > knockout.scoreA ? knockout.playerBId : null);
-
+                const matches = knockout.matches.map(match => {
+                    const playerA = tournament.players.find(player => player.id === match.playerAId);
+                    const playerB = tournament.players.find(player => player.id === match.playerBId);
+                    const winner = match.scoreA > match.scoreB 
+                        ? match.playerAId 
+                        : (match.scoreB > match.scoreA ? match.playerBId : null);
+        
+                    return {
+                        ...match,
+                        winner,
+                        playerA,
+                        playerB
+                    };
+                })
+                
                 return {
-                    ...knockout,
-                    winner,
-                    playerA,
-                    playerB
-                };
-            }));
-
-            allMatches.sort((a, b) => {
-                if (a.round !== b.round) {
-                    return a.round - b.round;
-                } else {
-                    return a.matchNumber - b.matchNumber;
+                    name: knockout.name,
+                    matches: matches
                 }
-            });
+            }));
         }
-
+        
         return allMatches;
     }
 
     static async getKnockouts(id) {
         const tournament = jsonData.find(tournament => tournament.id === id);
-        
-        const data = tournament.knockouts.map(knockout => {
-            const playerA = tournament.players.find(player => player.id === knockout.playerAId);
-            const playerB = tournament.players.find(player => player.id === knockout.playerBId);
-            const winner = knockout.scoreA > knockout.scoreB 
-                ? knockout.playerAId 
-                : (knockout.scoreB > knockout.scoreA ? knockout.playerBId : null);
 
-            return {
-                ...knockout,
-                winner,
-                playerA,
-                playerB
-            };
+        tournament.knockouts.map(knockout => {
+            knockout.matches.map(match => {
+                const playerA = tournament.players.find(player => player.id === match.playerAId);
+                const playerB = tournament.players.find(player => player.id === match.playerBId);
+                const winner = match.scoreA > match.scoreB 
+                    ? match.playerAId 
+                    : (match.scoreB > match.scoreA ? match.playerBId : null);
+
+                match.playerA = playerA;
+                match.playerB = playerB;
+                match.winner = winner;
+            });
         });
 
-        data.sort((a, b) => {
-            if (a.round !== b.round) {
-                return a.round - b.round;
-            } else {
-                return a.matchNumber - b.matchNumber;
-            }
-        });
-
-        console.log(data);
-
-        return data;
+        return tournament.knockouts;
     }
 
     // static updateTournaments(modifiedData) {

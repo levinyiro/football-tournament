@@ -25,7 +25,7 @@ function Tournament() {
 
     if (data.groups == null)
       setActualTab('knockout');
-   
+
     if (data.groups) {
       const groups = await Data.getGroups(id);
       setGroups(groups);
@@ -114,100 +114,58 @@ function Tournament() {
 
           {actualTab === 'knockout' && (
             <div className="knockout-tab mb-5">
-              <h3 className='text-center mt-5 lead'>Semi-final</h3>
-              <div className="container card mt-4">
-                <div className='row d-flex align-items-center p-3'>
-                  <div className='col-4 text-center team winner'>
-                    <h4>Levi</h4>
-                    <p>Manchester City</p>
-                  </div>
-                  <div className='col-1'></div>
-                  <div className='col-2 result py-2 text-center'>4 - 3</div>
-                  <div className='col-1'></div>
-                  <div className='col-4 text-center team'>
-                    <h4>Kapocsi</h4>
-                    <p>Paris Saint-Germain</p>
-                  </div>
-                </div>
-
-                <hr className='m-1' />
-
-                <div className='row d-flex align-items-center p-3'>
-                  <div className='col-4 text-center team'>
-                    <h4>Zsombor</h4>
-                    <p>Manchester United</p>
-                  </div>
-                  <div className='col-1'></div>
-                  <div className='col-2 result py-2 text-center'>0 - 1</div>
-                  <div className='col-1'></div>
-                  <div className='col-4 text-center team winner'>
-                    <h4>Lancz</h4>
-                    <p>AC Milan</p>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className='text-center lead mt-5'>Third place</h3>
-              <div className="container card p-3 mt-4 bronze">
-                <div className='row d-flex align-items-center'>
-                  <div className='col-4 text-center team winner'>
-                    <h4>Kapocsi</h4>
-                    <p>Paris Saint-Germain</p>
-                  </div>
-                  <div className='col-1'></div>
-                  <div className='col-2 result py-2 text-center'>1 - 0</div>
-                  <div className='col-1'></div>
-                  <div className='col-4 text-center team'>
-                    <h4>Zsombor</h4>
-                    <p>Manchester United</p>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className='text-center mt-5 lead'>Play-off</h3>
-              <div className="container card p-3 mt-4 gold">
-                <div className='row d-flex align-items-center'>
-                  <div className='col-4 text-center team winner row'>
-                    <div className='col-2 mt-3'>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" className="bi bi-trophy" viewBox="0 0 16 16">
-                        <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935zM3.504 1c.007.517.026 1.006.056 1.469.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.501.501 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667.03-.463.049-.952.056-1.469H3.504z" />
-                      </svg>
-                    </div>
-                    <div className='col-10'>
-                      <div>
-                        <h4>Levi</h4>
-                        <p>Manchester City</p>
+              {tournament.knockouts.map((knockout, index) => (
+                <div key={index}>
+                  <h3 className='text-center mt-5 lead'>{knockout.name}</h3>
+                  <div className={`container card mt-4 ${knockout.name === 'Third place' ? 'bronze' : ''} ${knockout.name === 'Play-off' ? 'gold' : ''}`}>
+                    {knockout.matches.map((match, matchIndex) => (
+                      <div key={matchIndex}>
+                        {matchIndex !== 0 && <hr className='m-1' />}
+                        <div className='row d-flex align-items-center p-3'>
+                          <div className={`col-4 text-center team ${match.playerAId === match.winner ? 'winner' : ''}`}>
+                            <h4>{match.playerA ? match.playerA.name : '?'}</h4>
+                            {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
+                          </div>
+                          <div className='col-1'></div>
+                          <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          <div className='col-1'></div>
+                          <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
+                            <h4>{match.playerB ? match.playerB.name : '?'}</h4>
+                            {match.playerB && match.playerB.team && <p>{match.playerB.team}</p>}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className='col-1'></div>
-                  <div className='col-2 result py-2 text-center'>2 - 1</div>
-                  <div className='col-1'></div>
-                  <div className='col-4 text-center team'>
-                    <h4>Lancz</h4>
-                    <p>AC Milan</p>
+                    ))}
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           )}
 
           {actualTab === 'matches' && (
-            <div className="matches-tab mt-5">
+            <div className="matches-tab mb-5">
               {matches && matches.map((match, index) => (
-                <div key={index} className="container card p-3 mb-5">
-                  <div className='row d-flex align-items-center'>
-                    <div className={`col-4 text-center team ${match.playerAId === match.winner ? 'winner' : ''}`}>
-                      <h4>{match.playerA ? match.playerA.name : '?'}</h4>
-                      {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
-                    </div>
-                    <div className='col-1'></div>
-                    <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
-                    <div className='col-1'></div>
-                    <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
-                      <h4>{match.playerB ? match.playerB.name : '?'}</h4>
-                      {match.playerB && match.playerB.team && <p>{match.playerB.team}</p>}
-                    </div>
+                <div key={index}>
+                  <h3 className='text-center mt-5 lead'>{match.name}</h3>
+                  <div className="container card p-3 mt-4">
+                    {match.matches.map((innerMatch, innerMatchIndex) => (
+                      <div key={innerMatchIndex}>
+                        {innerMatchIndex !== 0 && <hr className='m-1' />}
+                        <div className='row d-flex align-items-center p-3'>
+                          <div className={`col-4 text-center team ${innerMatch.playerAId === innerMatch.winner ? 'winner' : ''}`}>
+                            <h4>{innerMatch.playerA ? innerMatch.playerA.name : '?'}</h4>
+                            {innerMatch.playerA && innerMatch.playerA.team && <p>{innerMatch.playerA.team}</p>}
+                          </div>
+                          <div className='col-1'></div>
+                          <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
+                          <div className='col-1'></div>
+                          <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
+                            <h4>{innerMatch.playerB ? innerMatch.playerB.name : '?'}</h4>
+                            {innerMatch.playerB && innerMatch.playerB.team && <p>{innerMatch.playerB.team}</p>}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
