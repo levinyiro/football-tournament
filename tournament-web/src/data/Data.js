@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
 
 class Data {
@@ -110,10 +111,10 @@ class Data {
                 const matches = group.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
-                    const winner = match.scoreA > match.scoreB 
-                        ? match.playerAId 
+                    const winner = match.scoreA > match.scoreB
+                        ? match.playerAId
                         : (match.scoreB > match.scoreA ? match.playerBId : null);
-        
+
                     return {
                         ...match,
                         winner,
@@ -121,7 +122,7 @@ class Data {
                         playerB
                     };
                 })
-                
+
                 return {
                     name: group.name,
                     matches: matches
@@ -134,10 +135,10 @@ class Data {
                 const matches = knockout.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
-                    const winner = match.scoreA > match.scoreB 
-                        ? match.playerAId 
+                    const winner = match.scoreA > match.scoreB
+                        ? match.playerAId
                         : (match.scoreB > match.scoreA ? match.playerBId : null);
-        
+
                     return {
                         ...match,
                         winner,
@@ -145,14 +146,14 @@ class Data {
                         playerB
                     };
                 })
-                
+
                 return {
                     name: knockout.name,
                     matches: matches
                 }
             }));
         }
-        
+
         return allMatches;
     }
 
@@ -163,8 +164,8 @@ class Data {
             knockout.matches.map(match => {
                 const playerA = tournament.players.find(player => player.id === match.playerAId);
                 const playerB = tournament.players.find(player => player.id === match.playerBId);
-                const winner = match.scoreA > match.scoreB 
-                    ? match.playerAId 
+                const winner = match.scoreA > match.scoreB
+                    ? match.playerAId
                     : (match.scoreB > match.scoreA ? match.playerBId : null);
 
                 match.playerA = playerA;
@@ -174,6 +175,26 @@ class Data {
         });
 
         return tournament.knockouts;
+    }
+
+    // static async registerUser(username, password) {
+    //     const saltRounds = 10;
+    //     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    //     console.log(hashedPassword);
+    // }
+
+    static async login(username, password) {
+        if (username !== 'admin')
+            return false;
+
+        if (!await bcrypt.compare(password, '$2a$10$K1pBY/fx2jLgj6uTJotyq.ivYDM4udOonBODZzR/WsXD9UD2LH3W2'))
+            return false;
+        
+        const jwtToken = 'your_jwt_token_here';
+        localStorage.setItem('jwtToken', jwtToken);
+
+        return true;
     }
 
     // static updateTournaments(modifiedData) {
