@@ -1,194 +1,178 @@
 [
-    {
-      "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
-      "title": "Fifa tournament 2023H1",
-      "date": "2023-04-23T18:25:43.511Z",
-      "groups": [
-        {
-          "name": "Group A",
-          "teams": [
-            {
-                "name": "Levi",
-                "team": "Manchester United"
-            },
-            {
-                "name": "Zsombor",
-                "team": "Manchester United"
-            },
-            {
-                "name": "Levi",
-                "team": "Manchester United"
-            },
-            {
-                "name": "Levi",
-                "team": "Manchester United"
-            }
-          ],
-          "matches": [
-            {
-              "id": "match1",
-              "teamA": "Team 1",
-              "teamB": "Team 2",
-              "result": "3 - 2",
-              "orderNumber": 1
-            },
-            {
-              "id": "match2",
-              "teamA": "Team 3",
-              "teamB": "Team 4",
-              "result": "1 - 1",
-              "orderNumber": 3
-            },
-            {
-              "id": "match3",
-              "teamA": "Team 1",
-              "teamB": "Team 3",
-              "result": null,
-              "orderNumber": 5
-            },
-            {
-              "id": "match4",
-              "teamA": "Team 2",
-              "teamB": "Team 4",
-              "venue": "Stadium 1",
-              "result": null,
-              "orderNumber": 7
-            },
-            {
-              "id": "match5",
-              "teamA": "Team 1",
-              "teamB": "Team 4",
-              "date": "2023-05-09T19:15:00Z",
-              "venue": "Stadium 2",
-              "result": null,
-              "orderNumber": 9
-            },
-            {
-              "id": "match6",
-              "teamA": "Team 2",
-              "teamB": "Team 3",
-              "date": "2023-05-10T20:00:00Z",
-              "result": null,
-              "orderNumber": 11
-            }
-          ]
-        },
-        {
-            "name": "Group A",
-            "teams": [
-              "Team 1",
-              "Team 2",
-              "Team 3",
-              "Team 4"
-            ],
-            "matches": [
-              {
-                "id": "match1",
-                "teamA": "Team 1",
-                "teamB": "Team 2",
-                "date": "2023-05-01T14:00:00Z",
-                "venue": "Stadium 1",
-                "result": "3 - 2"
-              },
-              {
-                "id": "match2",
-                "teamA": "Team 3",
-                "teamB": "Team 4",
-                "date": "2023-05-02T15:30:00Z",
-                "venue": "Stadium 2",
-                "result": "1 - 1"
-              },
-              {
-                "id": "match3",
-                "teamA": "Team 1",
-                "teamB": "Team 3",
-                "date": "2023-05-05T12:00:00Z",
-                "venue": "Stadium 3",
-                "result": null
-              },
-              {
-                "id": "match4",
-                "teamA": "Team 2",
-                "teamB": "Team 4",
-                "date": "2023-05-06T16:45:00Z",
-                "venue": "Stadium 1",
-                "result": null
-              },
-              {
-                "id": "match5",
-                "teamA": "Team 1",
-                "teamB": "Team 4",
-                "date": "2023-05-09T19:15:00Z",
-                "venue": "Stadium 2",
-                "result": null
-              },
-              {
-                "id": "match6",
-                "teamA": "Team 2",
-                "teamB": "Team 3",
-                "date": "2023-05-10T20:00:00Z",
-                "venue": "Stadium 3",
-                "result": null
-              }
-            ]
-          }
-      ],
-      "knockout": {
-        "roundOf16": [
+  {
+    "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
+    "title": "Fifa tournament 2023H1",
+    "date": "2023-04-23T18:25:43.511Z",
+    "totalPromoted": 2,
+    "players": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "PlayerA",
+        "team": "Manchester United"
+      },
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "PlayerB",
+        "team": "Paris Saint Germain"
+      },
+      {
+        "id": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+        "name": "PlayerC",
+        "team": null
+      },
+      {
+        "id": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+        "name": "PlayerD",
+        "team": null
+      },
+      {
+        "id": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+        "name": "PlayerE",
+        "team": "Manchester United"
+      },
+      {
+        "id": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+        "name": "PlayerF",
+        "team": null
+      }
+    ],
+    "groups": [
+      {
+        "name": "Group A",
+        "players": [
+          "47edefeb-255d-4235-bfa4-47afed0e0232",
+          "47edefeb-255d-4235-bfa4-47afed0e0233",
+          "576c8a2e-d71c-4c3b-9563-d3083b255e19"
+        ],
+        "matches": [
           {
-            "id": "knockoutMatch1",
-            "teamA": "Group A Winner",
-            "teamB": "Group B Runner-up",
-            "date": "2023-06-01T18:30:00Z",
-            "venue": "Stadium 4",
-            "result": null
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9575",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0233",
+            "scoreA": 3,
+            "scoreB": 2
           },
           {
-            "id": "knockoutMatch2",
-            "teamA": "Group C Winner",
-            "teamB": "Group D Runner-up",
-            "date": "2023-06-02T19:00:00Z",
-            "venue": "Stadium 5",
-            "result": null
-          }
-        ],
-        "quarterFinals": [
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9576",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 1,
+            "scoreB": 1
+          },
           {
-            "id": "quarterFinalMatch1",
-            "teamA": "Quarterfinal 1 Winner",
-            "teamB": "Quarterfinal 2 Winner",
-            "date": "2023-06-15T20:30:00Z",
-            "venue": "Stadium 6",
-            "result": null
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9876",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0233",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 1,
+            "scoreB": 2
           }
+        ]
+      },
+      {
+        "name": "Group B",
+        "players": [
+          "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+          "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+          "5628445a-c853-4f18-acfa-0e66b5c7daee"
         ],
-        "semiFinals": [
+        "matches": [
           {
-            "id": "semiFinalMatch1",
-            "teamA": "Semifinal 1 Winner",
-            "teamB": "Semifinal 2 Winner",
-            "date": "2023-06-28T21:00:00Z",
-            "venue": "Stadium 7",
-            "result": null
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9581",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": null,
+            "scoreB": null
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 2,
+            "scoreB": 2
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
+            "playerAId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 3,
+            "scoreB": 3
           }
-        ],
-        "thirdPlacePlayoff": {
-          "id": "thirdPlaceMatch",
-          "teamA": "Semifinal 1 Loser",
-          "teamB": "Semifinal 2 Loser",
-          "date": "2023-07-03T17:00:00Z",
-          "venue": "Stadium 8",
-          "result": null
-        },
-        "final": {
-          "id": "finalMatch",
-          "teamA": "Semifinal 1 Winner",
-          "teamB": "Semifinal 2 Winner",
-          "date": "2023-07-03T20:00:00Z",
-          "venue": "Stadium 8",
-          "result": null
-        }
+        ]
       }
-    }
-  ]
-  
+    ],
+    "knockouts": [
+      {
+        "name": "Semi-final",
+        "matches": [
+          {
+            "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": null,
+            "scoreB": null
+          },
+          {
+            "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
+            "playerAId": "Group A 2",
+            "playerBId": "Group B 1",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
+      },
+      {
+        "name": "Third place",
+        "matches": [
+          {
+            "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+            "playerAId": "",
+            "playerBId": "",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
+      },
+      {
+        "name": "Play-off",
+        "matches": [
+          {
+            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerAId": "",
+            "playerBId": "",
+            "scoreA": null,
+            "scoreB": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "47edefeb-255d-4235-bfa4-47afed0e1032",
+    "title": "Fifa tournament 2023H1 Knockout",
+    "date": "2023-04-23T18:25:43.511Z",
+    "totalPromoted": 2,
+    "players": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "Levi",
+        "team": "Manchester United"
+      },
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "Dani",
+        "team": "Paris Saint Germain"
+      }
+    ],
+    "groups": null,
+    "knockouts": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
+        "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0101",
+        "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0102",
+        "round": 1,
+        "matchNumber": 1,
+        "winner": null
+      }
+    ]
+  }
+]

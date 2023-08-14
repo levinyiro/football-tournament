@@ -1,4 +1,4 @@
-import jsonData from './tournaments2.json';
+import jsonData from './tournaments.json';
 
 class Data {
     // static async getTournaments() {
