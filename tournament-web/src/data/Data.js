@@ -1,5 +1,20 @@
 import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get, set } from "firebase/database";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
+    authDomain: "football-tournament-da5c6.firebaseapp.com",
+    databaseURL: "https://football-tournament-da5c6-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "football-tournament-da5c6",
+    storageBucket: "football-tournament-da5c6.appspot.com",
+    messagingSenderId: "924060143399",
+    appId: "1:924060143399:web:58cf1ef2ff2f915941a302"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 class Data {
     // static async getTournaments() {
@@ -15,11 +30,31 @@ class Data {
     // }
 
     static async getTournaments() {
-        return jsonData.map(tournament => ({
-            id: tournament.id,
-            title: tournament.title,
-            date: tournament.date
-        }));
+        // return jsonData.map(tournament => ({
+        //     id: tournament.id,
+        //     title: tournament.title,
+        //     date: tournament.date
+        // }));
+
+        try {
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            const tournaments = [];
+
+            snapshot.forEach(childSnapshot => {
+                const tournamentData = childSnapshot.val();
+                tournaments.push({
+                    id: childSnapshot.key,
+                    title: tournamentData.title,
+                    date: tournamentData.date
+                });
+            });
+
+            return tournaments;
+        } catch (error) {
+            console.error('Error fetching tournaments:', error);
+            return [];
+        }
     }
 
     static async getTournament(id) {
