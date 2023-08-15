@@ -190,16 +190,17 @@ class Data {
 
         if (!await bcrypt.compare(password, '$2a$10$K1pBY/fx2jLgj6uTJotyq.ivYDM4udOonBODZzR/WsXD9UD2LH3W2'))
             return false;
-        
-        const jwtToken = 'your_jwt_token_here';
-        localStorage.setItem('jwtToken', jwtToken);
+
+        // const jwtToken = 'your_jwt_token_here';
+        // localStorage.setItem('jwtToken', jwtToken);
+        localStorage.setItem('loggedIn', true);
 
         return true;
     }
 
-    // static updateTournaments(modifiedData) {
-    //     this.tournaments = modifiedData;
-    // }
+    static updatePlayer(newPlayer) {
+        // implement update
+    }
 }
 
 export default Data;
