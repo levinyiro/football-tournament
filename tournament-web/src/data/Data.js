@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, set } from "firebase/database";
+import { getDatabase, ref, get, update, query, equalTo } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
@@ -240,8 +240,29 @@ class Data {
         return true;
     }
 
-    static updatePlayer(newPlayer) {
-        // implement update
+    static async updatePlayer(newPlayer) {
+        try {
+            const playersRef = ref(database, "players");
+            const playerQuery = query(playersRef, equalTo("id", newPlayer.id));
+            const snapshot = await get(playerQuery);
+            console.log(snapshot);
+
+            snapshot.forEach(childSnapshot => {
+                const player = childSnapshot.val();
+                if (player.id === newPlayer.id) {
+                    const playerRef = ref(database, `players/${childSnapshot.key}`);
+                    const updates = {
+                        name: newPlayer.name,
+                        team: newPlayer.team
+                    };
+
+                    update(playerRef, updates);
+                    console.log("Player updated successfully");
+                }
+            });
+        } catch (error) {
+            console.error("Error updating player:", error);
+        }
     }
 }
 
