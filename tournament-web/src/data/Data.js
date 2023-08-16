@@ -30,12 +30,6 @@ class Data {
     // }
 
     static async getTournaments() {
-        // return jsonData.map(tournament => ({
-        //     id: tournament.id,
-        //     title: tournament.title,
-        //     date: tournament.date
-        // }));
-
         try {
             const tournamentsRef = ref(database);
             const snapshot = await get(tournamentsRef);
@@ -58,11 +52,24 @@ class Data {
     }
 
     static async getTournament(id) {
-        return jsonData.find(tournament => tournament.id === id);
+        try {
+            const tournamentRef = ref(database, id);
+            const snapshot = await get(tournamentRef);
+    
+            if (snapshot.exists()) {
+                return snapshot.val();
+            } else {
+                console.log(`Tournament with ID ${id} not found`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error fetching tournament:', error);
+            return null;
+        }
     }
 
     static async getGroups(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id);
+        const tournament = await this.getTournament(id);
 
         const data = tournament.groups.map(group => {
             const players = group.players.map(playerId => {
@@ -70,7 +77,7 @@ class Data {
 
                 const gamesPlayed = group.matches.filter(
                     match => (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== null && match.scoreB !== null
+                        match.scoreA !== undefined && match.scoreB !== undefined
                 ).length;
 
                 const won = group.matches.filter(
@@ -83,23 +90,23 @@ class Data {
                     match =>
                         match.scoreA === match.scoreB &&
                         (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== null && match.scoreB !== null
+                        match.scoreA !== undefined && match.scoreB !== undefined
                 ).length;
 
                 const gf = group.matches
                     .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreA)
+                    .map(match => match.scoreA || 0)
                     .reduce((a, c) => a + c, 0) + group.matches
                         .filter(match => match.playerBId === playerId)
-                        .map(match => match.scoreB)
+                        .map(match => match.scoreB || 0)
                         .reduce((a, c) => a + c, 0);
 
                 const ga = group.matches
                     .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreB)
+                    .map(match => match.scoreB || 0)
                     .reduce((a, c) => a + c, 0) + group.matches
                         .filter(match => match.playerBId === playerId)
-                        .map(match => match.scoreA)
+                        .map(match => match.scoreA || 0)
                         .reduce((a, c) => a + c, 0);
 
                 return {
@@ -134,11 +141,12 @@ class Data {
             };
         });
 
+        // console.log(data);
         return data;
     }
 
     static async getMatches(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id);
+        const tournament = await this.getTournament(id);
         const allMatches = [];
 
         if (tournament.groups) {
