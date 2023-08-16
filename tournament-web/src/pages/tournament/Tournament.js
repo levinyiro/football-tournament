@@ -24,6 +24,9 @@ function Tournament() {
 
   const fetchTournament = async () => {
     const data = await Data.getTournament(id);
+    if (data.knockouts) {
+      data.knockouts = await Data.getKnockouts(id);
+    }
     setTournament(data);
 
     // when I change tab - refresh it

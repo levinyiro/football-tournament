@@ -141,7 +141,6 @@ class Data {
             };
         });
 
-        // console.log(data);
         return data;
     }
 
@@ -201,7 +200,7 @@ class Data {
     }
 
     static async getKnockouts(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id);
+        const tournament = await this.getTournament(id);
 
         tournament.knockouts.map(knockout => {
             knockout.matches.map(match => {
