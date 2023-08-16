@@ -1,4 +1,20 @@
+import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get, set } from "firebase/database";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
+    authDomain: "football-tournament-da5c6.firebaseapp.com",
+    databaseURL: "https://football-tournament-da5c6-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "football-tournament-da5c6",
+    storageBucket: "football-tournament-da5c6.appspot.com",
+    messagingSenderId: "924060143399",
+    appId: "1:924060143399:web:58cf1ef2ff2f915941a302"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 class Data {
     // static async getTournaments() {
@@ -14,19 +30,46 @@ class Data {
     // }
 
     static async getTournaments() {
-        return jsonData.map(tournament => ({
-            id: tournament.id,
-            title: tournament.title,
-            date: tournament.date
-        }));
+        try {
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            const tournaments = [];
+
+            snapshot.forEach(childSnapshot => {
+                const tournamentData = childSnapshot.val();
+                tournaments.push({
+                    id: childSnapshot.key,
+                    title: tournamentData.title,
+                    date: tournamentData.date
+                });
+            });
+
+            return tournaments;
+        } catch (error) {
+            console.error('Error fetching tournaments:', error);
+            return [];
+        }
     }
 
     static async getTournament(id) {
-        return jsonData.find(tournament => tournament.id === id);
+        try {
+            const tournamentRef = ref(database, id);
+            const snapshot = await get(tournamentRef);
+    
+            if (snapshot.exists()) {
+                return snapshot.val();
+            } else {
+                console.log(`Tournament with ID ${id} not found`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error fetching tournament:', error);
+            return null;
+        }
     }
 
     static async getGroups(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id);
+        const tournament = await this.getTournament(id);
 
         const data = tournament.groups.map(group => {
             const players = group.players.map(playerId => {
@@ -34,7 +77,7 @@ class Data {
 
                 const gamesPlayed = group.matches.filter(
                     match => (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== null && match.scoreB !== null
+                        match.scoreA !== undefined && match.scoreB !== undefined
                 ).length;
 
                 const won = group.matches.filter(
@@ -47,23 +90,23 @@ class Data {
                     match =>
                         match.scoreA === match.scoreB &&
                         (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== null && match.scoreB !== null
+                        match.scoreA !== undefined && match.scoreB !== undefined
                 ).length;
 
                 const gf = group.matches
                     .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreA)
+                    .map(match => match.scoreA || 0)
                     .reduce((a, c) => a + c, 0) + group.matches
                         .filter(match => match.playerBId === playerId)
-                        .map(match => match.scoreB)
+                        .map(match => match.scoreB || 0)
                         .reduce((a, c) => a + c, 0);
 
                 const ga = group.matches
                     .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreB)
+                    .map(match => match.scoreB || 0)
                     .reduce((a, c) => a + c, 0) + group.matches
                         .filter(match => match.playerBId === playerId)
-                        .map(match => match.scoreA)
+                        .map(match => match.scoreA || 0)
                         .reduce((a, c) => a + c, 0);
 
                 return {
@@ -98,11 +141,12 @@ class Data {
             };
         });
 
+        // console.log(data);
         return data;
     }
 
     static async getMatches(id) {
-        const tournament = jsonData.find(tournament => tournament.id === id);
+        const tournament = await this.getTournament(id);
         const allMatches = [];
 
         if (tournament.groups) {
@@ -110,10 +154,10 @@ class Data {
                 const matches = group.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
-                    const winner = match.scoreA > match.scoreB 
-                        ? match.playerAId 
+                    const winner = match.scoreA > match.scoreB
+                        ? match.playerAId
                         : (match.scoreB > match.scoreA ? match.playerBId : null);
-        
+
                     return {
                         ...match,
                         winner,
@@ -121,7 +165,7 @@ class Data {
                         playerB
                     };
                 })
-                
+
                 return {
                     name: group.name,
                     matches: matches
@@ -134,10 +178,10 @@ class Data {
                 const matches = knockout.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
-                    const winner = match.scoreA > match.scoreB 
-                        ? match.playerAId 
+                    const winner = match.scoreA > match.scoreB
+                        ? match.playerAId
                         : (match.scoreB > match.scoreA ? match.playerBId : null);
-        
+
                     return {
                         ...match,
                         winner,
@@ -145,14 +189,14 @@ class Data {
                         playerB
                     };
                 })
-                
+
                 return {
                     name: knockout.name,
                     matches: matches
                 }
             }));
         }
-        
+
         return allMatches;
     }
 
@@ -163,8 +207,8 @@ class Data {
             knockout.matches.map(match => {
                 const playerA = tournament.players.find(player => player.id === match.playerAId);
                 const playerB = tournament.players.find(player => player.id === match.playerBId);
-                const winner = match.scoreA > match.scoreB 
-                    ? match.playerAId 
+                const winner = match.scoreA > match.scoreB
+                    ? match.playerAId
                     : (match.scoreB > match.scoreA ? match.playerBId : null);
 
                 match.playerA = playerA;
@@ -176,9 +220,30 @@ class Data {
         return tournament.knockouts;
     }
 
-    // static updateTournaments(modifiedData) {
-    //     this.tournaments = modifiedData;
+    // static async registerUser(username, password) {
+    //     const saltRounds = 10;
+    //     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    //     console.log(hashedPassword);
     // }
+
+    static async login(username, password) {
+        if (username !== 'admin')
+            return false;
+
+        if (!await bcrypt.compare(password, '$2a$10$K1pBY/fx2jLgj6uTJotyq.ivYDM4udOonBODZzR/WsXD9UD2LH3W2'))
+            return false;
+
+        // const jwtToken = 'your_jwt_token_here';
+        // localStorage.setItem('jwtToken', jwtToken);
+        localStorage.setItem('loggedIn', true);
+
+        return true;
+    }
+
+    static updatePlayer(newPlayer) {
+        // implement update
+    }
 }
 
 export default Data;
