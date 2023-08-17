@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, update, query, equalTo } from "firebase/database";
+import { getDatabase, ref, get, update, query, equalTo, set } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
@@ -55,7 +55,7 @@ class Data {
         try {
             const tournamentRef = ref(database, id);
             const snapshot = await get(tournamentRef);
-    
+
             if (snapshot.exists()) {
                 return snapshot.val();
             } else {
@@ -242,24 +242,42 @@ class Data {
 
     static async updatePlayer(newPlayer) {
         try {
-            const playersRef = ref(database, "players");
-            const playerQuery = query(playersRef, equalTo("id", newPlayer.id));
-            const snapshot = await get(playerQuery);
-            console.log(snapshot);
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            const tournaments = [];
 
             snapshot.forEach(childSnapshot => {
-                const player = childSnapshot.val();
-                if (player.id === newPlayer.id) {
-                    const playerRef = ref(database, `players/${childSnapshot.key}`);
-                    const updates = {
-                        name: newPlayer.name,
-                        team: newPlayer.team
-                    };
-
-                    update(playerRef, updates);
-                    console.log("Player updated successfully");
-                }
+                const tournamentData = childSnapshot.val();
+                tournaments.push(tournamentData);
             });
+
+            const playerId = newPlayer.id;
+            const playerDataToUpdate = {
+                name: newPlayer.name,
+                team: newPlayer.team
+            };
+
+            let playerUpdated = false;
+
+            for (const tournament of tournaments) {
+                const playerIndex = tournament.players.findIndex(player => player.id === playerId);
+                if (playerIndex !== -1) {
+                    tournament.players[playerIndex] = {
+                        ...tournament.players[playerIndex],
+                        ...playerDataToUpdate
+                    };
+                    playerUpdated = true;
+                    break;
+                }
+            }
+
+            if (playerUpdated) {
+                // Update tournaments data in Firebase
+                await set(tournamentsRef, tournaments);
+                console.log("Player updated successfully");
+            } else {
+                console.log("Player not found");
+            }
         } catch (error) {
             console.error("Error updating player:", error);
         }
