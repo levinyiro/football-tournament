@@ -10,11 +10,10 @@ function Tournament() {
   const [actualTab, setActualTab] = useState('group');
   const [tournament, setTournament] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [playerTeam, setPlayerTeam] = useState('');
-
+  const [matchScore, setMatchScore] = useState(null);
 
   useEffect(() => {
     fetchTournament();
@@ -79,6 +78,19 @@ function Tournament() {
     });
     
     closePlayerModal();
+  }
+
+  const modifyMatch = (matchId, participant, value) => {
+    console.log(matchId + ' ' + participant + ' ' + value);
+    setMatchScore(value);
+    console.log(matchScore);
+    matchScore.replace(/\D/g, '');
+    if (matchScore < 0)
+      matchScore = 0;
+    if (matchScore > 99)
+      matchScore = 99;
+    
+    // update method
   }
 
   return (
@@ -173,7 +185,21 @@ function Tournament() {
                             {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
                           </div>
                           <div className='col-1'></div>
-                          <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          
+                          {isLoggedIn ? (
+                            <div className='col-2 py-2 row'>
+                              <div className='col-4'>
+                                <input type="text" value={matchScore ? matchScore : match.scoreA} className='form-control text-center' onChange={e => modifyMatch(match.id, 'a', e.target.value)} onClick={e => setMatchScore(match.scoreA)}/>
+                              </div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4'>
+                                <input type="text" defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(match.id, 'b', e.target.value)} />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          )}
+
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
                             <h4>{match.playerB ? match.playerB.name : '?'}</h4>
