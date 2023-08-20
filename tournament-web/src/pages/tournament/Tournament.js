@@ -22,10 +22,12 @@ function Tournament() {
 
   const fetchTournament = async () => {
     const data = await Data.getTournament(id);
+
     if (data.knockouts)
       data.knockouts = await Data.getKnockouts(id);
-    if (data.groups)
-      data.groups = await Data.getGroups(id);
+
+    data.groups = data.groups ? await Data.getGroups(id) : setActualTab('knockout');      
+
     data.matches = await Data.getMatches(id);
 
     setTournament(data);
@@ -86,12 +88,12 @@ function Tournament() {
           <h1 className="mb-3">{tournament.title}</h1>
 
           <ul className="nav nav-pills mb-3">
-            {tournament.groups !== null && (<li className="nav-item">
+            {tournament.groups !== undefined && (<li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''}`} aria-current="page" onClick={() => setActualTab('group')}>
                 Group
               </a>
             </li>)}
-            {tournament.knockouts !== null && (<li className="nav-item">
+            {tournament.knockouts !== undefined && (<li className="nav-item">
               <a className={`nav-link tournament-nav-link ${actualTab === 'knockout' ? 'active' : ''}`} onClick={() => setActualTab('knockout')}>
                 Knockout
               </a>
