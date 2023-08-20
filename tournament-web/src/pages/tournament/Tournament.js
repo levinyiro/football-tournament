@@ -9,8 +9,6 @@ function Tournament() {
   const { id } = useParams();
   const [actualTab, setActualTab] = useState('group');
   const [tournament, setTournament] = useState(null);
-  const [groups, setGroups] = useState(null);
-  const [matches, setMatches] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
@@ -24,23 +22,13 @@ function Tournament() {
 
   const fetchTournament = async () => {
     const data = await Data.getTournament(id);
-    if (data.knockouts) {
+    if (data.knockouts)
       data.knockouts = await Data.getKnockouts(id);
-    }
+    if (data.groups)
+      data.groups = await Data.getGroups(id);
+    data.matches = await Data.getMatches(id);
+
     setTournament(data);
-
-    // when I change tab - refresh it
-
-    if (data.groups == null)
-      setActualTab('knockout');
-
-    if (data.groups) {
-      const groups = await Data.getGroups(id);
-      setGroups(groups);
-    }
-
-    const matches = await Data.getMatches(id);
-    setMatches(matches);
   };
 
   const openPlayerModal = async (playerId) => {
@@ -60,6 +48,34 @@ function Tournament() {
     e.preventDefault();
     Data.updatePlayer({id: actualPlayerModify, name: playerName, team: playerTeam});
 
+    tournament.players.find(player => player.id === actualPlayerModify).name = playerName;
+    tournament.players.find(player => player.id === actualPlayerModify).team = playerTeam;
+    tournament.groups.forEach(group => group.players.forEach(player => player.id === actualPlayerModify && (player.name = playerName, player.team = playerTeam)));
+    
+    tournament.knockouts.forEach(knockout => {
+      knockout.matches.forEach(match => {
+        if (match.playerA && match.playerA.id === actualPlayerModify) {
+          match.playerA.name = playerName;
+          match.playerA.team = playerTeam;
+        } else if (match.playerB && match.playerB.id === actualPlayerModify) {
+          match.playerB.name = playerName;
+          match.playerB.team = playerTeam;
+        }
+      });
+    });
+
+    tournament.matches.forEach(match => {
+      match.matches.forEach(innerMatch => {
+        if (innerMatch.playerA && innerMatch.playerA.id === actualPlayerModify) {
+          innerMatch.playerA.name = playerName;
+          innerMatch.playerA.team = playerTeam;
+        } else if (innerMatch.playerB && innerMatch.playerB.id === actualPlayerModify) {
+          innerMatch.playerB.name = playerName;
+          innerMatch.playerB.team = playerTeam;
+        }
+      })
+    });
+    
     closePlayerModal();
   }
 
@@ -89,7 +105,7 @@ function Tournament() {
 
           {actualTab === 'group' && (
             <div className="tab-content mb-5">
-              {groups && groups.map((group, index) => (
+              {tournament.groups && tournament.groups.map((group, index) => (
                 <div key={index} className="container card p-5 mt-5">
                   <h3 style={{ fontWeight: 900 }}>{group.name}</h3>
                   <table>
@@ -172,7 +188,7 @@ function Tournament() {
 
           {actualTab === 'matches' && (
             <div className="matches-tab mb-5">
-              {matches && matches.map((match, index) => (
+              {tournament.matches && tournament.matches.map((match, index) => (
                 <div key={index}>
                   <h3 className='text-center mt-5 lead'>{match.name}</h3>
                   <div className="container card p-3 mt-4">

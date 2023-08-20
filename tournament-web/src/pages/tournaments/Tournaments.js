@@ -17,7 +17,6 @@ function Tournaments() {
 
   const fetchTournaments = async () => {
     const data = await Data.getTournaments();
-    console.log(data);
     setTournaments(data);
   };
 
