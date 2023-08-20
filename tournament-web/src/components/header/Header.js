@@ -35,7 +35,6 @@ function Header() {
     }
 
     const showModalFunc = () => {
-        console.log('open');
         setShowModal(true);
     }
 

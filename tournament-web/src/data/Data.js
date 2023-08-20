@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonData from './tournaments.json';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, set } from "firebase/database";
+import { getDatabase, ref, get, update, query, equalTo, set, child } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
@@ -38,7 +38,7 @@ class Data {
             snapshot.forEach(childSnapshot => {
                 const tournamentData = childSnapshot.val();
                 tournaments.push({
-                    id: childSnapshot.key,
+                    id: tournamentData.id,
                     title: tournamentData.title,
                     date: tournamentData.date
                 });
@@ -52,18 +52,20 @@ class Data {
     }
 
     static async getTournament(id) {
+        let tournament = null;
         try {
-            const tournamentRef = ref(database, id);
-            const snapshot = await get(tournamentRef);
-    
-            if (snapshot.exists()) {
-                return snapshot.val();
-            } else {
-                console.log(`Tournament with ID ${id} not found`);
-                return null;
-            }
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            snapshot.forEach(childSnapshot => {
+                const tourmanentData = childSnapshot.val();
+                if (tourmanentData.id === id) {
+                    tournament = tourmanentData;
+                }
+            });
+
+            return tournament;
         } catch (error) {
-            console.error('Error fetching tournament:', error);
+            console.error('Error fetching tournaments');
             return null;
         }
     }
@@ -240,8 +242,47 @@ class Data {
         return true;
     }
 
-    static updatePlayer(newPlayer) {
-        // implement update
+    static async updatePlayer(newPlayer) {
+        try {
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            const tournaments = [];
+
+            snapshot.forEach(childSnapshot => {
+                const tournamentData = childSnapshot.val();
+                tournaments.push(tournamentData);
+            });
+
+            const playerId = newPlayer.id;
+            const playerDataToUpdate = {
+                name: newPlayer.name,
+                team: newPlayer.team
+            };
+
+            let playerUpdated = false;
+
+            for (const tournament of tournaments) {
+                const playerIndex = tournament.players.findIndex(player => player.id === playerId);
+                if (playerIndex !== -1) {
+                    tournament.players[playerIndex] = {
+                        ...tournament.players[playerIndex],
+                        ...playerDataToUpdate
+                    };
+                    playerUpdated = true;
+                    break;
+                }
+            }
+
+            if (playerUpdated) {
+                // Update tournaments data in Firebase
+                await set(tournamentsRef, tournaments);
+                console.log("Player updated successfully");
+            } else {
+                console.log("Player not found");
+            }
+        } catch (error) {
+            console.error("Error updating player:", error);
+        }
     }
 }
 
