@@ -284,6 +284,10 @@ class Data {
             console.error("Error updating player:", error);
         }
     }
+
+    static async updateMatch(id, participant, score) {
+        // TODO: implement
+    }
 }
 
 export default Data;

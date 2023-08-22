@@ -77,3 +77,12 @@ th {
         margin: 0;
     }
 }
+
+.saved-match {
+    input, input[type="text"]:focus {
+        transition: .2s;
+        border: 1px solid #92ffbf;
+        outline: 3px solid #92ffbf;
+        background-color: #92ffbf70;
+    }
+}

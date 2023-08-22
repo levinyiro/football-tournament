@@ -13,7 +13,6 @@ function Tournament() {
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [playerTeam, setPlayerTeam] = useState('');
-  const [matchScore, setMatchScore] = useState(null);
 
   useEffect(() => {
     fetchTournament();
@@ -25,7 +24,7 @@ function Tournament() {
     if (data.knockouts)
       data.knockouts = await Data.getKnockouts(id);
 
-    data.groups = data.groups ? await Data.getGroups(id) : setActualTab('knockout');      
+    data.groups = data.groups ? await Data.getGroups(id) : setActualTab('knockout');
 
     data.matches = await Data.getMatches(id);
 
@@ -47,12 +46,12 @@ function Tournament() {
 
   const handlePlayerModify = (e) => {
     e.preventDefault();
-    Data.updatePlayer({id: actualPlayerModify, name: playerName, team: playerTeam});
+    Data.updatePlayer({ id: actualPlayerModify, name: playerName, team: playerTeam });
 
     tournament.players.find(player => player.id === actualPlayerModify).name = playerName;
     tournament.players.find(player => player.id === actualPlayerModify).team = playerTeam;
     tournament.groups.forEach(group => group.players.forEach(player => player.id === actualPlayerModify && (player.name = playerName, player.team = playerTeam)));
-    
+
     tournament.knockouts.forEach(knockout => {
       knockout.matches.forEach(match => {
         if (match.playerA && match.playerA.id === actualPlayerModify) {
@@ -76,21 +75,28 @@ function Tournament() {
         }
       })
     });
-    
+
     closePlayerModal();
   }
 
-  const modifyMatch = (matchId, participant, value) => {
-    console.log(matchId + ' ' + participant + ' ' + value);
-    setMatchScore(value);
-    console.log(matchScore);
-    matchScore.replace(/\D/g, '');
-    if (matchScore < 0)
-      matchScore = 0;
-    if (matchScore > 99)
-      matchScore = 99;
-    
+  const modifyMatch = (e, participant) => {
+    // console.log(e.value);
+    // console.log(e.id);
+    // console.log(participant);
+
+    e.value = e.value.replace(/\D/g, '');
+    if (e.value < 0)
+      e.value = 0;
+    if (e.value > 99)
+      // e.value = 99; // ne 99 legyen ilyenkor
+      e.value = e.value.substring(0, 2);
+
     // update method
+    // const res = Data.updateMatch(e.id, participant, e.value);
+    e.parentElement.classList.add('saved-match');
+    setTimeout(() => {
+      e.parentElement.classList.remove('saved-match');
+    }, 5000);
   }
 
   return (
@@ -185,15 +191,16 @@ function Tournament() {
                             {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
                           </div>
                           <div className='col-1'></div>
-                          
+
                           {isLoggedIn ? (
                             <div className='col-2 py-2 row'>
                               <div className='col-4'>
-                                <input type="text" value={matchScore ? matchScore : match.scoreA} className='form-control text-center' onChange={e => modifyMatch(match.id, 'a', e.target.value)} onClick={e => setMatchScore(match.scoreA)}/>
+                                <input type="text" id={`${match.id}`} value={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target, 'a')}
+                                />
                               </div>
                               <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
                               <div className='col-4'>
-                                <input type="text" defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(match.id, 'b', e.target.value)} />
+                                {/* <input type="text" defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(match.id, 'b', e.target.value)} /> */}
                               </div>
                             </div>
                           ) : (
