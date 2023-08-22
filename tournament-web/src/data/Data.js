@@ -303,11 +303,11 @@ class Data {
             
             if (participant === 'a') {
                 matchDataToUpdate = {
-                    scoreA: score
+                    scoreA: parseInt(score)
                 };
             } else if (participant === 'b') {
                 matchDataToUpdate = {
-                    scoreB: score
+                    scoreB: parseInt(score)
                 };
             }
 
