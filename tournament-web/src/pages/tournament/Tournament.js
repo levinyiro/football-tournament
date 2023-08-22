@@ -79,20 +79,20 @@ function Tournament() {
     closePlayerModal();
   }
 
-  const modifyMatch = (e, participant) => {
+  const modifyMatch = (e) => {
     // console.log(e.value);
-    // console.log(e.id);
+    // console.log(e.id.split(';'));
     // console.log(participant);
 
     e.value = e.value.replace(/\D/g, '');
     if (e.value < 0)
       e.value = 0;
     if (e.value > 99)
-      // e.value = 99; // ne 99 legyen ilyenkor
       e.value = e.value.substring(0, 2);
 
     // update method
-    // const res = Data.updateMatch(e.id, participant, e.value);
+    const splittedId = e.id.split(';');
+    // const res = Data.updateMatch(splittedId[0], splittedId[1], e.value);
     e.parentElement.classList.add('saved-match');
     setTimeout(() => {
       e.parentElement.classList.remove('saved-match');
@@ -195,12 +195,11 @@ function Tournament() {
                           {isLoggedIn ? (
                             <div className='col-2 py-2 row'>
                               <div className='col-4'>
-                                <input type="text" id={`${match.id}`} value={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target, 'a')}
-                                />
+                                <input type="text" id={`a;${match.id}`} value={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                               <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
                               <div className='col-4'>
-                                {/* <input type="text" defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(match.id, 'b', e.target.value)} /> */}
+                                <input type="text" id={`b;${match.id}`} value={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                             </div>
                           ) : (
