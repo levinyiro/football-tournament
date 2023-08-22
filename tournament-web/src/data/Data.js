@@ -314,7 +314,7 @@ class Data {
             let matchUpdated = false;
 
             for (const tournament of tournaments) {
-                if (tournament.group) {
+                if (tournament.groups !== undefined) {
                     for (const group of tournament.groups) {
                         const matchIndex = group.matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {
@@ -328,7 +328,7 @@ class Data {
                     }
                 }
 
-                if (!matchUpdated && tournament.knockout !== null) {
+                if (!matchUpdated && tournament.knockout !== undefined) {
                     for (const knockout of tournament.knockouts) {
                         const matchIndex = knockout.matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {

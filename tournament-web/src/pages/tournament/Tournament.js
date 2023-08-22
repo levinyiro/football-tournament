@@ -93,7 +93,7 @@ function Tournament() {
       e.parentElement.classList.remove('saved-match');
     }, 2000);
 
-    
+
   }
 
   return (
@@ -232,7 +232,19 @@ function Tournament() {
                             {innerMatch.playerA && innerMatch.playerA.team && <p>{innerMatch.playerA.team}</p>}
                           </div>
                           <div className='col-1'></div>
-                          <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
+                          {isLoggedIn ? (
+                            <div className='col-2 py-2 row'>
+                              <div className='col-4'>
+                                <input type="text" id={`a;${innerMatch.id}`} defaultValue={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4'>
+                                <input type="text" id={`b;${innerMatch.id}`} defaultValue={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          )}
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
                             <h4>{innerMatch.playerB ? innerMatch.playerB.name : '?'}</h4>
