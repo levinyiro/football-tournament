@@ -29,6 +29,9 @@ class Data {
     //     }
     // }
 
+    // rewrite
+    static actualTournament = {};
+
     static async getTournaments() {
         try {
             const tournamentsRef = ref(database);
@@ -286,7 +289,70 @@ class Data {
     }
 
     static async updateMatch(id, participant, score) {
-        // TODO: implement
+        try {
+            const tournamentsRef = ref(database);
+            const snapshot = await get(tournamentsRef);
+            const tournaments = [];
+
+            snapshot.forEach(childSnapshot => {
+                const tournamentData = childSnapshot.val();
+                tournaments.push(tournamentData);
+            });
+
+            let matchDataToUpdate;
+            
+            if (participant === 'a') {
+                matchDataToUpdate = {
+                    scoreA: score
+                };
+            } else if (participant === 'b') {
+                matchDataToUpdate = {
+                    scoreB: score
+                };
+            }
+
+            let matchUpdated = false;
+
+            for (const tournament of tournaments) {
+                if (tournament.group) {
+                    for (const group of tournament.groups) {
+                        const matchIndex = group.matches.findIndex(match => match.id === id);
+                        if (matchIndex !== -1) {
+                            group.matches[matchIndex] = {
+                                ...group.matches[matchIndex],
+                                ...matchDataToUpdate
+                            };
+                            matchUpdated = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!matchUpdated && tournament.knockout !== null) {
+                    for (const knockout of tournament.knockouts) {
+                        const matchIndex = knockout.matches.findIndex(match => match.id === id);
+                        if (matchIndex !== -1) {
+                            knockout.matches[matchIndex] = {
+                                ...knockout.matches[matchIndex],
+                                ...matchDataToUpdate
+                            };
+                            matchUpdated = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (matchUpdated) {
+                // Update tournaments data in Firebase
+                await set(tournamentsRef, tournaments);
+                console.log("Player updated successfully");
+            } else {
+                console.log("Player not found");
+            }
+        } catch (error) {
+            console.error("Error updating player:", error);
+        }
     }
 }
 
