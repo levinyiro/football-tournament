@@ -209,13 +209,7 @@ class Data {
     static async updatePlayer(newPlayer) {
         try {
             const tournamentsRef = ref(database);
-            const snapshot = await get(tournamentsRef);
-            const tournaments = [];
-
-            snapshot.forEach(childSnapshot => {
-                const tournamentData = childSnapshot.val();
-                tournaments.push(tournamentData);
-            });
+            await this.fetchTournaments();
 
             const playerId = newPlayer.id;
             const playerDataToUpdate = {
@@ -225,7 +219,7 @@ class Data {
 
             let playerUpdated = false;
 
-            for (const tournament of tournaments) {
+            for (const tournament of this.tournaments) {
                 const playerIndex = tournament.players.findIndex(player => player.id === playerId);
                 if (playerIndex !== -1) {
                     tournament.players[playerIndex] = {
@@ -238,8 +232,7 @@ class Data {
             }
 
             if (playerUpdated) {
-                // Update tournaments data in Firebase
-                await set(tournamentsRef, tournaments);
+                await set(tournamentsRef, this.tournaments);
                 console.log("Player updated successfully");
             } else {
                 console.log("Player not found");
@@ -252,29 +245,22 @@ class Data {
     static async updateMatch(id, participant, score) {
         try {
             const tournamentsRef = ref(database);
-            const snapshot = await get(tournamentsRef);
-            const tournaments = [];
-            
-            snapshot.forEach(childSnapshot => {
-                const tournamentData = childSnapshot.val();
-                tournaments.push(tournamentData);
-            });
-
+            await this.fetchTournaments();
             let matchDataToUpdate;
-            
+
             if (participant === 'a') {
                 matchDataToUpdate = {
-                    scoreA: parseInt(score)
+                    scoreA: score !== '' ? parseInt(score) : ''
                 };
             } else if (participant === 'b') {
                 matchDataToUpdate = {
-                    scoreB: parseInt(score)
+                    scoreB: score !== '' ? parseInt(score) : ''
                 };
             }
             
             let matchUpdated = false;
             
-            for (const tournament of tournaments) {
+            for (const tournament of this.tournaments) {
                 if (tournament.groups !== undefined) {
                     for (const group of tournament.groups) {
                         const matchIndex = group.matches.findIndex(match => match.id === id);
@@ -305,14 +291,13 @@ class Data {
             }
 
             if (matchUpdated) {
-                // Update tournaments data in Firebase
-                await set(tournamentsRef, tournaments);
-                console.log("Player updated successfully");
+                await set(tournamentsRef, this.tournaments);
+                console.log("Match updated successfully");
             } else {
-                console.log("Player not found");
+                console.log("Match not found");
             }
         } catch (error) {
-            console.error("Error updating player:", error);
+            console.error("Error updating Match:", error);
         }
     }
 }
