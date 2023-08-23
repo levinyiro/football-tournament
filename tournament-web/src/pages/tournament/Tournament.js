@@ -74,7 +74,7 @@ function Tournament() {
     closePlayerModal();
   }
 
-  const modifyMatch = (e) => {
+  const modifyMatch = async (e) => {
     e.value = e.value.replace(/\D/g, '');
     if (e.value < 0)
       e.value = 0;
@@ -82,7 +82,7 @@ function Tournament() {
       e.value = e.value.substring(0, 2);
 
     const splittedId = e.id.split(';');
-    const res = Data.updateMatch(splittedId[1], splittedId[0], e.value);
+    await Data.updateMatch(splittedId[1], splittedId[0], e.value);
     e.parentElement.classList.add('saved-match');
     setTimeout(() => {
       e.parentElement.classList.remove('saved-match');
