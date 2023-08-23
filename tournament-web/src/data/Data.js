@@ -254,14 +254,14 @@ class Data {
             const tournamentsRef = ref(database);
             const snapshot = await get(tournamentsRef);
             const tournaments = [];
-
+            
             snapshot.forEach(childSnapshot => {
                 const tournamentData = childSnapshot.val();
                 tournaments.push(tournamentData);
             });
 
             let matchDataToUpdate;
-
+            
             if (participant === 'a') {
                 matchDataToUpdate = {
                     scoreA: parseInt(score)
@@ -271,9 +271,9 @@ class Data {
                     scoreB: parseInt(score)
                 };
             }
-
+            
             let matchUpdated = false;
-
+            
             for (const tournament of tournaments) {
                 if (tournament.groups !== undefined) {
                     for (const group of tournament.groups) {
@@ -288,8 +288,8 @@ class Data {
                         }
                     }
                 }
-
-                if (!matchUpdated && tournament.knockout !== undefined) {
+                
+                if (!matchUpdated && tournament.knockouts !== undefined) {
                     for (const knockout of tournament.knockouts) {
                         const matchIndex = knockout.matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {
