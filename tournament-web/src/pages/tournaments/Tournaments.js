@@ -16,8 +16,8 @@ function Tournaments() {
   }, []);
 
   const fetchTournaments = async () => {
-    const data = await Data.getTournaments();
-    setTournaments(data);
+    await Data.fetchTournaments();
+    setTournaments(Data.tournaments);
   };
 
   const handleInputParticipantsChange = (event) => {

@@ -29,132 +29,99 @@ class Data {
     //     }
     // }
 
-    // rewrite
-    static actualTournament = {};
+    static tournaments = [];
 
-    static async getTournaments() {
+    static async fetchTournaments() {
         try {
             const tournamentsRef = ref(database);
             const snapshot = await get(tournamentsRef);
-            const tournaments = [];
+            this.tournaments = [];
 
             snapshot.forEach(childSnapshot => {
-                const tournamentData = childSnapshot.val();
-                tournaments.push({
-                    id: tournamentData.id,
-                    title: tournamentData.title,
-                    date: tournamentData.date
-                });
+                this.tournaments.push(childSnapshot.val());
             });
-
-            return tournaments;
         } catch (error) {
             console.error('Error fetching tournaments:', error);
-            return [];
         }
     }
 
     static async getTournament(id) {
-        let tournament = null;
-        try {
-            const tournamentsRef = ref(database);
-            const snapshot = await get(tournamentsRef);
-            snapshot.forEach(childSnapshot => {
-                const tourmanentData = childSnapshot.val();
-                if (tourmanentData.id === id) {
-                    tournament = tourmanentData;
-                }
-            });
+        let tournament = this.tournaments.find(tournament => tournament.id === id);
+        tournament.matches = [];
 
-            return tournament;
-        } catch (error) {
-            console.error('Error fetching tournaments');
-            return null;
-        }
-    }
+        if (tournament.groups) {
+            tournament.groups = tournament.groups.map(group => {
+                const players = group.players.map(playerId => {
+                    const playerDetails = tournament.players.find(player => player.id === playerId);
 
-    static async getGroups(id) {
-        const tournament = await this.getTournament(id);
+                    const gamesPlayed = group.matches.filter(
+                        match => (match.playerAId === playerId || match.playerBId === playerId) &&
+                            match.scoreA !== undefined && match.scoreB !== undefined
+                    ).length;
 
-        const data = tournament.groups.map(group => {
-            const players = group.players.map(playerId => {
-                const playerDetails = tournament.players.find(player => player.id === playerId);
+                    const won = group.matches.filter(
+                        match =>
+                            (match.playerAId === playerId && match.scoreA > match.scoreB) ||
+                            (match.playerBId === playerId && match.scoreB > match.scoreA)
+                    ).length;
 
-                const gamesPlayed = group.matches.filter(
-                    match => (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== undefined && match.scoreB !== undefined
-                ).length;
+                    const drawn = group.matches.filter(
+                        match =>
+                            match.scoreA === match.scoreB &&
+                            (match.playerAId === playerId || match.playerBId === playerId) &&
+                            match.scoreA !== undefined && match.scoreB !== undefined
+                    ).length;
 
-                const won = group.matches.filter(
-                    match =>
-                        (match.playerAId === playerId && match.scoreA > match.scoreB) ||
-                        (match.playerBId === playerId && match.scoreB > match.scoreA)
-                ).length;
-
-                const drawn = group.matches.filter(
-                    match =>
-                        match.scoreA === match.scoreB &&
-                        (match.playerAId === playerId || match.playerBId === playerId) &&
-                        match.scoreA !== undefined && match.scoreB !== undefined
-                ).length;
-
-                const gf = group.matches
-                    .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreA || 0)
-                    .reduce((a, c) => a + c, 0) + group.matches
-                        .filter(match => match.playerBId === playerId)
-                        .map(match => match.scoreB || 0)
-                        .reduce((a, c) => a + c, 0);
-
-                const ga = group.matches
-                    .filter(match => match.playerAId === playerId)
-                    .map(match => match.scoreB || 0)
-                    .reduce((a, c) => a + c, 0) + group.matches
-                        .filter(match => match.playerBId === playerId)
+                    const gf = group.matches
+                        .filter(match => match.playerAId === playerId)
                         .map(match => match.scoreA || 0)
-                        .reduce((a, c) => a + c, 0);
+                        .reduce((a, c) => a + c, 0) + group.matches
+                            .filter(match => match.playerBId === playerId)
+                            .map(match => match.scoreB || 0)
+                            .reduce((a, c) => a + c, 0);
+
+                    const ga = group.matches
+                        .filter(match => match.playerAId === playerId)
+                        .map(match => match.scoreB || 0)
+                        .reduce((a, c) => a + c, 0) + group.matches
+                            .filter(match => match.playerBId === playerId)
+                            .map(match => match.scoreA || 0)
+                            .reduce((a, c) => a + c, 0);
+
+                    return {
+                        id: playerId,
+                        name: playerDetails.name,
+                        team: playerDetails.team,
+                        matchPlayed: gamesPlayed,
+                        won: won,
+                        draw: drawn,
+                        lose: gamesPlayed - won - drawn,
+                        gf: gf,
+                        ga: ga,
+                        gd: gf - ga,
+                        points: won * 3 + drawn
+                    };
+                });
+
+                players.sort((a, b) => {
+                    if (a.points !== b.points) {
+                        return b.points - a.points;
+                    } else if (a.gd !== b.gd) {
+                        return b.gd - a.gd;
+                    } else {
+                        return b.gf - a.gf;
+                    }
+                });
 
                 return {
-                    id: playerId,
-                    name: playerDetails.name,
-                    team: playerDetails.team,
-                    matchPlayed: gamesPlayed,
-                    won: won,
-                    draw: drawn,
-                    lose: gamesPlayed - won - drawn,
-                    gf: gf,
-                    ga: ga,
-                    gd: gf - ga,
-                    points: won * 3 + drawn
+                    name: group.name,
+                    players: players,
+                    isReady: players.every(player => player.matchPlayed === players.length - 1),
+                    matches: group.matches
                 };
             });
 
-            players.sort((a, b) => {
-                if (a.points !== b.points) {
-                    return b.points - a.points;
-                } else if (a.gd !== b.gd) {
-                    return b.gd - a.gd;
-                } else {
-                    return b.gf - a.gf;
-                }
-            });
-
-            return {
-                name: group.name,
-                players: players,
-                isReady: players.every(player => player.matchPlayed === players.length - 1)
-            };
-        });
-
-        return data;
-    }
-
-    static async getMatches(id) {
-        const tournament = await this.getTournament(id);
-        const allMatches = [];
-
-        if (tournament.groups) {
-            allMatches.push(...tournament.groups.map(group => {
+            tournament.matches.push(...tournament.groups.map(group => {
                 const matches = group.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
@@ -178,7 +145,21 @@ class Data {
         }
 
         if (tournament.knockouts) {
-            allMatches.push(...tournament.knockouts.map(knockout => {
+            tournament.knockouts.map(knockout => {
+                knockout.matches.map(match => {
+                    const playerA = tournament.players.find(player => player.id === match.playerAId);
+                    const playerB = tournament.players.find(player => player.id === match.playerBId);
+                    const winner = match.scoreA > match.scoreB
+                        ? match.playerAId
+                        : (match.scoreB > match.scoreA ? match.playerBId : null);
+
+                    match.playerA = playerA;
+                    match.playerB = playerB;
+                    match.winner = winner;
+                });
+            });
+
+            tournament.matches.push(...tournament.knockouts.map(knockout => {
                 const matches = knockout.matches.map(match => {
                     const playerA = tournament.players.find(player => player.id === match.playerAId);
                     const playerB = tournament.players.find(player => player.id === match.playerBId);
@@ -201,27 +182,7 @@ class Data {
             }));
         }
 
-        return allMatches;
-    }
-
-    static async getKnockouts(id) {
-        const tournament = await this.getTournament(id);
-
-        tournament.knockouts.map(knockout => {
-            knockout.matches.map(match => {
-                const playerA = tournament.players.find(player => player.id === match.playerAId);
-                const playerB = tournament.players.find(player => player.id === match.playerBId);
-                const winner = match.scoreA > match.scoreB
-                    ? match.playerAId
-                    : (match.scoreB > match.scoreA ? match.playerBId : null);
-
-                match.playerA = playerA;
-                match.playerB = playerB;
-                match.winner = winner;
-            });
-        });
-
-        return tournament.knockouts;
+        return tournament;
     }
 
     // static async registerUser(username, password) {
@@ -300,7 +261,7 @@ class Data {
             });
 
             let matchDataToUpdate;
-            
+
             if (participant === 'a') {
                 matchDataToUpdate = {
                     scoreA: parseInt(score)

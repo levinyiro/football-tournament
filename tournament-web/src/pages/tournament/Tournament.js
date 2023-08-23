@@ -19,15 +19,10 @@ function Tournament() {
   }, []);
 
   const fetchTournament = async () => {
+    await Data.fetchTournaments();
+    // console.log(Data.tournaments);
     const data = await Data.getTournament(id);
-
-    if (data.knockouts)
-      data.knockouts = await Data.getKnockouts(id);
-
-    data.groups = data.groups ? await Data.getGroups(id) : setActualTab('knockout');
-
-    data.matches = await Data.getMatches(id);
-
+    if (data.groups === undefined) setActualTab('knockout');
     setTournament(data);
   };
 
@@ -92,8 +87,6 @@ function Tournament() {
     setTimeout(() => {
       e.parentElement.classList.remove('saved-match');
     }, 2000);
-
-
   }
 
   return (
