@@ -10,25 +10,18 @@ function Tournament() {
   const [actualTab, setActualTab] = useState('group');
   const [tournament, setTournament] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [playerTeam, setPlayerTeam] = useState('');
-
 
   useEffect(() => {
     fetchTournament();
   }, []);
 
   const fetchTournament = async () => {
+    await Data.fetchTournaments();
     const data = await Data.getTournament(id);
-
-    if (data.knockouts)
-      data.knockouts = await Data.getKnockouts(id);
-
-    data.groups = data.groups ? await Data.getGroups(id) : setActualTab('knockout');      
-
-    data.matches = await Data.getMatches(id);
+    if (data.groups === undefined) setActualTab('knockout');
 
     setTournament(data);
   };
@@ -46,39 +39,28 @@ function Tournament() {
     setPlayerTeam('');
   }
 
-  const handlePlayerModify = (e) => {
+  const handlePlayerModify = async (e) => {
     e.preventDefault();
-    Data.updatePlayer({id: actualPlayerModify, name: playerName, team: playerTeam});
-
-    tournament.players.find(player => player.id === actualPlayerModify).name = playerName;
-    tournament.players.find(player => player.id === actualPlayerModify).team = playerTeam;
-    tournament.groups.forEach(group => group.players.forEach(player => player.id === actualPlayerModify && (player.name = playerName, player.team = playerTeam)));
-    
-    tournament.knockouts.forEach(knockout => {
-      knockout.matches.forEach(match => {
-        if (match.playerA && match.playerA.id === actualPlayerModify) {
-          match.playerA.name = playerName;
-          match.playerA.team = playerTeam;
-        } else if (match.playerB && match.playerB.id === actualPlayerModify) {
-          match.playerB.name = playerName;
-          match.playerB.team = playerTeam;
-        }
-      });
-    });
-
-    tournament.matches.forEach(match => {
-      match.matches.forEach(innerMatch => {
-        if (innerMatch.playerA && innerMatch.playerA.id === actualPlayerModify) {
-          innerMatch.playerA.name = playerName;
-          innerMatch.playerA.team = playerTeam;
-        } else if (innerMatch.playerB && innerMatch.playerB.id === actualPlayerModify) {
-          innerMatch.playerB.name = playerName;
-          innerMatch.playerB.team = playerTeam;
-        }
-      })
-    });
-    
+    await Data.updatePlayer({ id: actualPlayerModify, name: playerName, team: playerTeam });
+    fetchTournament();
     closePlayerModal();
+  }
+
+  const modifyMatch = async (e) => {
+    e.value = e.value.replace(/\D/g, '');
+    if (e.value < 0)
+      e.value = 0;
+    if (e.value > 99)
+      e.value = e.value.substring(0, 2);
+
+    const splittedId = e.id.split(';');
+    await Data.updateMatch(splittedId[1], splittedId[0], e.value);
+    fetchTournament();
+
+    e.parentElement.classList.add('saved-match');
+    setTimeout(() => {
+      e.parentElement.classList.remove('saved-match');
+    }, 2000);
   }
 
   return (
@@ -173,7 +155,21 @@ function Tournament() {
                             {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
                           </div>
                           <div className='col-1'></div>
-                          <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+
+                          {isLoggedIn ? (
+                            <div className='col-2 py-2 row'>
+                              <div className='col-4'>
+                                <input type="text" id={`a;${match.id}`} defaultValue={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4'>
+                                <input type="text" id={`b;${match.id}`} defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          )}
+
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
                             <h4>{match.playerB ? match.playerB.name : '?'}</h4>
@@ -203,7 +199,19 @@ function Tournament() {
                             {innerMatch.playerA && innerMatch.playerA.team && <p>{innerMatch.playerA.team}</p>}
                           </div>
                           <div className='col-1'></div>
-                          <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
+                          {isLoggedIn ? (
+                            <div className='col-2 py-2 row'>
+                              <div className='col-4'>
+                                <input type="text" id={`a;${innerMatch.id}`} defaultValue={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4'>
+                                <input type="text" id={`b;${innerMatch.id}`} defaultValue={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                          )}
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
                             <h4>{innerMatch.playerB ? innerMatch.playerB.name : '?'}</h4>

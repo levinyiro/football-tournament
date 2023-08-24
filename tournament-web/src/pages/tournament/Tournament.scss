@@ -68,3 +68,22 @@ th {
 .green-row {
     background-color: #92ffbf !important;
 }
+
+.knockout-tab, .matches-tab {
+    input {
+        padding: 10px 0 !important;
+        width: 40px;
+        font-size: 20px;
+        margin: 0;
+        transition: .2s;
+    }
+}
+
+.saved-match {
+    input, input[type="text"]:focus {
+        transition: .2s;
+        border: 1px solid #92ffbf;
+        outline: 3px solid #92ffbf;
+        background-color: #92ffbf70;
+    }
+}
