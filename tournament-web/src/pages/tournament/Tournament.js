@@ -20,7 +20,6 @@ function Tournament() {
 
   const fetchTournament = async () => {
     await Data.fetchTournaments();
-    // console.log(Data.tournaments);
     const data = await Data.getTournament(id);
     if (data.groups === undefined) setActualTab('knockout');
 
@@ -40,38 +39,10 @@ function Tournament() {
     setPlayerTeam('');
   }
 
-  const handlePlayerModify = (e) => {
+  const handlePlayerModify = async (e) => {
     e.preventDefault();
-    Data.updatePlayer({ id: actualPlayerModify, name: playerName, team: playerTeam });
-
-    tournament.players.find(player => player.id === actualPlayerModify).name = playerName;
-    tournament.players.find(player => player.id === actualPlayerModify).team = playerTeam;
-    tournament.groups.forEach(group => group.players.forEach(player => player.id === actualPlayerModify && (player.name = playerName, player.team = playerTeam)));
-
-    tournament.knockouts.forEach(knockout => {
-      knockout.matches.forEach(match => {
-        if (match.playerA && match.playerA.id === actualPlayerModify) {
-          match.playerA.name = playerName;
-          match.playerA.team = playerTeam;
-        } else if (match.playerB && match.playerB.id === actualPlayerModify) {
-          match.playerB.name = playerName;
-          match.playerB.team = playerTeam;
-        }
-      });
-    });
-
-    tournament.matches.forEach(match => {
-      match.matches.forEach(innerMatch => {
-        if (innerMatch.playerA && innerMatch.playerA.id === actualPlayerModify) {
-          innerMatch.playerA.name = playerName;
-          innerMatch.playerA.team = playerTeam;
-        } else if (innerMatch.playerB && innerMatch.playerB.id === actualPlayerModify) {
-          innerMatch.playerB.name = playerName;
-          innerMatch.playerB.team = playerTeam;
-        }
-      })
-    });
-
+    await Data.updatePlayer({ id: actualPlayerModify, name: playerName, team: playerTeam });
+    fetchTournament();
     closePlayerModal();
   }
 
@@ -84,31 +55,7 @@ function Tournament() {
 
     const splittedId = e.id.split(';');
     await Data.updateMatch(splittedId[1], splittedId[0], e.value);
-
-    console.log(tournament);
-
-    tournament.matches.forEach(match => {
-      match.matches.forEach(innerMatch => {
-        if (innerMatch.id === splittedId[1])
-          innerMatch[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
-      });
-    });
-
-    tournament.knockouts.forEach(knockout => {
-      knockout.matches.forEach(match => {
-        if (match.id === splittedId[1])
-          match[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
-      });
-    });
-
-    tournament.groups.forEach(group => {
-      group.matches.forEach(match => {
-        if (match.id === splittedId[1])
-          match[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
-      });
-    });
-
-    setTournament(await Data.calculateGroups(tournament));
+    fetchTournament();
 
     e.parentElement.classList.add('saved-match');
     setTimeout(() => {
