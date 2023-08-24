@@ -108,6 +108,8 @@ function Tournament() {
       });
     });
 
+    setTournament(await Data.calculateGroups(tournament));
+
     e.parentElement.classList.add('saved-match');
     setTimeout(() => {
       e.parentElement.classList.remove('saved-match');
