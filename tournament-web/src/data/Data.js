@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import jsonData from './tournaments.json';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get, update, query, equalTo, set, child } from "firebase/database";
 

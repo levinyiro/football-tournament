@@ -23,6 +23,7 @@ function Tournament() {
     // console.log(Data.tournaments);
     const data = await Data.getTournament(id);
     if (data.groups === undefined) setActualTab('knockout');
+
     setTournament(data);
   };
 
@@ -83,6 +84,30 @@ function Tournament() {
 
     const splittedId = e.id.split(';');
     await Data.updateMatch(splittedId[1], splittedId[0], e.value);
+
+    console.log(tournament);
+
+    tournament.matches.forEach(match => {
+      match.matches.forEach(innerMatch => {
+        if (innerMatch.id === splittedId[1])
+          innerMatch[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
+      });
+    });
+
+    tournament.knockouts.forEach(knockout => {
+      knockout.matches.forEach(match => {
+        if (match.id === splittedId[1])
+          match[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
+      });
+    });
+
+    tournament.groups.forEach(group => {
+      group.matches.forEach(match => {
+        if (match.id === splittedId[1])
+          match[`score${splittedId[0].toUpperCase()}`] = parseInt(e.value);
+      });
+    });
+
     e.parentElement.classList.add('saved-match');
     setTimeout(() => {
       e.parentElement.classList.remove('saved-match');
