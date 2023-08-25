@@ -51,44 +51,42 @@ class Data {
         if (tournament.groups) {
             const groups = tournament.groups;
             tournament.groups = groups.map(group => {
-                const players = group.players.map(player => {
-                    var playerDetails = !player.name
-                        ? tournament.players.find(innerPlayer => innerPlayer.id === player)
-                        : player;
-
+                const players = group.players.map(playerId => {
                     const gamesPlayed = group.matches.filter(
-                        match => (match.playerAId === playerDetails.id || match.playerBId === playerDetails.id) &&
-                            match.scoreA !== undefined && match.scoreB !== undefined
+                        match => (match.playerAId === playerId || match.playerBId === playerId) &&
+                            match.scoreA !== '' && match.scoreB !== ''
                     ).length;
 
                     const won = group.matches.filter(
                         match =>
-                            (match.playerAId === playerDetails.id && match.scoreA > match.scoreB) ||
-                            (match.playerBId === playerDetails.id && match.scoreB > match.scoreA)
+                            (match.playerAId === playerId && match.scoreA > match.scoreB) ||
+                            (match.playerBId === playerId && match.scoreB > match.scoreA)
                     ).length;
 
                     const drawn = group.matches.filter(
                         match =>
                             match.scoreA === match.scoreB &&
-                            (match.playerAId === playerDetails.id || match.playerBId === playerDetails.id) &&
-                            match.scoreA !== undefined && match.scoreB !== undefined
+                            (match.playerAId === playerId || match.playerBId === playerId) &&
+                            match.scoreA !== '' && match.scoreB !== ''
                     ).length;
 
                     const gf = group.matches
-                        .filter(match => match.playerAId === playerDetails.id)
+                        .filter(match => match.playerAId === playerId)
                         .map(match => match.scoreA || 0)
                         .reduce((a, c) => a + c, 0) + group.matches
-                            .filter(match => match.playerBId === playerDetails.id)
+                            .filter(match => match.playerBId === playerId)
                             .map(match => match.scoreB || 0)
                             .reduce((a, c) => a + c, 0);
 
                     const ga = group.matches
-                        .filter(match => match.playerAId === playerDetails.id)
+                        .filter(match => match.playerAId === playerId)
                         .map(match => match.scoreB || 0)
                         .reduce((a, c) => a + c, 0) + group.matches
-                            .filter(match => match.playerBId === playerDetails.id)
+                            .filter(match => match.playerBId === playerId)
                             .map(match => match.scoreA || 0)
                             .reduce((a, c) => a + c, 0);
+
+                    const playerDetails = tournament.players.find(x => x.id === playerId);
 
                     return {
                         id: playerDetails.id,
