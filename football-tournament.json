@@ -1,0 +1,172 @@
+[
+  {
+    "date": "2023-04-23T18:25:43.511Z",
+    "groups": [
+      {
+        "matches": [
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9575",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0233",
+            "scoreA": 2,
+            "scoreB": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9576",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 2,
+            "scoreB": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9876",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0233",
+            "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "scoreA": 1,
+            "scoreB": 1
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "47edefeb-255d-4235-bfa4-47afed0e0232",
+          "47edefeb-255d-4235-bfa4-47afed0e0233",
+          "576c8a2e-d71c-4c3b-9563-d3083b255e19"
+        ]
+      },
+      {
+        "matches": [
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9581",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": 1,
+            "scoreB": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
+            "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 2,
+            "scoreB": 1
+          },
+          {
+            "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
+            "playerAId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": 2,
+            "scoreB": 2
+          }
+        ],
+        "name": "Group B",
+        "players": [
+          "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+          "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+          "5628445a-c853-4f18-acfa-0e66b5c7daee"
+        ]
+      }
+    ],
+    "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
+            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": 2,
+            "scoreB": 3
+          },
+          {
+            "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
+            "playerAId": "Group A 2",
+            "playerBId": "Group B 1",
+            "scoreA": 3,
+            "scoreB": 2
+          }
+        ],
+        "name": "Semi-final"
+      },
+      {
+        "matches": [
+          {
+            "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+            "playerAId": "",
+            "playerBId": ""
+          }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerAId": "",
+            "playerBId": ""
+          }
+        ],
+        "name": "Play-off"
+      }
+    ],
+    "players": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "Levi",
+        "team": "Manchester City"
+      },
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "Szabó",
+        "team": "Paris Saint Germain"
+      },
+      {
+        "id": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+        "name": "PlayerC"
+      },
+      {
+        "id": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+        "name": "PlayerD"
+      },
+      {
+        "id": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+        "name": "Lancz",
+        "team": "Manchester United"
+      },
+      {
+        "id": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+        "name": "PlayerF"
+      }
+    ],
+    "title": "Fifa tournament 2023H1",
+    "totalPromoted": 2
+  },
+  {
+    "date": "2023-04-23T18:25:43.511Z",
+    "id": "47edefeb-255d-4235-bfa4-47afed0e1032",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerAId": "",
+            "playerBId": ""
+          }
+        ],
+        "name": "Play-off"
+      }
+    ],
+    "players": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "Levi",
+        "team": "Manchester United"
+      },
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "Dani",
+        "team": "Paris Saint Germain"
+      }
+    ],
+    "title": "Fifa tournament 2023H1 Knockout",
+    "totalPromoted": 2
+  }
+]
