@@ -13,17 +13,20 @@ function Tournament() {
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [playerTeam, setPlayerTeam] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchTournament();
   }, []);
 
   const fetchTournament = async () => {
+    setIsLoading(true);
     await Data.fetchTournaments();
     const data = await Data.getTournament(id);
     if (data.groups === undefined) setActualTab('knockout');
 
     setTournament(data);
+    setIsLoading(false);
   };
 
   const openPlayerModal = async (playerId) => {
@@ -67,7 +70,16 @@ function Tournament() {
     <div className="Tournament container">
       {tournament && (
         <div>
-          <h1 className="mb-3">{tournament.title}</h1>
+          <div className="d-flex align-items-center">
+            <div className='d-inline'>
+              <h1 className="mb-3">{tournament.title}</h1>
+            </div>
+            {isLoading && (
+              <div className="spinner-border text-light d-inline ms-4 mb-3" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            )}
+          </div>
 
           <ul className="nav nav-pills mb-3">
             {tournament.groups !== undefined && (<li className="nav-item">
