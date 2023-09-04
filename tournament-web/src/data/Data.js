@@ -259,6 +259,9 @@ class Data {
             }
 
             let matchUpdated = false;
+            // ha group meccset updateltünk, megnézzük, hogy melyiket, majd kitöltjük a knockout matcheket
+                // itt lehetne a groupba írni, hogy melyik helyezettnek, melyik a knockoutbam elfoglalt helye 
+            // ha knockout matchet, akkor megnézzük, hogy mi a rákövetkező - lehet ehhez kell egy nextMatchId
 
             for (const tournament of this.tournaments) {
                 if (tournament.groups !== undefined) {
