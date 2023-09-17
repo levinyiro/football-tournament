@@ -173,13 +173,13 @@ function Tournament() {
                               <div className='col-4'>
                                 <input type="text" id={`a;${match.id}`} defaultValue={match.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
-                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'></div>
                               <div className='col-4'>
                                 <input type="text" id={`b;${match.id}`} defaultValue={match.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                             </div>
                           ) : (
-                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} {match.scoreB}</div>
                           )}
 
                           <div className='col-1'></div>
@@ -216,13 +216,13 @@ function Tournament() {
                               <div className='col-4'>
                                 <input type="text" id={`a;${innerMatch.id}`} defaultValue={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
-                              <div className='col-4 d-flex justify-content-center align-items-center'>-</div>
+                              <div className='col-4 d-flex justify-content-center align-items-center'></div>
                               <div className='col-4'>
                                 <input type="text" id={`b;${innerMatch.id}`} defaultValue={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                             </div>
                           ) : (
-                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} {match.scoreB}</div>
                           )}
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>

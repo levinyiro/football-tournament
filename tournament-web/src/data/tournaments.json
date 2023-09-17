@@ -106,8 +106,8 @@
         "matches": [
           {
             "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
-            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
-            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "playerAId": "Group A 1",
+            "playerBId": "Group B 2",
             "scoreA": null,
             "scoreB": null
           },
@@ -125,8 +125,8 @@
         "matches": [
           {
             "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
-            "playerAId": "",
-            "playerBId": "",
+            "playerAId": "Semi-final M1 L",
+            "playerBId": "Semi-final M2 L",
             "scoreA": null,
             "scoreB": null
           }
@@ -137,8 +137,8 @@
         "matches": [
           {
             "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
-            "playerAId": "",
-            "playerBId": "",
+            "playerAId": "Semi-final M1 W",
+            "playerBId": "Semi-final M2 W",
             "scoreA": null,
             "scoreB": null
           }

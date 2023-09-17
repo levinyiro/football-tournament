@@ -44,6 +44,72 @@ class Data {
         }
     }
 
+    static getPlayersInGroup(tournament, group) {
+        const players = group.players.map(playerId => {
+            const gamesPlayed = group.matches.filter(
+                match => (match.playerAId === playerId || match.playerBId === playerId) &&
+                    match.scoreA !== '' && match.scoreB !== ''
+            ).length;
+
+            const won = group.matches.filter(
+                match =>
+                    (match.playerAId === playerId && match.scoreA > match.scoreB) ||
+                    (match.playerBId === playerId && match.scoreB > match.scoreA)
+            ).length;
+
+            const drawn = group.matches.filter(
+                match =>
+                    match.scoreA === match.scoreB &&
+                    (match.playerAId === playerId || match.playerBId === playerId) &&
+                    match.scoreA !== '' && match.scoreB !== ''
+            ).length;
+
+            const gf = group.matches
+                .filter(match => match.playerAId === playerId)
+                .map(match => match.scoreA || 0)
+                .reduce((a, c) => a + c, 0) + group.matches
+                    .filter(match => match.playerBId === playerId)
+                    .map(match => match.scoreB || 0)
+                    .reduce((a, c) => a + c, 0);
+
+            const ga = group.matches
+                .filter(match => match.playerAId === playerId)
+                .map(match => match.scoreB || 0)
+                .reduce((a, c) => a + c, 0) + group.matches
+                    .filter(match => match.playerBId === playerId)
+                    .map(match => match.scoreA || 0)
+                    .reduce((a, c) => a + c, 0);
+
+            const playerDetails = tournament.players.find(x => x.id === playerId);
+
+            return {
+                id: playerDetails.id,
+                name: playerDetails.name,
+                team: playerDetails.team,
+                matchPlayed: gamesPlayed,
+                won: won,
+                draw: drawn,
+                lose: gamesPlayed - won - drawn,
+                gf: gf,
+                ga: ga,
+                gd: gf - ga,
+                points: won * 3 + drawn
+            };
+        });
+
+        players.sort((a, b) => {
+            if (a.points !== b.points) {
+                return b.points - a.points;
+            } else if (a.gd !== b.gd) {
+                return b.gd - a.gd;
+            } else {
+                return b.gf - a.gf;
+            }
+        });
+
+        return players;
+    }
+
     static async getTournament(id) {
         let tournament = this.tournaments.find(tournament => tournament.id === id);
         tournament.matches = [];
@@ -51,67 +117,7 @@ class Data {
         if (tournament.groups) {
             const groups = tournament.groups;
             tournament.groups = groups.map(group => {
-                const players = group.players.map(playerId => {
-                    const gamesPlayed = group.matches.filter(
-                        match => (match.playerAId === playerId || match.playerBId === playerId) &&
-                            match.scoreA !== '' && match.scoreB !== ''
-                    ).length;
-
-                    const won = group.matches.filter(
-                        match =>
-                            (match.playerAId === playerId && match.scoreA > match.scoreB) ||
-                            (match.playerBId === playerId && match.scoreB > match.scoreA)
-                    ).length;
-
-                    const drawn = group.matches.filter(
-                        match =>
-                            match.scoreA === match.scoreB &&
-                            (match.playerAId === playerId || match.playerBId === playerId) &&
-                            match.scoreA !== '' && match.scoreB !== ''
-                    ).length;
-
-                    const gf = group.matches
-                        .filter(match => match.playerAId === playerId)
-                        .map(match => match.scoreA || 0)
-                        .reduce((a, c) => a + c, 0) + group.matches
-                            .filter(match => match.playerBId === playerId)
-                            .map(match => match.scoreB || 0)
-                            .reduce((a, c) => a + c, 0);
-
-                    const ga = group.matches
-                        .filter(match => match.playerAId === playerId)
-                        .map(match => match.scoreB || 0)
-                        .reduce((a, c) => a + c, 0) + group.matches
-                            .filter(match => match.playerBId === playerId)
-                            .map(match => match.scoreA || 0)
-                            .reduce((a, c) => a + c, 0);
-
-                    const playerDetails = tournament.players.find(x => x.id === playerId);
-
-                    return {
-                        id: playerDetails.id,
-                        name: playerDetails.name,
-                        team: playerDetails.team,
-                        matchPlayed: gamesPlayed,
-                        won: won,
-                        draw: drawn,
-                        lose: gamesPlayed - won - drawn,
-                        gf: gf,
-                        ga: ga,
-                        gd: gf - ga,
-                        points: won * 3 + drawn
-                    };
-                });
-
-                players.sort((a, b) => {
-                    if (a.points !== b.points) {
-                        return b.points - a.points;
-                    } else if (a.gd !== b.gd) {
-                        return b.gd - a.gd;
-                    } else {
-                        return b.gf - a.gf;
-                    }
-                });
+                const players = this.getPlayersInGroup(tournament, group);
 
                 return {
                     name: group.name,
@@ -265,6 +271,7 @@ class Data {
 
             for (const tournament of this.tournaments) {
                 if (tournament.groups !== undefined) {
+                    let isAllGroupReady = true;
                     for (const group of tournament.groups) {
                         const matchIndex = group.matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {
@@ -273,8 +280,29 @@ class Data {
                                 ...matchDataToUpdate
                             };
                             matchUpdated = true;
-                            break;
                         }
+
+                        const players = this.getPlayersInGroup(tournament, group);
+                        if (players.every(player => player.matchPlayed === players.length - 1)) {
+                            // set match participants
+                            console.log(group.name);
+                            for (const knockout of tournament.knockouts) {
+                                for (const match of knockout.matches) {
+                                    if (match.playerAId.includes(group.name)) {
+                                        console.log(match);
+                                        // which place?
+                                    } else if (match.playerBId.includes(group.name)) {
+                                        console.log(match);
+                                    }
+                                }
+                            }
+                        } else
+                            isAllGroupReady = false;
+                    }
+                    
+                    if (isAllGroupReady) {
+                        // if every team are ready and there is place in knockout, replace it
+                        // implement it here
                     }
                 }
 
