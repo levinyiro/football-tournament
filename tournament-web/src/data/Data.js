@@ -288,9 +288,12 @@ class Data {
                                     for (const match of knockout.matches) {
                                         if (match.playerAId.includes(group.name)) {
                                             // which place?
-                                            console.log(match.playerAId.split(group.name)[1]);
+                                            // console.log(match.playerAId.split(group.name)[1]);
+                                            // console.log(players[0].id);
+                                            // console.log(players[match.playerAId.split(group.name)[1] - 1].name);
+                                            match.playerAId = players[match.playerAId.split(group.name)[1] - 1].id;
                                         } else if (match.playerBId.includes(group.name)) {
-                                            console.log(match.playerBId.split(group.name)[1]);
+                                            // console.log(match.playerBId.split(group.name)[1]);
                                         }
                                     }
                                 }
