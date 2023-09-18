@@ -285,14 +285,15 @@ class Data {
                         const players = this.getPlayersInGroup(tournament, group);
                         if (players.every(player => player.matchPlayed === players.length - 1)) {
                             // set match participants
-                            console.log(group.name);
                             for (const knockout of tournament.knockouts) {
                                 for (const match of knockout.matches) {
+                                    console.log(match.playerAId);
                                     if (match.playerAId.includes(group.name)) {
-                                        console.log(match);
+                                        // console.log(match.playerAId);
                                         // which place?
+                                        // console.log(match.playerAId.split(group.name)[1]);
                                     } else if (match.playerBId.includes(group.name)) {
-                                        console.log(match);
+                                        // console.log(match);
                                     }
                                 }
                             }
