@@ -280,25 +280,23 @@ class Data {
                                 ...matchDataToUpdate
                             };
                             matchUpdated = true;
-                        }
 
-                        const players = this.getPlayersInGroup(tournament, group);
-                        if (players.every(player => player.matchPlayed === players.length - 1)) {
-                            // set match participants
-                            for (const knockout of tournament.knockouts) {
-                                for (const match of knockout.matches) {
-                                    console.log(match.playerAId);
-                                    if (match.playerAId.includes(group.name)) {
-                                        // console.log(match.playerAId);
-                                        // which place?
-                                        // console.log(match.playerAId.split(group.name)[1]);
-                                    } else if (match.playerBId.includes(group.name)) {
-                                        // console.log(match);
+                            const players = this.getPlayersInGroup(tournament, group);
+                            if (players.every(player => player.matchPlayed === players.length - 1)) {
+                                // set match participants
+                                for (const knockout of tournament.knockouts) {
+                                    for (const match of knockout.matches) {
+                                        if (match.playerAId.includes(group.name)) {
+                                            // which place?
+                                            console.log(match.playerAId.split(group.name)[1]);
+                                        } else if (match.playerBId.includes(group.name)) {
+                                            console.log(match.playerBId.split(group.name)[1]);
+                                        }
                                     }
                                 }
-                            }
-                        } else
-                            isAllGroupReady = false;
+                            } else
+                                isAllGroupReady = false;
+                        }
                     }
                     
                     if (isAllGroupReady) {
