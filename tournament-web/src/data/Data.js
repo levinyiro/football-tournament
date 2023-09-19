@@ -299,6 +299,7 @@ class Data {
                                         for (const player of players) {
                                             if (match.playerAId !== '' && match.playerAId.includes(player.id))
                                                 match.playerAId = '';
+                                                // here I have to remove scores too
                                             else if (match.playerBId !== '' && match.playerBId.includes(player.id))
                                                 match.playerBId = '';
                                         }
