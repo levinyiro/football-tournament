@@ -286,19 +286,25 @@ class Data {
                                 // set match participants
                                 for (const knockout of tournament.knockouts) {
                                     for (const match of knockout.matches) {
-                                        if (match.playerAId.includes(group.name)) {
-                                            // which place?
-                                            // console.log(match.playerAId.split(group.name)[1]);
-                                            // console.log(players[0].id);
-                                            // console.log(players[match.playerAId.split(group.name)[1] - 1].name);
-                                            match.playerAId = players[match.playerAId.split(group.name)[1] - 1].id;
-                                        } else if (match.playerBId.includes(group.name)) {
-                                            // console.log(match.playerBId.split(group.name)[1]);
+                                        if (match.playerA.includes(group.name))
+                                            match.playerAId = players[match.playerA.split(group.name)[1] - 1].id;
+                                        else if (match.playerB.includes(group.name))
+                                            match.playerBId = players[match.playerB.split(group.name)[1] - 1].id;
+                                    }
+                                }
+                            } else {
+                                isAllGroupReady = false;
+                                for (const knockout of tournament.knockouts) {
+                                    for (const match of knockout.matches) {
+                                        for (const player of players) {
+                                            if (match.playerAId !== '' && match.playerAId.includes(player.id))
+                                                match.playerAId = '';
+                                            else if (match.playerBId !== '' && match.playerBId.includes(player.id))
+                                                match.playerBId = '';
                                         }
                                     }
                                 }
-                            } else
-                                isAllGroupReady = false;
+                            }
                         }
                     }
                     
