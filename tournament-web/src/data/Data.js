@@ -297,11 +297,16 @@ class Data {
                                 for (const knockout of tournament.knockouts) {
                                     for (const match of knockout.matches) {
                                         for (const player of players) {
-                                            if (match.playerAId !== '' && match.playerAId.includes(player.id))
+                                            if (match.playerAId !== '' && match.playerAId.includes(player.id)) {
                                                 match.playerAId = '';
-                                                // here I have to remove scores too
-                                            else if (match.playerBId !== '' && match.playerBId.includes(player.id))
+                                                match.scoreA = '';
+                                                match.scoreB = '';
+                                            }
+                                            else if (match.playerBId !== '' && match.playerBId.includes(player.id)) {
                                                 match.playerBId = '';
+                                                match.scoreA = '';
+                                                match.scoreB = '';
+                                            }
                                         }
                                     }
                                 }
