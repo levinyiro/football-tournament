@@ -214,11 +214,11 @@ function Tournament() {
                           {isLoggedIn ? (
                             <div className='col-2 py-2 row'>
                               <div className='col-4'>
-                                <input type="text" id={`a;${innerMatch.id}`} defaultValue={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                                <input type="text" id={`a;${innerMatch.id}`} value={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                               <div className='col-4 d-flex justify-content-center align-items-center'></div>
                               <div className='col-4'>
-                                <input type="text" id={`b;${innerMatch.id}`} defaultValue={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                                <input type="text" id={`b;${innerMatch.id}`} value={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
                               </div>
                             </div>
                           ) : (
