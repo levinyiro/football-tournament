@@ -317,6 +317,8 @@ class Data {
                     if (isAllGroupReady) {
                         // if every team are ready and there is place in knockout, replace it
                         // implement it here
+                        // how many second position do we need?
+                        // const secondPositions = tournament.totalPromoted /
                     }
                 }
 
