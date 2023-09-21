@@ -269,12 +269,14 @@ class Data {
                 // itt lehetne a groupba írni, hogy melyik helyezettnek, melyik a knockoutbam elfoglalt helye 
             // ha knockout matchet, akkor megnézzük, hogy mi a rákövetkező - lehet ehhez kell egy nextMatchId
 
+            let matchFound = false;
             for (const tournament of this.tournaments) {
                 if (tournament.groups !== undefined) {
                     let isAllGroupReady = true;
                     for (const group of tournament.groups) {
                         const matchIndex = group.matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {
+                            matchFound = true;
                             group.matches[matchIndex] = {
                                 ...group.matches[matchIndex],
                                 ...matchDataToUpdate
@@ -314,11 +316,19 @@ class Data {
                         }
                     }
                     
-                    if (isAllGroupReady) {
-                        // if every team are ready and there is place in knockout, replace it
-                        // implement it here
-                        // how many second position do we need?
-                        // const secondPositions = tournament.totalPromoted /
+                    if (matchFound) {
+                        if (isAllGroupReady) {
+                            // if every team are ready and there is place in knockout, replace it
+                            // implement it here
+                            // how many second position do we need?
+                            // const secondPositions = tournament.totalPromoted / tournament.groups.length;
+                            // console.log('div: ' + (tournament.totalPromoted / tournament.groups.length));
+                            console.log('div: ' + Math.floor(tournament.totalPromoted / tournament.groups.length));
+                            console.log('mod: ' + tournament.totalPromoted % tournament.groups.length);
+                            const playersInDiv = [];
+                        }
+
+                        break;
                     }
                 }
 
