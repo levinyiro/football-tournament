@@ -326,6 +326,38 @@ class Data {
                             console.log('div: ' + Math.floor(tournament.totalPromoted / tournament.groups.length));
                             console.log('mod: ' + tournament.totalPromoted % tournament.groups.length);
                             const playersInDiv = [];
+                            // get the n+1th position in groups desc by points
+                            // I need a function, because of green line too
+                            for (const group of tournament.groups) {
+                                // playersInDiv.push(getPlayersMod(tournament, group));
+                                const playersInGroup = this.getPlayersInGroup(tournament, group);
+                                playersInDiv.push(playersInGroup[Math.floor(tournament.totalPromoted / tournament.groups.length)]);
+                            }
+
+                            // sort playersInDiv
+                            playersInDiv.sort((a, b) => {
+                                if (a.points !== b.points) {
+                                    return b.points - a.points;
+                                } else if (a.gd !== b.gd) {
+                                    return b.gd - a.gd;
+                                } else {
+                                    return b.gf - a.gf;
+                                }
+                            });
+
+                            for (let i = 0; i < tournament.totalPromoted % tournament.groups.length; i++) {
+                                for (const knockout of tournament.knockouts) {
+                                    for (const match of knockout.matches) {
+                                        const searchString = "Mod " + (i + 1);
+                                        if (match.playerA.includes(searchString))
+                                            match.playerAId = playersInDiv[i].id;
+                                        else if (match.playerB.includes(searchString)) {
+                                            match.playerBId = playersInDiv[i].id;
+                                            console.log(playersInDiv[i]);
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         break;
