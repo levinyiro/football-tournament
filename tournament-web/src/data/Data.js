@@ -110,6 +110,28 @@ class Data {
         return players;
     }
 
+    static getPlayersInDiv(tournament) {
+        const playersInDiv = [];
+        for (const group of tournament.groups) {
+            const playersInGroup = this.getPlayersInGroup(tournament, group);
+            const player = playersInGroup[Math.floor(tournament.totalPromoted / tournament.groups.length)];
+            player.groupName = group.name;
+            playersInDiv.push(player);
+        }
+
+        playersInDiv.sort((a, b) => {
+            if (a.points !== b.points) {
+                return b.points - a.points;
+            } else if (a.gd !== b.gd) {
+                return b.gd - a.gd;
+            } else {
+                return b.gf - a.gf;
+            }
+        });
+        
+        return playersInDiv;
+    }
+
     static async getTournament(id) {
         let tournament = this.tournaments.find(tournament => tournament.id === id);
         tournament.matches = [];
@@ -123,7 +145,10 @@ class Data {
                     name: group.name,
                     players: players,
                     isReady: players.every(player => player.matchPlayed === players.length - 1),
-                    promoted: 1, // how many players are promoted
+                    promoted: this.getPlayersInDiv(tournament)
+                    .findIndex(player => player.groupName === group.name) < tournament.totalPromoted % tournament.groups.length ? 
+                        Math.floor(tournament.totalPromoted / tournament.groups.length) :
+                        Math.floor(tournament.totalPromoted / tournament.groups.length) - 1,
                     matches: group.matches
                 };
             });
@@ -319,32 +344,7 @@ class Data {
                     
                     if (matchFound) {
                         if (isAllGroupReady) {
-                            // if every team are ready and there is place in knockout, replace it
-                            // implement it here
-                            // how many second position do we need?
-                            // const secondPositions = tournament.totalPromoted / tournament.groups.length;
-                            // console.log('div: ' + (tournament.totalPromoted / tournament.groups.length));
-                            console.log('div: ' + Math.floor(tournament.totalPromoted / tournament.groups.length));
-                            console.log('mod: ' + tournament.totalPromoted % tournament.groups.length);
-                            const playersInDiv = [];
-                            // get the n+1th position in groups desc by points
-                            // I need a function, because of green line too
-                            for (const group of tournament.groups) {
-                                // playersInDiv.push(getPlayersMod(tournament, group));
-                                const playersInGroup = this.getPlayersInGroup(tournament, group);
-                                playersInDiv.push(playersInGroup[Math.floor(tournament.totalPromoted / tournament.groups.length)]);
-                            }
-
-                            // sort playersInDiv
-                            playersInDiv.sort((a, b) => {
-                                if (a.points !== b.points) {
-                                    return b.points - a.points;
-                                } else if (a.gd !== b.gd) {
-                                    return b.gd - a.gd;
-                                } else {
-                                    return b.gf - a.gf;
-                                }
-                            });
+                            const playersInDiv = this.getPlayersInDiv(tournament);
 
                             for (let i = 0; i < tournament.totalPromoted % tournament.groups.length; i++) {
                                 for (const knockout of tournament.knockouts) {
@@ -354,7 +354,6 @@ class Data {
                                             match.playerAId = playersInDiv[i].id;
                                         else if (match.playerB.includes(searchString)) {
                                             match.playerBId = playersInDiv[i].id;
-                                            console.log(playersInDiv[i]);
                                         }
                                     }
                                 }

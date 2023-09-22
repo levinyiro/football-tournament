@@ -122,7 +122,7 @@ function Tournament() {
                     </thead>
                     <tbody>
                       {group.players.map((player, playerIndex) => {
-                        const rowClass = (group.isReady && playerIndex <= (tournament.totalPromoted / tournament.groups.length) - 1) ? "green-row" : "";
+                        const rowClass = (group.isReady && playerIndex <= group.promoted) ? "green-row" : "";
                         // find if it is the best - and can go to the knockout
 
                         return (
