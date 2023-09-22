@@ -1,55 +1,14 @@
 [
   {
-    "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
-    "title": "Fifa tournament 2023H1",
     "date": "2023-04-23T18:25:43.511Z",
-    "totalPromoted": 2,
-    "players": [
-      {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
-        "name": "PlayerA",
-        "team": "Manchester United"
-      },
-      {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
-        "name": "PlayerB",
-        "team": "Paris Saint Germain"
-      },
-      {
-        "id": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
-        "name": "PlayerC",
-        "team": null
-      },
-      {
-        "id": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
-        "name": "PlayerD",
-        "team": null
-      },
-      {
-        "id": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
-        "name": "PlayerE",
-        "team": "Manchester United"
-      },
-      {
-        "id": "5628445a-c853-4f18-acfa-0e66b5c7daee",
-        "name": "PlayerF",
-        "team": null
-      }
-    ],
     "groups": [
       {
-        "name": "Group A",
-        "players": [
-          "47edefeb-255d-4235-bfa4-47afed0e0232",
-          "47edefeb-255d-4235-bfa4-47afed0e0233",
-          "576c8a2e-d71c-4c3b-9563-d3083b255e19"
-        ],
         "matches": [
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9575",
             "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
             "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0233",
-            "scoreA": 3,
+            "scoreA": 1,
             "scoreB": 2
           },
           {
@@ -64,93 +23,279 @@
             "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0233",
             "playerBId": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
             "scoreA": 1,
-            "scoreB": 2
+            "scoreB": ""
           }
+        ],
+        "name": "Group A",
+        "players": [
+          "47edefeb-255d-4235-bfa4-47afed0e0232",
+          "47edefeb-255d-4235-bfa4-47afed0e0233",
+          "576c8a2e-d71c-4c3b-9563-d3083b255e19"
         ]
       },
       {
-        "name": "Group B",
-        "players": [
-          "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
-          "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
-          "5628445a-c853-4f18-acfa-0e66b5c7daee"
-        ],
         "matches": [
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9581",
             "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
             "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
-            "scoreA": null,
-            "scoreB": null
+            "scoreA": "",
+            "scoreB": ""
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9582",
             "playerAId": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
             "scoreA": 2,
-            "scoreB": 2
+            "scoreB": 1
           },
           {
             "id": "c7e612f9-ea06-4280-8bc7-1b0302fd9583",
             "playerAId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
             "playerBId": "5628445a-c853-4f18-acfa-0e66b5c7daee",
-            "scoreA": 3,
-            "scoreB": 3
+            "scoreA": 2,
+            "scoreB": 0
           }
+        ],
+        "name": "Group B",
+        "players": [
+          "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+          "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+          "5628445a-c853-4f18-acfa-0e66b5c7daee"
         ]
       }
     ],
+    "id": "47edefeb-255d-4235-bfa4-47afed0e0648",
     "knockouts": [
       {
-        "name": "Semi-final",
         "matches": [
           {
             "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
-            "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0232",
-            "playerBId": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
-            "scoreA": null,
-            "scoreB": null
+            "playerA": "Group A 1",
+            "playerAId": "",
+            "playerB": "Group B 2",
+            "playerBId": "",
+            "scoreA": "",
+            "scoreB": ""
           },
           {
             "id": "21cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
-            "playerAId": "Group A 2",
-            "playerBId": "Group B 1",
-            "scoreA": null,
-            "scoreB": null
+            "playerA": "Group A 2",
+            "playerAId": "",
+            "playerB": "Group B 1",
+            "playerBId": "",
+            "scoreA": "",
+            "scoreB": ""
           }
-        ]
+        ],
+        "name": "Semi-final"
       },
       {
-        "name": "Third place",
         "matches": [
           {
             "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+            "playerA": "R1M1L",
             "playerAId": "",
-            "playerBId": "",
-            "scoreA": null,
-            "scoreB": null
+            "playerB": "R1M2L",
+            "playerBId": ""
           }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerA": "R1M1W",
+            "playerAId": "",
+            "playerB": "R1M2W",
+            "playerBId": ""
+          }
+        ],
+        "name": "Play-off"
+      }
+    ],
+    "players": [
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "Levi",
+        "team": "Manchester City"
+      },
+      {
+        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "Szabó",
+        "team": "Paris Saint Germain"
+      },
+      {
+        "id": "0c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+        "name": "PlayerC"
+      },
+      {
+        "id": "4c9aab0e-dfe2-453c-90d3-c122d61f476d",
+        "name": "PlayerD"
+      },
+      {
+        "id": "576c8a2e-d71c-4c3b-9563-d3083b255e19",
+        "name": "Lancz",
+        "team": "Manchester United"
+      },
+      {
+        "id": "5628445a-c853-4f18-acfa-0e66b5c7daee",
+        "name": "PlayerF"
+      }
+    ],
+    "title": "Fifa tournament 2023H1",
+    "totalPromoted": 4
+  },
+  {
+    "date": "2023-04-23T18:25:43.511Z",
+    "groups": [
+      {
+        "matches": [
+          {
+            "id": "c7e622f9-ea06-4280-8bc7-1b0302fd9575",
+            "playerAId": "27edefeb-255d-4235-bfa4-47afed0e0232",
+            "playerBId": "27edefeb-255d-4235-bfa4-47afed0e0233",
+            "scoreA": 1,
+            "scoreB": 2
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "27edefeb-255d-4235-bfa4-47afed0e0232",
+          "27edefeb-255d-4235-bfa4-47afed0e0233"
         ]
       },
       {
-        "name": "Play-off",
+        "matches": [
+          {
+            "id": "c2e612f9-ea06-4280-8bc7-1b0302fd9581",
+            "playerAId": "2c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+            "playerBId": "2c9aab0e-dfe2-453c-90d3-c122d61f476d",
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Group B",
+        "players": [
+          "2c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+          "2c9aab0e-dfe2-453c-90d3-c122d61f476d"
+        ]
+      },
+      {
+        "matches": [
+          {
+            "id": "27e612f9-ea06-4280-8bc7-1b0302fd9181",
+            "playerAId": "276c8a2e-d71c-4c3b-9563-d3083b255e19",
+            "playerBId": "2628445a-c853-4f18-acfa-0e66b5c7daee",
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Group C",
+        "players": [
+          "276c8a2e-d71c-4c3b-9563-d3083b255e19",
+          "2628445a-c853-4f18-acfa-0e66b5c7daee"
+        ]
+      }
+    ],
+    "id": "27edefeb-255d-4235-bfa4-47afed0e0648",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "27edefeb-255d-4235-bfa4-47afed0e0100",
+            "playerA": "Group A 1",
+            "playerAId": "",
+            "playerB": "Group C 1",
+            "playerBId": "",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "22cc266e-22e3-4e18-a4ff-b1a69f5d7dd7",
+            "playerA": "Group B 1",
+            "playerAId": "",
+            "playerB": "Mod 1",
+            "playerBId": "",
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Semi-final"
+      },
+      {
+        "matches": [
+          {
+            "id": "2bc98cfd-ae0c-4171-87e8-5af6cc85a979",
+            "playerA": "R1M1L",
+            "playerAId": "",
+            "playerB": "R1M2L",
+            "playerBId": ""
+          }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "28989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
+            "playerA": "R1M1W",
+            "playerAId": "",
+            "playerB": "R1M2W",
+            "playerBId": ""
+          }
+        ],
+        "name": "Play-off"
+      }
+    ],
+    "players": [
+      {
+        "id": "27edefeb-255d-4235-bfa4-47afed0e0232",
+        "name": "Levi",
+        "team": "Manchester City"
+      },
+      {
+        "id": "27edefeb-255d-4235-bfa4-47afed0e0233",
+        "name": "Szabó",
+        "team": "Paris Saint Germain"
+      },
+      {
+        "id": "2c3a446f-ce0c-4e90-81b0-7ad37c88aeed",
+        "name": "PlayerC"
+      },
+      {
+        "id": "2c9aab0e-dfe2-453c-90d3-c122d61f476d",
+        "name": "PlayerD"
+      },
+      {
+        "id": "276c8a2e-d71c-4c3b-9563-d3083b255e19",
+        "name": "Lancz",
+        "team": "Manchester United"
+      },
+      {
+        "id": "2628445a-c853-4f18-acfa-0e66b5c7daee",
+        "name": "PlayerF"
+      }
+    ],
+    "title": "Fifa tournament 3 groups",
+    "totalPromoted": 4
+  },
+  {
+    "date": "2023-04-23T18:25:43.511Z",
+    "id": "47edefeb-255d-4235-bfa4-47afed0e1032",
+    "knockouts": [
+      {
         "matches": [
           {
             "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
             "playerAId": "",
-            "playerBId": "",
-            "scoreA": null,
-            "scoreB": null
+            "playerBId": ""
           }
-        ]
+        ],
+        "name": "Play-off"
       }
-    ]
-  },
-  {
-    "id": "47edefeb-255d-4235-bfa4-47afed0e1032",
-    "title": "Fifa tournament 2023H1 Knockout",
-    "date": "2023-04-23T18:25:43.511Z",
-    "totalPromoted": 2,
+    ],
     "players": [
       {
         "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
@@ -163,16 +308,7 @@
         "team": "Paris Saint Germain"
       }
     ],
-    "groups": null,
-    "knockouts": [
-      {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0100",
-        "playerAId": "47edefeb-255d-4235-bfa4-47afed0e0101",
-        "playerBId": "47edefeb-255d-4235-bfa4-47afed0e0102",
-        "round": 1,
-        "matchNumber": 1,
-        "winner": null
-      }
-    ]
+    "title": "Fifa tournament 2023H1 Knockout",
+    "totalPromoted": 4
   }
 ]
