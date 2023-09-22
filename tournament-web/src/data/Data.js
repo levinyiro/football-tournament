@@ -291,10 +291,6 @@ class Data {
             }
 
             let matchUpdated = false;
-            // ha group meccset updateltünk, megnézzük, hogy melyiket, majd kitöltjük a knockout matcheket
-                // itt lehetne a groupba írni, hogy melyik helyezettnek, melyik a knockoutbam elfoglalt helye 
-            // ha knockout matchet, akkor megnézzük, hogy mi a rákövetkező - lehet ehhez kell egy nextMatchId
-
             let matchFound = false;
             for (const tournament of this.tournaments) {
                 if (tournament.groups !== undefined) {
@@ -311,7 +307,6 @@ class Data {
 
                             const players = this.getPlayersInGroup(tournament, group);
                             if (players.every(player => player.matchPlayed === players.length - 1)) {
-                                // set match participants
                                 for (const knockout of tournament.knockouts) {
                                     for (const match of knockout.matches) {
                                         if (match.playerA.includes(group.name))
