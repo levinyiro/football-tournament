@@ -123,6 +123,7 @@ class Data {
                     name: group.name,
                     players: players,
                     isReady: players.every(player => player.matchPlayed === players.length - 1),
+                    promoted: 1, // how many players are promoted
                     matches: group.matches
                 };
             });
