@@ -94,9 +94,9 @@
         "matches": [
           {
             "id": "0bc98cfd-ae0c-4171-87e8-5af6cc85a979",
-            "playerA": "R1M1L",
+            "playerA": "M1L",
             "playerAId": "",
-            "playerB": "R1M2L",
+            "playerB": "M2L",
             "playerBId": ""
           }
         ],
@@ -106,9 +106,9 @@
         "matches": [
           {
             "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
-            "playerA": "R1M1W",
+            "playerA": "M1W",
             "playerAId": "",
-            "playerB": "R1M2W",
+            "playerB": "M2W",
             "playerBId": ""
           }
         ],
@@ -228,9 +228,9 @@
         "matches": [
           {
             "id": "2bc98cfd-ae0c-4171-87e8-5af6cc85a979",
-            "playerA": "R1M1L",
+            "playerA": "M1L",
             "playerAId": "",
-            "playerB": "R1M2L",
+            "playerB": "M2L",
             "playerBId": ""
           }
         ],
@@ -240,9 +240,9 @@
         "matches": [
           {
             "id": "28989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
-            "playerA": "R1M1W",
+            "playerA": "M1W",
             "playerAId": "",
-            "playerB": "R1M2W",
+            "playerB": "M2W",
             "playerBId": ""
           }
         ],
@@ -279,36 +279,6 @@
       }
     ],
     "title": "Fifa tournament 3 groups",
-    "totalPromoted": 4
-  },
-  {
-    "date": "2023-04-23T18:25:43.511Z",
-    "id": "47edefeb-255d-4235-bfa4-47afed0e1032",
-    "knockouts": [
-      {
-        "matches": [
-          {
-            "id": "78989ee0-9d8c-4ea2-8fad-da05bb4a3e1e",
-            "playerAId": "",
-            "playerBId": ""
-          }
-        ],
-        "name": "Play-off"
-      }
-    ],
-    "players": [
-      {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0232",
-        "name": "Levi",
-        "team": "Manchester United"
-      },
-      {
-        "id": "47edefeb-255d-4235-bfa4-47afed0e0233",
-        "name": "Dani",
-        "team": "Paris Saint Germain"
-      }
-    ],
-    "title": "Fifa tournament 2023H1 Knockout",
     "totalPromoted": 4
   }
 ]
