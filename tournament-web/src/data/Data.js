@@ -29,6 +29,9 @@ class Data {
     // }
 
     static tournaments = [];
+    static knockoutTypes = [
+        'Round of 32', 'Round of 16', 'Quarter-final', 'Semi-final', 'Third place', 'Final'
+    ];
 
     static async fetchTournaments() {
         try {
@@ -324,8 +327,7 @@ class Data {
                                                 match.playerAId = '';
                                                 match.scoreA = '';
                                                 match.scoreB = '';
-                                            }
-                                            else if (match.playerBId !== '' && match.playerBId.includes(player.id)) {
+                                            } else if (match.playerBId !== '' && match.playerBId.includes(player.id)) {
                                                 match.playerBId = '';
                                                 match.scoreA = '';
                                                 match.scoreB = '';
@@ -360,15 +362,60 @@ class Data {
                 }
 
                 if (!matchUpdated && tournament.knockouts !== undefined) {
-                    for (const knockout of tournament.knockouts) {
-                        const matchIndex = knockout.matches.findIndex(match => match.id === id);
+                    for (let i = 0; i < tournament.knockouts.length; i++) {
+                        const matchIndex = tournament.knockouts[i].matches.findIndex(match => match.id === id);
                         if (matchIndex !== -1) {
-                            knockout.matches[matchIndex] = {
-                                ...knockout.matches[matchIndex],
+                            tournament.knockouts[i].matches[matchIndex] = {
+                                ...tournament.knockouts[i].matches[matchIndex],
                                 ...matchDataToUpdate
                             };
+
+                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Play-off') {
+                                var nextKnockoutIndex = i + 1;
+                                const actualMatch = tournament.knockouts[i].matches[matchIndex];
+                                if (tournament.knockouts[i].name === 'Semi-final' && tournament.knockouts[nextKnockoutIndex].name === 'Third place') {
+                                    
+                                    const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
+                                    if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'L')) {
+                                        nextMatch.playerAId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                                    } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'L')) {
+                                        nextMatch.playerBId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                                    }
+    
+                                    nextKnockoutIndex++;
+                                }
+    
+                                const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
+    
+                                if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'W')) {
+                                    nextMatch.playerAId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                                } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'W')) {
+                                    nextMatch.playerBId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                                }
+
+                                if (score === '') {
+                                    const playerId = participant === 'a' ? actualMatch.playerAId : actualMatch.playerBId;
+                                    
+                                    for (let j = i + 1; j < tournament.knockouts.length; j++) {
+                                        for (const match of tournament.knockouts[j].matches) {
+                                            if (match.playerAId !== '' && match.playerAId.includes(playerId)) {
+                                                match.playerAId = '';
+                                                match.scoreA = '';
+                                                match.scoreB = '';
+                                            } else if (match.playerBId !== '' && match.playerBId.includes(playerId)) {
+                                                match.playerBId = '';
+                                                match.scoreA = '';
+                                                match.scoreB = '';
+                                            }
+                                        }
+                                    }
+                                }
+
+                                matchUpdated = true;
+                                break;
+                            }
+
                             matchUpdated = true;
-                            break;
                         }
                     }
                 }
