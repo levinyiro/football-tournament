@@ -220,6 +220,11 @@ class Data {
         return tournament;
     }
 
+    static async addTournament(data) {
+        // TODO: implement
+        throw new Error();
+    }
+
     // static async registerUser(username, password) {
     //     const saltRounds = 10;
     //     const hashedPassword = await bcrypt.hash(password, saltRounds);
