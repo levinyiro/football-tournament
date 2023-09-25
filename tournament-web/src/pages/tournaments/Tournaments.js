@@ -9,6 +9,8 @@ function Tournaments() {
   const [showAddTournamentModal, setShowAddTournamentModal] = useState(false);
   const [inputParticipantsValue, setInputParticipantsValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [roundRobin, setRoundRobin] = useState(true);
+  const [knockout, setKnockout] = useState(false);
   const totalPromotedOptions = [2, 4, 8, 16, 32, 64];
   const navigate = useNavigate();
 
@@ -29,6 +31,18 @@ function Tournaments() {
     navigate(`/tournament/${id}`);
   }
 
+  const setSwitches = (switchName) => {
+    if (roundRobin === true && knockout === false && switchName === 'roundRobin') {
+      setRoundRobin(false);
+      setKnockout(true);
+    } else if (roundRobin === false && knockout === true && switchName === 'knockout') {
+      setRoundRobin(true);
+      setKnockout(false);
+    } else {
+      switchName === 'roundRobin' ? setRoundRobin(!roundRobin) : setKnockout(!knockout);
+    }
+  }
+
   const addTournament = async (e) => {
     e.preventDefault();
     setShowAddTournamentModal(false);
@@ -45,7 +59,8 @@ function Tournaments() {
     // } catch (e) {}
   }
 
-  const numbers = Array.from({ length: 62 }, (_, index) => index + 3);
+  const numbers = Array.from({ length: 63 }, (_, index) => index + 2);
+  const groupNumbers = Array.from({ length: 63 }, (_, index) => index + 1);
 
   return (
     <div className="Tournaments container">
@@ -103,6 +118,7 @@ function Tournaments() {
               aria-label="Default select example"
               value={inputParticipantsValue}
               onChange={handleInputParticipantsChange}
+              id='inputParticipants'
               name='participantsValue'
             >
               <option value="" disabled>
@@ -116,17 +132,34 @@ function Tournaments() {
             </select>
 
             <div className="form-check form-switch">
-              <input className="form-check-input" type="checkbox" id="flexSwitchCheckRoundRobin" name="roundRobin" />
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckRoundRobin" name="roundRobin" onChange={() => setSwitches('roundRobin')} checked={roundRobin} />
               <label className="form-check-label" htmlFor="flexSwitchCheckRoundRobin">Round-robin</label>
             </div>
 
             <div className="form-check form-switch mb-3">
-              <input className="form-check-input" type="checkbox" id="flexSwitchCheckKnockout" name='knockout'/>
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckKnockout" name='knockout' onChange={() => setSwitches('knockout')} checked={knockout} />
               <label className="form-check-label" htmlFor="flexSwitchCheckKnockout">Knockout</label>
             </div>
 
+            {/* TODO: number of groups if round-robin is true */}
+            {roundRobin && (
+              <div>
+                <label htmlFor="inputGroups" className="form-label">Number of Groups</label>
+                <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups'>
+                  <option value="" disabled selected>
+                    Select a number
+                  </option>
+                  {groupNumbers.filter((value) => value <= inputParticipantsValue / 2).map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
-            <select className="form-select mb-3" aria-label="Default select example" name='totalPromoted'>
+            <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted'>
               <option value="" disabled selected>
                 Select a number
               </option>
@@ -136,8 +169,6 @@ function Tournaments() {
                 </option>
               ))}
             </select>
-
-            {/* TODO: number of groups if round-robin is true */}
 
             <div className="row">
               <div className="col-5">
