@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get, update, query, equalTo, set, child } from "firebase/database";
+import { v4 as uuidv4 } from 'uuid';
+import date from 'date-and-time';
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
@@ -221,7 +223,35 @@ class Data {
     }
 
     static async addTournament(data) {
+        const tournamentsRef = ref(database);
+        await this.fetchTournaments();
+
+        // console.log(data);
+        let example = {
+            "title": "asdüasda",
+            "participantsValue": "3",
+            "roundRobin": "on",
+            "knockout": "on",
+            "groups": "1",
+            "totalPromoted": "2"
+        };
+
         // TODO: implement
+        const newTournament = {
+            id: uuidv4(),
+            date: date.format(new Date(), 'YYYY/MM/DD'),
+            title: data.title,
+            totalPromoted: data.totalPromoted,
+            groups: [],
+            knockouts: [],
+            players: []
+        }
+
+        this.tournaments.push(newTournament);
+        // add to firebase
+        await set(tournamentsRef, this.tournaments);
+        console.log("Match updated successfully");
+
         throw new Error();
     }
 

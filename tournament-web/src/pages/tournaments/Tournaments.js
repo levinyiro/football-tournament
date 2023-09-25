@@ -46,17 +46,14 @@ function Tournaments() {
   const addTournament = async (e) => {
     e.preventDefault();
     setShowAddTournamentModal(false);
+    
+    const formJson = Object.fromEntries(new FormData(e.target).entries());
+    // console.log(formJson);
 
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
-
-    // try {
-    //   const id = await Data.addTournament();
-    //   navigate(`/tournament/${id}`);
-    // } catch (e) {}
+    try {
+      const id = await Data.addTournament(formJson);
+      navigate(`/tournament/${id}`);
+    } catch (e) {}
   }
 
   const numbers = Array.from({ length: 63 }, (_, index) => index + 2);

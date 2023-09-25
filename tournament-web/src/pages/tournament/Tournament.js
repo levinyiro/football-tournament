@@ -154,7 +154,7 @@ function Tournament() {
 
           {actualTab === 'knockout' && (
             <div className="knockout-tab mb-5">
-              {tournament.knockouts.map((knockout, index) => (
+              {tournament.knockouts && tournament.knockouts.map((knockout, index) => (
                 <div key={index}>
                   <h3 className='text-center mt-5 lead'>{knockout.name}</h3>
                   <div className={`container card mt-4 ${knockout.name === 'Third place' ? 'bronze' : ''} ${knockout.name === 'Play-off' ? 'gold' : ''}`}>
