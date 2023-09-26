@@ -236,6 +236,20 @@ class Data {
             "totalPromoted": "2"
         };
 
+        // make new players
+        const newPlayers = [];
+        for (let i = 0; i < data.participantsValue; i++) {
+            const newPlayer = {
+                id: uuidv4(),
+                name: 'Player' + (i + 1),
+                team: ''
+            }
+            newPlayers.push(newPlayer);
+        }
+        // make new groups - put players in it
+        
+        // make knockout matches
+
         // TODO: implement
         const newTournament = {
             id: uuidv4(),
