@@ -243,10 +243,22 @@ class Data {
                 id: uuidv4(),
                 name: 'Player' + (i + 1),
                 team: ''
-            }
+            };
             newPlayers.push(newPlayer);
         }
         // make new groups - put players in it
+        const newGroups = [];
+        for (let i = 0; i < data.groups; i++) {
+            const newPlayer = {
+                id: uuidv4(),
+                name: 'Group ' + String.fromCharCode(i + 65),
+                players: [], // I want to split newPlayers to groups number and add it into groups
+                matches: []
+            };
+            newPlayers.push(newPlayer);
+
+            
+        }
         
         // make knockout matches
 
