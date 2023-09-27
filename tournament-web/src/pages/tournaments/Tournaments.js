@@ -138,38 +138,29 @@ function Tournaments() {
               <label className="form-check-label" htmlFor="flexSwitchCheckKnockout">Knockout</label>
             </div>
 
-            {/* TODO: number of groups if round-robin is true */}
-            {roundRobin && (
-              <div>
-                <label htmlFor="inputGroups" className="form-label">Number of Groups</label>
-                <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups'>
-                  <option value="" disabled selected>
-                    Select a number
-                  </option>
-                  {groupNumbers.filter((value) => value <= inputParticipantsValue / 2).map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            <label htmlFor="inputGroups" className="form-label">Number of Groups</label>
+            <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups' disabled={!roundRobin}>
+              <option value="" disabled selected>
+                Select a number
+              </option>
+              {groupNumbers.filter((value) => value <= inputParticipantsValue / 2).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
 
-            {knockout && (
-              <div>
-                <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
-                <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted'>
-                  <option value="" disabled selected>
-                    Select a number
-                  </option>
-                  {totalPromotedOptions.filter((value) => value <= inputParticipantsValue).map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
+            <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted' disabled={!knockout}>
+              <option value="" disabled selected>
+                Select a number
+              </option>
+              {totalPromotedOptions.filter((value) => value <= inputParticipantsValue).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
 
             <div className="row">
               <div className="col-5">
