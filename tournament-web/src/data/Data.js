@@ -226,7 +226,7 @@ class Data {
         const tournamentsRef = ref(database);
         await this.fetchTournaments();
 
-        // console.log(data);
+        console.log(data);
         let example = {
             "title": "asdüasda",
             "participantsValue": "3",
@@ -262,13 +262,11 @@ class Data {
             const newGroup = {
                 id: uuidv4(),
                 name: 'Group ' + String.fromCharCode(i + 65),
-                players: [], // I want to split newPlayers to groups number and add it into groups
+                players: [],
                 matches: []
             };
-            // add players into it by j for loop * i and then add remaining players [4, 3, 3] groupSizes
-            for (let j = lastPlayerIndex; j < groupSizes[i]; j++) {
-                // here players id
-                newGroup.players.push(newPlayers[j]);
+            for (let j = lastPlayerIndex; j < lastPlayerIndex + groupSizes[i]; j++) {
+                newGroup.players.push(newPlayers[j].id);
             }
             lastPlayerIndex += groupSizes[i];
 
@@ -285,7 +283,7 @@ class Data {
             totalPromoted: data.totalPromoted,
             groups: newGroups,
             knockouts: [],
-            players: []
+            players: newPlayers
         }
 
         console.log(newTournament);

@@ -46,14 +46,14 @@ function Tournaments() {
   const addTournament = async (e) => {
     e.preventDefault();
     setShowAddTournamentModal(false);
-    
+
     const formJson = Object.fromEntries(new FormData(e.target).entries());
     // console.log(formJson);
 
     try {
       const id = await Data.addTournament(formJson);
       navigate(`/tournament/${id}`);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   const numbers = Array.from({ length: 63 }, (_, index) => index + 2);
@@ -155,17 +155,21 @@ function Tournaments() {
               </div>
             )}
 
-            <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
-            <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted'>
-              <option value="" disabled selected>
-                Select a number
-              </option>
-              {totalPromotedOptions.filter((value) => value <= inputParticipantsValue).map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            {knockout && (
+              <div>
+                <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
+                <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted'>
+                  <option value="" disabled selected>
+                    Select a number
+                  </option>
+                  {totalPromotedOptions.filter((value) => value <= inputParticipantsValue).map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="row">
               <div className="col-5">
