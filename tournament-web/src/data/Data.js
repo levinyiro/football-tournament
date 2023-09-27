@@ -246,18 +246,33 @@ class Data {
             };
             newPlayers.push(newPlayer);
         }
-        // make new groups - put players in it
-        const newGroups = [];
+
+        // TODO if I have 10 element, I want it [4, 3, 3] chunk lengths
+        const groupSizes = [];
         for (let i = 0; i < data.groups; i++) {
-            const newPlayer = {
+          groupSizes.push(Math.floor(data.participantsValue / data.groups));
+        }
+        for (let i = 0; i < data.participantsValue % data.groups; i++) {
+          groupSizes[i]++;
+        }
+
+        const newGroups = [];
+        let lastPlayerIndex = 0;
+        for (let i = 0; i < data.groups; i++) {
+            const newGroup = {
                 id: uuidv4(),
                 name: 'Group ' + String.fromCharCode(i + 65),
                 players: [], // I want to split newPlayers to groups number and add it into groups
                 matches: []
             };
-            newPlayers.push(newPlayer);
+            // add players into it by j for loop * i and then add remaining players [4, 3, 3] groupSizes
+            for (let j = lastPlayerIndex; j < groupSizes[i]; j++) {
+                // here players id
+                newGroup.players.push(newPlayers[j]);
+            }
+            lastPlayerIndex += groupSizes[i];
 
-            
+            newGroups.push(newGroup);
         }
         
         // make knockout matches
@@ -268,15 +283,17 @@ class Data {
             date: date.format(new Date(), 'YYYY/MM/DD'),
             title: data.title,
             totalPromoted: data.totalPromoted,
-            groups: [],
+            groups: newGroups,
             knockouts: [],
             players: []
         }
 
+        console.log(newTournament);
+
         this.tournaments.push(newTournament);
         // add to firebase
-        await set(tournamentsRef, this.tournaments);
-        console.log("Match updated successfully");
+        // await set(tournamentsRef, this.tournaments);
+        // console.log("Match updated successfully");
 
         throw new Error();
     }
