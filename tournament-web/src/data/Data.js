@@ -180,7 +180,7 @@ class Data {
                 }
             }));
         }
-
+console.log(tournament);
         if (tournament.knockouts) {
             tournament.knockouts.map(knockout => {
                 knockout.matches.map(match => {
@@ -290,7 +290,8 @@ class Data {
             }
 
             const newKnockout = {
-                name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))]
+                name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))],
+                matches: newMatches
             }
             newKnockouts.push(newKnockout);
         }
@@ -301,7 +302,7 @@ class Data {
             title: data.title,
             totalPromoted: data.totalPromoted,
             groups: newGroups,
-            knockouts: newKnockouts,
+            knockouts: newKnockouts.reverse(),
             players: newPlayers
         }
 
@@ -464,7 +465,7 @@ class Data {
                                 ...matchDataToUpdate
                             };
 
-                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Play-off') {
+                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Final') {
                                 var nextKnockoutIndex = i + 1;
                                 const actualMatch = tournament.knockouts[i].matches[matchIndex];
                                 if (tournament.knockouts[i].name === 'Semi-final' && tournament.knockouts[nextKnockoutIndex].name === 'Third place') {
