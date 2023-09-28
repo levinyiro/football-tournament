@@ -226,16 +226,6 @@ class Data {
         const tournamentsRef = ref(database);
         await this.fetchTournaments();
 
-        console.log(data);
-        let example = {
-            "title": "asdüasda",
-            "participantsValue": "3",
-            "roundRobin": "on",
-            "knockout": "on",
-            "groups": "1",
-            "totalPromoted": "2"
-        };
-
         const newPlayers = [];
         for (let i = 0; i < data.participantsValue; i++) {
             const newPlayer = {
@@ -290,9 +280,9 @@ class Data {
             for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
                 newMatches.push({
                     id: uuidv4(),
-                    playerA: 'Group B 1', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerA: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
                     playerAId: '',
-                    playerB: 'Mod 1', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerB: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
                     playerBId: '',
                     scoreA: '',
                     scoreB: ''
@@ -305,7 +295,6 @@ class Data {
             newKnockouts.push(newKnockout);
         }
 
-        // TODO: implement
         const newTournament = {
             id: uuidv4(),
             date: date.format(new Date(), 'YYYY/MM/DD'),
@@ -316,12 +305,11 @@ class Data {
             players: newPlayers
         }
 
-        console.log(newTournament);
+        // console.log(newTournament);
 
         this.tournaments.push(newTournament);
-        // add to firebase
-        // await set(tournamentsRef, this.tournaments);
-        // console.log("Match updated successfully");
+        await set(tournamentsRef, this.tournaments);
+        console.log("Match updated successfully");
 
         throw new Error();
     }
