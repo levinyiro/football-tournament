@@ -10,15 +10,6 @@ function Header() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-
-    const collapseNavbar = () => {
-        // const navbarToggler = document.querySelector('.navbar-toggler');
-        // const navbarCollapse = document.querySelector('.navbar-collapse');
-        // navbarToggler.classList.remove('show');
-        // navbarCollapse.classList.remove('show');
-    }
-
-    // here open modal
     const handleLogin = async (e) => {
         e.preventDefault();
         const res = await Data.login(username, password);
@@ -60,7 +51,7 @@ function Header() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent" onClick={collapseNavbar()}>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-sm-0">
                             <li className="nav-item">
                                 <a className="nav-link" href="/">Home</a>
