@@ -311,7 +311,7 @@ class Data {
         await set(tournamentsRef, this.tournaments);
         console.log("Match updated successfully");
 
-        throw new Error();
+        return newTournament.id;
     }
 
     // static async registerUser(username, password) {
