@@ -179,7 +179,7 @@ function Tournament() {
                               </div>
                             </div>
                           ) : (
-                            <div className='col-2 result py-2 text-center'>{match.scoreA} {match.scoreB}</div>
+                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
                           )}
 
                           <div className='col-1'></div>
@@ -222,7 +222,7 @@ function Tournament() {
                               </div>
                             </div>
                           ) : (
-                            <div className='col-2 result py-2 text-center'>{match.scoreA} {match.scoreB}</div>
+                            <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
                           )}
                           <div className='col-1'></div>
                           <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
