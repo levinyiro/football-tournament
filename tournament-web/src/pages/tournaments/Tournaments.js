@@ -133,9 +133,14 @@ function Tournaments() {
               <label className="form-check-label" htmlFor="flexSwitchCheckRoundRobin">Round-robin</label>
             </div>
 
-            <div className="form-check form-switch mb-3">
+            <div className="form-check form-switch">
               <input className="form-check-input" type="checkbox" id="flexSwitchCheckKnockout" name='knockout' onChange={() => setSwitches('knockout')} checked={knockout} />
               <label className="form-check-label" htmlFor="flexSwitchCheckKnockout">Knockout</label>
+            </div>
+
+            <div className="form-check form-switch mb-3">
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckThirdPlace" name="thirdPlace" disabled={!knockout} />
+              <label className="form-check-label" htmlFor="flexSwitchCheckThirdPlace">Third place</label>
             </div>
 
             <label htmlFor="inputGroups" className="form-label">Number of Groups</label>

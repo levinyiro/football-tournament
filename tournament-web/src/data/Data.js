@@ -236,7 +236,6 @@ class Data {
             "totalPromoted": "2"
         };
 
-        // make new players
         const newPlayers = [];
         for (let i = 0; i < data.participantsValue; i++) {
             const newPlayer = {
@@ -247,7 +246,6 @@ class Data {
             newPlayers.push(newPlayer);
         }
 
-        // TODO if I have 10 element, I want it [4, 3, 3] chunk lengths
         const groupSizes = [];
         for (let i = 0; i < data.groups; i++) {
           groupSizes.push(Math.floor(data.participantsValue / data.groups));
@@ -270,10 +268,33 @@ class Data {
             }
             lastPlayerIndex += groupSizes[i];
 
+            for (let j = 0; j < newGroup.players.length - 1; j++) {
+                for (let k = j + 1; k < newGroup.players.length; k++) {
+                    newGroup.matches.push({
+                        id: uuidv4(),
+                        playerAId: newGroup.players[j],
+                        playerBId: newGroup.players[k],
+                        scoreA: '',
+                        scoreB: ''
+                    })
+                }
+            }
+
             newGroups.push(newGroup);
         }
         
-        // make knockout matches
+        const newKnockouts = [];
+        const roundsNumber = data.thirdPlace ? Math.log2(data.totalPromoted) + 1 : Math.log2(data.totalPromoted);
+        for (let i = 0; i < roundsNumber; i++) {
+            const newMatches = [];
+            // round 1 - 1 match, third - 1 match, round 2 - 2 match, round 3 - 4 match, round 4 - 16 match
+            // for (let j = 0; j < )
+
+            const newKnockout = {
+                name: data.thirdPlace && i > 1 ? this.knockoutTypes[this.knockoutTypes.length - 2 - i] : this.knockoutTypes[this.knockoutTypes.length - 1 - i]
+            }
+            newKnockouts.push(newKnockout);
+        }
 
         // TODO: implement
         const newTournament = {
@@ -282,7 +303,7 @@ class Data {
             title: data.title,
             totalPromoted: data.totalPromoted,
             groups: newGroups,
-            knockouts: [],
+            knockouts: newKnockouts,
             players: newPlayers
         }
 
