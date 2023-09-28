@@ -9,6 +9,8 @@ function Tournaments() {
   const [showAddTournamentModal, setShowAddTournamentModal] = useState(false);
   const [inputParticipantsValue, setInputParticipantsValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [roundRobin, setRoundRobin] = useState(true);
+  const [knockout, setKnockout] = useState(false);
   const totalPromotedOptions = [2, 4, 8, 16, 32, 64];
   const navigate = useNavigate();
 
@@ -29,15 +31,34 @@ function Tournaments() {
     navigate(`/tournament/${id}`);
   }
 
-  const addTournament = () => {
-    setShowAddTournamentModal(false);
-
-    // mock
-    let id = 5;
-    navigate(`/tournament/${id}`);
+  const setSwitches = (switchName) => {
+    if (roundRobin === true && knockout === false && switchName === 'roundRobin') {
+      setRoundRobin(false);
+      setKnockout(true);
+    } else if (roundRobin === false && knockout === true && switchName === 'knockout') {
+      setRoundRobin(true);
+      setKnockout(false);
+    } else {
+      switchName === 'roundRobin' ? setRoundRobin(!roundRobin) : setKnockout(!knockout);
+    }
   }
 
-  const numbers = Array.from({ length: 62 }, (_, index) => index + 3);
+  const addTournament = async (e) => {
+    e.preventDefault();
+    setShowAddTournamentModal(false);
+
+    const formJson = Object.fromEntries(new FormData(e.target).entries());
+    // console.log(formJson);
+
+    try {
+      const id = await Data.addTournament(formJson);
+      console.log(id);
+      navigate(`/tournament/${id}`);
+    } catch (e) { }
+  }
+
+  const numbers = Array.from({ length: 63 }, (_, index) => index + 2);
+  const groupNumbers = Array.from({ length: 63 }, (_, index) => index + 1);
 
   return (
     <div className="Tournaments container">
@@ -82,10 +103,10 @@ function Tournaments() {
           <Modal.Title>Add tournament</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form method='post' onSubmit={addTournament}>
             <div className="mb-3">
               <label htmlFor="inputTitle" className="form-label">Title</label>
-              <input required type="email" className="form-control" id="inputTitle" name="usernameEmail" />
+              <input required type="text" className="form-control" id="inputTitle" name="title" />
               <div className="invalid-feedback">Title is required</div>
             </div>
 
@@ -95,6 +116,8 @@ function Tournaments() {
               aria-label="Default select example"
               value={inputParticipantsValue}
               onChange={handleInputParticipantsChange}
+              id='inputParticipants'
+              name='participantsValue'
             >
               <option value="" disabled>
                 Select a number
@@ -107,17 +130,34 @@ function Tournaments() {
             </select>
 
             <div className="form-check form-switch">
-              <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-              <label className="form-check-label" for="flexSwitchCheckDefault">Round-robin</label>
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckRoundRobin" name="roundRobin" onChange={() => setSwitches('roundRobin')} checked={roundRobin} />
+              <label className="form-check-label" htmlFor="flexSwitchCheckRoundRobin">Round-robin</label>
+            </div>
+
+            <div className="form-check form-switch">
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckKnockout" name='knockout' onChange={() => setSwitches('knockout')} checked={knockout} />
+              <label className="form-check-label" htmlFor="flexSwitchCheckKnockout">Knockout</label>
             </div>
 
             <div className="form-check form-switch mb-3">
-              <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-              <label className="form-check-label" for="flexSwitchCheckDefault">Knockout</label>
+              <input className="form-check-input" type="checkbox" id="flexSwitchCheckThirdPlace" name="thirdPlace" disabled={!knockout} />
+              <label className="form-check-label" htmlFor="flexSwitchCheckThirdPlace">Third place</label>
             </div>
 
+            <label htmlFor="inputGroups" className="form-label">Number of Groups</label>
+            <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups' disabled={!roundRobin}>
+              <option value="" disabled selected>
+                Select a number
+              </option>
+              {groupNumbers.filter((value) => value <= inputParticipantsValue / 2).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+
             <label htmlFor="inputTotalPromoted" className="form-label">Total Promoted</label>
-            <select className="form-select mb-3" aria-label="Default select example">
+            <select className="form-select mb-3" aria-label="Default select example" id='inputTotalPromoted' name='totalPromoted' disabled={!knockout}>
               <option value="" disabled selected>
                 Select a number
               </option>
@@ -128,11 +168,9 @@ function Tournaments() {
               ))}
             </select>
 
-            {/* number of groups */}
-
             <div className="row">
               <div className="col-5">
-                <button className="btn btn-primary" onClick={() => addTournament()}>Create</button>
+                <button className="btn btn-primary" type='submit'>Create</button>
               </div>
             </div>
           </form>

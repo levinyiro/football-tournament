@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get, update, query, equalTo, set, child } from "firebase/database";
+import { v4 as uuidv4 } from 'uuid';
+import date from 'date-and-time';
 
 const firebaseConfig = {
     apiKey: "AIzaSyD0IR6rI7TZxxsQZZkv6RMgmKbY0aoZPiw",
@@ -178,7 +180,7 @@ class Data {
                 }
             }));
         }
-
+console.log(tournament);
         if (tournament.knockouts) {
             tournament.knockouts.map(knockout => {
                 knockout.matches.map(match => {
@@ -218,6 +220,99 @@ class Data {
         }
 
         return tournament;
+    }
+
+    static async addTournament(data) {
+        const tournamentsRef = ref(database);
+        await this.fetchTournaments();
+
+        const newPlayers = [];
+        for (let i = 0; i < data.participantsValue; i++) {
+            const newPlayer = {
+                id: uuidv4(),
+                name: 'Player' + (i + 1),
+                team: ''
+            };
+            newPlayers.push(newPlayer);
+        }
+
+        const groupSizes = [];
+        for (let i = 0; i < data.groups; i++) {
+          groupSizes.push(Math.floor(data.participantsValue / data.groups));
+        }
+        for (let i = 0; i < data.participantsValue % data.groups; i++) {
+          groupSizes[i]++;
+        }
+
+        const newGroups = [];
+        let lastPlayerIndex = 0;
+        for (let i = 0; i < data.groups; i++) {
+            const newGroup = {
+                id: uuidv4(),
+                name: 'Group ' + String.fromCharCode(i + 65),
+                players: [],
+                matches: []
+            };
+            for (let j = lastPlayerIndex; j < lastPlayerIndex + groupSizes[i]; j++) {
+                newGroup.players.push(newPlayers[j].id);
+            }
+            lastPlayerIndex += groupSizes[i];
+
+            for (let j = 0; j < newGroup.players.length - 1; j++) {
+                for (let k = j + 1; k < newGroup.players.length; k++) {
+                    newGroup.matches.push({
+                        id: uuidv4(),
+                        playerAId: newGroup.players[j],
+                        playerBId: newGroup.players[k],
+                        scoreA: '',
+                        scoreB: ''
+                    })
+                }
+            }
+
+            newGroups.push(newGroup);
+        }
+        
+        const newKnockouts = [];
+        const roundsNumber = data.thirdPlace ? Math.log2(data.totalPromoted) + 1 : Math.log2(data.totalPromoted);
+        for (let i = 0; i < roundsNumber; i++) {
+            const newMatches = [];
+            for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
+                newMatches.push({
+                    id: uuidv4(),
+                    playerA: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerAId: '',
+                    playerB: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerBId: '',
+                    scoreA: '',
+                    scoreB: ''
+                })
+            }
+
+            const newKnockout = {
+                name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))],
+                matches: newMatches
+            }
+            newKnockouts.push(newKnockout);
+        }
+
+        const newTournament = {
+            id: uuidv4(),
+            date: date.format(new Date(), 'YYYY/MM/DD'),
+            title: data.title,
+            totalPromoted: data.totalPromoted,
+            groups: newGroups,
+            knockouts: newKnockouts.reverse(),
+            players: newPlayers
+        }
+
+        // console.log(newTournament);
+
+        this.tournaments.push(newTournament);
+        await set(tournamentsRef, this.tournaments);
+        console.log("Match updated successfully");
+
+        return newTournament.id;
     }
 
     // static async registerUser(username, password) {
@@ -370,7 +465,7 @@ class Data {
                                 ...matchDataToUpdate
                             };
 
-                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Play-off') {
+                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Final') {
                                 var nextKnockoutIndex = i + 1;
                                 const actualMatch = tournament.knockouts[i].matches[matchIndex];
                                 if (tournament.knockouts[i].name === 'Semi-final' && tournament.knockouts[nextKnockoutIndex].name === 'Third place') {

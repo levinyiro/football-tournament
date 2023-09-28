@@ -30,3 +30,13 @@ A match is always generated automatically. If we delete a player from a group, o
 
 ## references
 https://github.com/leventenyiro/poll it can be a good reference for using nodejs
+
+## some note for me
+1 group 2 totalPromoted - { (A1, A2) }
+1 group 4 totalPromoted - { (A1, A3), (A2, A4) }
+2 group 2 totalPromoted - { (A1, B1) }
+2 group 4 totalPromoted - { (A1, B2), (A2, B1) }
+3 group 2 totalPromoted - { (Mod 1, Mod 2) }
+3 group 4 totalPromoted - { (A1, C1), (B2, Mod1) }
+4 group 2 totalPromoted - { (Mod 1, Mod 2) }
+4 group 4 totalPromoted - { (A1, C1), (B1, D1)}
