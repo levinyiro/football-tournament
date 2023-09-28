@@ -288,12 +288,11 @@ class Data {
         for (let i = 0; i < roundsNumber; i++) {
             const newMatches = [];
             for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
-                // console.log(j);
                 newMatches.push({
                     id: uuidv4(),
-                    playerA: 'Group A 1',
+                    playerA: 'Group B 1', // TODO: implement it, which is the next match by the length of group list and totalpromoted
                     playerAId: '',
-                    playerB: 'something',
+                    playerB: 'Mod 1', // TODO: implement it, which is the next match by the length of group list and totalpromoted
                     playerBId: '',
                     scoreA: '',
                     scoreB: ''
