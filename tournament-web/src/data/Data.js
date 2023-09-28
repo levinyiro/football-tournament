@@ -287,11 +287,21 @@ class Data {
         const roundsNumber = data.thirdPlace ? Math.log2(data.totalPromoted) + 1 : Math.log2(data.totalPromoted);
         for (let i = 0; i < roundsNumber; i++) {
             const newMatches = [];
-            // round 1 - 1 match, third - 1 match, round 2 - 2 match, round 3 - 4 match, round 4 - 16 match
-            // for (let j = 0; j < )
+            for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
+                // console.log(j);
+                newMatches.push({
+                    id: uuidv4(),
+                    playerA: 'Group A 1',
+                    playerAId: '',
+                    playerB: 'something',
+                    playerBId: '',
+                    scoreA: '',
+                    scoreB: ''
+                })
+            }
 
             const newKnockout = {
-                name: data.thirdPlace && i > 1 ? this.knockoutTypes[this.knockoutTypes.length - 2 - i] : this.knockoutTypes[this.knockoutTypes.length - 1 - i]
+                name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))]
             }
             newKnockouts.push(newKnockout);
         }
