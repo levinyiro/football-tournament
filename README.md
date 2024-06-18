@@ -43,3 +43,7 @@ https://github.com/leventenyiro/poll it can be a good reference for using nodejs
 
 ## Draw generator
 https://randraw.com/constitute-team
+
+## Bracket
+
+![image](https://github.com/leventenyiro/football-tournament/assets/44240562/28dfe4d3-95bf-4c10-bded-d737f41efdaf)
