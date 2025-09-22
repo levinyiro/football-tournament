@@ -47,3 +47,12 @@ https://randraw.com/constitute-team
 ## Bracket
 
 ![image](https://github.com/leventenyiro/football-tournament/assets/44240562/28dfe4d3-95bf-4c10-bded-d737f41efdaf)
+
+## 25
+(8 fo)
+Kozos tabella
+4 meccs mindenki
+Top 2 egyenes tovabb
+Kov 4 megkuzd egymassal 2 tovabbmegy
+2 instant kiesik
+![alt text](image.png)
