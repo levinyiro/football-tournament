@@ -114,7 +114,7 @@ function Tournaments() {
             <select
               className="form-select mb-3"
               aria-label="Default select example"
-              value={inputParticipantsValue}
+              defaultValue={inputParticipantsValue}
               onChange={handleInputParticipantsChange}
               id='inputParticipants'
               name='participantsValue'
@@ -145,7 +145,7 @@ function Tournaments() {
             </div>
 
             <label htmlFor="inputGroups" className="form-label">Number of Groups</label>
-            <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups' disabled={!roundRobin}>
+            <select className="form-select mb-3" aria-label="Default select example" id='inputGroups' name='groups' disabled={!roundRobin} defaultValue={""}>
               <option value="" disabled selected>
                 Select a number
               </option>
