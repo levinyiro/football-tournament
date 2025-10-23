@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import Data from '../../data/Data';
 import Modal from 'react-bootstrap/Modal';
@@ -9,25 +9,24 @@ function Tournament() {
   const { id } = useParams();
   const [actualTab, setActualTab] = useState('group');
   const [tournament, setTournament] = useState(null);
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [actualPlayerModify, setActualPlayerModify] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [playerTeam, setPlayerTeam] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    fetchTournament();
-  }, []);
-
-  const fetchTournament = async () => {
+  const fetchTournament = useCallback(async () => {
     setIsLoading(true);
     await Data.fetchTournaments();
     const data = await Data.getTournament(id);
     if (data.groups === undefined) setActualTab('knockout');
-
     setTournament(data);
     setIsLoading(false);
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchTournament();
+  }, [fetchTournament]);
 
   const openPlayerModal = async (playerId) => {
     setActualPlayerModify(playerId);
@@ -81,23 +80,32 @@ function Tournament() {
             )}
           </div>
 
-          <ul className="nav nav-pills mb-3">
-            {tournament.groups !== undefined && (<li className="nav-item">
-              <a className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''}`} aria-current="page" onClick={() => setActualTab('group')}>
+          <div className="d-flex mb-3 nav nav-pills" role="tablist">
+            {tournament.groups !== undefined && (
+              <button
+                className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''} me-2`}
+                aria-current="page"
+                onClick={() => setActualTab('group')}
+              >
                 Group
-              </a>
-            </li>)}
-            {tournament.knockouts !== undefined && (<li className="nav-item">
-              <a className={`nav-link tournament-nav-link ${actualTab === 'knockout' ? 'active' : ''}`} onClick={() => setActualTab('knockout')}>
+              </button>
+            )}
+            {tournament.knockouts !== undefined && (
+              <button
+                className={`nav-link tournament-nav-link ${actualTab === 'knockout' ? 'active' : ''} me-2`}
+                onClick={() => setActualTab('knockout')}
+              >
                 Knockout
-              </a>
-            </li>)}
-            <li className="nav-item">
-              <a className={`nav-link tournament-nav-link ${actualTab === 'matches' ? 'active' : ''}`} onClick={() => setActualTab('matches')}>
-                Matches
-              </a>
-            </li>
-          </ul>
+              </button>
+            )}
+            <button
+              className={`nav-link tournament-nav-link ${actualTab === 'matches' ? 'active' : ''}`}
+              onClick={() => setActualTab('matches')}
+            >
+              Matches
+            </button>
+          </div>
+
 
           {actualTab === 'group' && (
             <div className="tab-content mb-5">

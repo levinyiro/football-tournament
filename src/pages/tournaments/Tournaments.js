@@ -8,7 +8,6 @@ function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
   const [showAddTournamentModal, setShowAddTournamentModal] = useState(false);
   const [inputParticipantsValue, setInputParticipantsValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [roundRobin, setRoundRobin] = useState(true);
   const [knockout, setKnockout] = useState(false);
   const totalPromotedOptions = [2, 4, 8, 16, 32, 64];
@@ -68,11 +67,6 @@ function Tournaments() {
             <div className='d-inline'>
               <h1 className="mb-3">Tournaments</h1>
             </div>
-            {isLoading && (
-              <div className="spinner-border text-light d-inline ms-4 mb-3" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            )}
           </div>
         </div>
         <div className='col-6 d-flex justify-content-end align-items-center'>

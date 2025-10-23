@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs-react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, update, query, equalTo, set, child } from "firebase/database";
+import { getDatabase, ref, get, set } from "firebase/database";
 import { v4 as uuidv4 } from 'uuid';
 import date from 'date-and-time';
 
@@ -133,7 +133,7 @@ class Data {
                 return b.gf - a.gf;
             }
         });
-        
+
         return playersInDiv;
     }
 
@@ -151,7 +151,7 @@ class Data {
                     players: players,
                     isReady: players.every(player => player.matchPlayed === players.length - 1),
                     promoted: this.getPlayersInDiv(tournament)
-                    .findIndex(player => player.groupName === group.name) < tournament.totalPromoted % tournament.groups.length ? 
+                        .findIndex(player => player.groupName === group.name) < tournament.totalPromoted % tournament.groups.length ?
                         Math.floor(tournament.totalPromoted / tournament.groups.length) :
                         Math.floor(tournament.totalPromoted / tournament.groups.length) - 1,
                     matches: group.matches
@@ -180,21 +180,25 @@ class Data {
                 }
             }));
         }
-console.log(tournament);
-        if (tournament.knockouts) {
-            tournament.knockouts.map(knockout => {
-                knockout.matches.map(match => {
-                    const playerA = tournament.players.find(player => player.id === match.playerAId);
-                    const playerB = tournament.players.find(player => player.id === match.playerBId);
-                    const winner = match.scoreA > match.scoreB
-                        ? match.playerAId
-                        : (match.scoreB > match.scoreA ? match.playerBId : null);
 
-                    match.playerA = playerA;
-                    match.playerB = playerB;
-                    match.winner = winner;
+        if (tournament.knockouts) {
+            if (tournament.knockouts) {
+                tournament.knockouts.forEach(knockout => {
+                    knockout.matches.forEach(match => {
+                        const playerA = tournament.players.find(player => player.id === match.playerAId);
+                        const playerB = tournament.players.find(player => player.id === match.playerBId);
+                        const winner = match.scoreA > match.scoreB
+                            ? match.playerAId
+                            : (match.scoreB > match.scoreA ? match.playerBId : null);
+
+                        match.playerA = playerA;
+                        match.playerB = playerB;
+                        match.winner = winner;
+                    });
                 });
-            });
+            }
+
+
 
             tournament.matches.push(...tournament.knockouts.map(knockout => {
                 const matches = knockout.matches.map(match => {
@@ -238,10 +242,10 @@ console.log(tournament);
 
         const groupSizes = [];
         for (let i = 0; i < data.groups; i++) {
-          groupSizes.push(Math.floor(data.participantsValue / data.groups));
+            groupSizes.push(Math.floor(data.participantsValue / data.groups));
         }
         for (let i = 0; i < data.participantsValue % data.groups; i++) {
-          groupSizes[i]++;
+            groupSizes[i]++;
         }
 
         const newGroups = [];
@@ -272,7 +276,7 @@ console.log(tournament);
 
             newGroups.push(newGroup);
         }
-        
+
         const newKnockouts = [];
         const roundsNumber = data.thirdPlace ? Math.log2(data.totalPromoted) + 1 : Math.log2(data.totalPromoted);
         for (let i = 0; i < roundsNumber; i++) {
@@ -433,7 +437,7 @@ console.log(tournament);
                             }
                         }
                     }
-                    
+
                     if (matchFound) {
                         if (isAllGroupReady) {
                             const playersInDiv = this.getPlayersInDiv(tournament);
@@ -469,19 +473,19 @@ console.log(tournament);
                                 var nextKnockoutIndex = i + 1;
                                 const actualMatch = tournament.knockouts[i].matches[matchIndex];
                                 if (tournament.knockouts[i].name === 'Semi-final' && tournament.knockouts[nextKnockoutIndex].name === 'Third place') {
-                                    
+
                                     const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
                                     if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'L')) {
                                         nextMatch.playerAId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
                                     } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'L')) {
                                         nextMatch.playerBId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
                                     }
-    
+
                                     nextKnockoutIndex++;
                                 }
-    
+
                                 const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
-    
+
                                 if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'W')) {
                                     nextMatch.playerAId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
                                 } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'W')) {
@@ -490,7 +494,7 @@ console.log(tournament);
 
                                 if (score === '') {
                                     const playerId = participant === 'a' ? actualMatch.playerAId : actualMatch.playerBId;
-                                    
+
                                     for (let j = i + 1; j < tournament.knockouts.length; j++) {
                                         for (const match of tournament.knockouts[j].matches) {
                                             if (match.playerAId !== '' && match.playerAId.includes(playerId)) {
