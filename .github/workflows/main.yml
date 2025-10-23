@@ -51,6 +51,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FOOTBALL_TOURNAMENT_DA5C6 }}'
-          projectId: sb-dt-da5c6
+          projectId: football-tournament-da5c6
           channelId: live
           entryPoint: .
