@@ -230,26 +230,18 @@ class Data {
         const tournamentsRef = ref(database);
         await this.fetchTournaments();
 
-        const newPlayers = [];
-        for (let i = 0; i < data.participantsValue; i++) {
-            const newPlayer = {
-                id: uuidv4(),
-                name: 'Player' + (i + 1),
-                team: ''
-            };
-            newPlayers.push(newPlayer);
-        }
+        const newPlayers = Array.from({ length: data.participantsValue }, (_, i) => ({
+            id: uuidv4(),
+            name: `Player${i + 1}`,
+            team: ''
+        }));
 
-        const groupSizes = [];
-        for (let i = 0; i < data.groups; i++) {
-            groupSizes.push(Math.floor(data.participantsValue / data.groups));
-        }
-        for (let i = 0; i < data.participantsValue % data.groups; i++) {
-            groupSizes[i]++;
-        }
+        const groupSizes = Array(data.groups).fill(Math.floor(data.participantsValue / data.groups));
+        for (let i = 0; i < data.participantsValue % data.groups; i++) groupSizes[i]++;
 
         const newGroups = [];
         let lastPlayerIndex = 0;
+
         for (let i = 0; i < data.groups; i++) {
             const newGroup = {
                 id: uuidv4(),
@@ -257,21 +249,34 @@ class Data {
                 players: [],
                 matches: []
             };
-            for (let j = lastPlayerIndex; j < lastPlayerIndex + groupSizes[i]; j++) {
-                newGroup.players.push(newPlayers[j].id);
+
+            const groupPlayers = [...newPlayers.slice(lastPlayerIndex, lastPlayerIndex + groupSizes[i])];
+            for (let j = groupPlayers.length - 1; j > 0; j--) {
+                const k = Math.floor(Math.random() * (j + 1));
+                [groupPlayers[j], groupPlayers[k]] = [groupPlayers[k], groupPlayers[j]];
             }
+
+            newGroup.players = groupPlayers.map(p => p.id);
             lastPlayerIndex += groupSizes[i];
 
-            for (let j = 0; j < newGroup.players.length - 1; j++) {
-                for (let k = j + 1; k < newGroup.players.length; k++) {
+            const playerCount = newGroup.players.length;
+            const half = Math.floor(playerCount / 2);
+            let rotation = [...newGroup.players];
+
+            for (let round = 0; round < playerCount - 1; round++) {
+                for (let j = 0; j < half; j++) {
+                    const playerA = rotation[j];
+                    const playerB = rotation[playerCount - 1 - j];
                     newGroup.matches.push({
                         id: uuidv4(),
-                        playerAId: newGroup.players[j],
-                        playerBId: newGroup.players[k],
+                        playerAId: playerA,
+                        playerBId: playerB,
                         scoreA: '',
                         scoreB: ''
-                    })
+                    });
                 }
+
+                rotation.splice(1, 0, rotation.pop());
             }
 
             newGroups.push(newGroup);
@@ -284,19 +289,19 @@ class Data {
             for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
                 newMatches.push({
                     id: uuidv4(),
-                    playerA: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerA: '',
                     playerAId: '',
-                    playerB: 'sth', // TODO: implement it, which is the next match by the length of group list and totalpromoted
+                    playerB: '',
                     playerBId: '',
                     scoreA: '',
                     scoreB: ''
-                })
+                });
             }
 
             const newKnockout = {
                 name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))],
                 matches: newMatches
-            }
+            };
             newKnockouts.push(newKnockout);
         }
 
@@ -308,14 +313,12 @@ class Data {
             groups: newGroups,
             knockouts: newKnockouts.reverse(),
             players: newPlayers
-        }
-
-        // console.log(newTournament);
+        };
 
         this.tournaments.push(newTournament);
         await set(tournamentsRef, this.tournaments);
-        console.log("Match updated successfully");
 
+        console.log('Tournament added successfully');
         return newTournament.id;
     }
 
