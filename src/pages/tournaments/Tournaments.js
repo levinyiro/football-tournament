@@ -42,19 +42,29 @@ function Tournaments() {
     }
   }
 
-  const addTournament = async (e) => {
+const addTournament = async (e) => {
     e.preventDefault();
     setShowAddTournamentModal(false);
 
-    const formJson = Object.fromEntries(new FormData(e.target).entries());
-    // console.log(formJson);
+    const formData = new FormData(e.target);
+    const formJson = {
+        title: formData.get('title'),
+        participantsValue: parseInt(formData.get('participantsValue')),
+        roundRobin: formData.get('roundRobin') === 'on',
+        knockout: formData.get('knockout') === 'on',
+        thirdPlace: formData.get('thirdPlace') === 'on',
+        groups: parseInt(formData.get('groups') || '0'),
+        totalPromoted: parseInt(formData.get('totalPromoted') || '0')
+    };
 
     try {
-      const id = await Data.addTournament(formJson);
-      console.log(id);
-      navigate(`/tournament/${id}`);
-    } catch (e) { }
-  }
+        const id = await Data.addTournament(formJson);
+        console.log(id);
+        navigate(`/tournament/${id}`);
+    } catch (e) {
+        console.error('Error creating tournament:', e);
+    }
+}
 
   const numbers = Array.from({ length: 63 }, (_, index) => index + 2);
   const groupNumbers = Array.from({ length: 63 }, (_, index) => index + 1);
