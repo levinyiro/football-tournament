@@ -102,17 +102,23 @@ class Data {
             };
         });
 
-        players.sort((a, b) => {
-            if (a.points !== b.points) {
-                return b.points - a.points;
-            } else if (a.gd !== b.gd) {
-                return b.gd - a.gd;
-            } else {
-                return b.gf - a.gf;
-            }
-        });
+    players.sort((a, b) => {
+        const aIsEmpty = !a.name || a.name.trim() === '';
+        const bIsEmpty = !b.name || b.name.trim() === '';
+        
+        if (aIsEmpty && !bIsEmpty) return 1;
+        if (!aIsEmpty && bIsEmpty) return -1;
+        
+        if (a.points !== b.points) {
+            return b.points - a.points;
+        } else if (a.gd !== b.gd) {
+            return b.gd - a.gd;
+        } else {
+            return b.gf - a.gf;
+        }
+    });
 
-        return players;
+    return players;
     }
 
     static getPlayersInDiv(tournament) {
@@ -149,7 +155,6 @@ class Data {
                 return {
                     name: group.name,
                     players: players,
-                    isReady: players.every(player => player.matchPlayed === players.length - 1),
                     promoted: this.getPlayersInDiv(tournament)
                         .findIndex(player => player.groupName === group.name) < tournament.totalPromoted % tournament.groups.length ?
                         Math.floor(tournament.totalPromoted / tournament.groups.length) :
@@ -226,101 +231,265 @@ class Data {
         return tournament;
     }
 
-    static async addTournament(data) {
-        const tournamentsRef = ref(database);
-        await this.fetchTournaments();
+static async addTournament(data) {
+    const tournamentsRef = ref(database);
+    await this.fetchTournaments();
 
-        const newPlayers = Array.from({ length: data.participantsValue }, (_, i) => ({
+    const newPlayers = Array.from({ length: data.participantsValue }, (_, i) => ({
+        id: uuidv4(),
+        name: `Player${i + 1}`,
+        team: ''
+    }));
+
+    const groupSizes = Array(data.groups).fill(Math.floor(data.participantsValue / data.groups));
+    for (let i = 0; i < data.participantsValue % data.groups; i++) groupSizes[i]++;
+
+    const newGroups = [];
+    let lastPlayerIndex = 0;
+
+    for (let i = 0; i < data.groups; i++) {
+        const newGroup = {
             id: uuidv4(),
-            name: `Player${i + 1}`,
-            team: ''
-        }));
+            name: 'Group ' + String.fromCharCode(i + 65),
+            players: [],
+            matches: []
+        };
 
-        const groupSizes = Array(data.groups).fill(Math.floor(data.participantsValue / data.groups));
-        for (let i = 0; i < data.participantsValue % data.groups; i++) groupSizes[i]++;
-
-        const newGroups = [];
-        let lastPlayerIndex = 0;
-
-        for (let i = 0; i < data.groups; i++) {
-            const newGroup = {
-                id: uuidv4(),
-                name: 'Group ' + String.fromCharCode(i + 65),
-                players: [],
-                matches: []
-            };
-
-            const groupPlayers = [...newPlayers.slice(lastPlayerIndex, lastPlayerIndex + groupSizes[i])];
-            for (let j = groupPlayers.length - 1; j > 0; j--) {
-                const k = Math.floor(Math.random() * (j + 1));
-                [groupPlayers[j], groupPlayers[k]] = [groupPlayers[k], groupPlayers[j]];
-            }
-
-            newGroup.players = groupPlayers.map(p => p.id);
-            lastPlayerIndex += groupSizes[i];
-
-            const playerCount = newGroup.players.length;
-            const half = Math.floor(playerCount / 2);
-            let rotation = [...newGroup.players];
-
-            for (let round = 0; round < playerCount - 1; round++) {
-                for (let j = 0; j < half; j++) {
-                    const playerA = rotation[j];
-                    const playerB = rotation[playerCount - 1 - j];
-                    newGroup.matches.push({
-                        id: uuidv4(),
-                        playerAId: playerA,
-                        playerBId: playerB,
-                        scoreA: '',
-                        scoreB: ''
-                    });
-                }
-
-                rotation.splice(1, 0, rotation.pop());
-            }
-
-            newGroups.push(newGroup);
+        const groupPlayers = [...newPlayers.slice(lastPlayerIndex, lastPlayerIndex + groupSizes[i])];
+        for (let j = groupPlayers.length - 1; j > 0; j--) {
+            const k = Math.floor(Math.random() * (j + 1));
+            [groupPlayers[j], groupPlayers[k]] = [groupPlayers[k], groupPlayers[j]];
         }
 
-        const newKnockouts = [];
-        const roundsNumber = data.thirdPlace ? Math.log2(data.totalPromoted) + 1 : Math.log2(data.totalPromoted);
-        for (let i = 0; i < roundsNumber; i++) {
-            const newMatches = [];
-            for (let j = 0; j < Math.pow(2, data.thirdPlace && i > 0 ? i - 1 : i); j++) {
-                newMatches.push({
+        newGroup.players = groupPlayers.map(p => p.id);
+        lastPlayerIndex += groupSizes[i];
+
+        const playerCount = newGroup.players.length;
+        const half = Math.floor(playerCount / 2);
+        let rotation = [...newGroup.players];
+
+        for (let round = 0; round < playerCount - 1; round++) {
+            for (let j = 0; j < half; j++) {
+                const playerA = rotation[j];
+                const playerB = rotation[playerCount - 1 - j];
+                newGroup.matches.push({
                     id: uuidv4(),
-                    playerA: '',
-                    playerAId: '',
-                    playerB: '',
-                    playerBId: '',
+                    playerAId: playerA,
+                    playerBId: playerB,
                     scoreA: '',
                     scoreB: ''
                 });
             }
 
-            const newKnockout = {
-                name: this.knockoutTypes[this.knockoutTypes.length - i - (data.thirdPlace ? 1 : (i > 0 ? 2 : 1))],
-                matches: newMatches
-            };
-            newKnockouts.push(newKnockout);
+            rotation.splice(1, 0, rotation.pop());
         }
 
-        const newTournament = {
-            id: uuidv4(),
-            date: date.format(new Date(), 'YYYY/MM/DD'),
-            title: data.title,
-            totalPromoted: data.totalPromoted,
-            groups: newGroups,
-            knockouts: newKnockouts.reverse(),
-            players: newPlayers
-        };
-
-        this.tournaments.push(newTournament);
-        await set(tournamentsRef, this.tournaments);
-
-        console.log('Tournament added successfully');
-        return newTournament.id;
+        newGroups.push(newGroup);
     }
+
+    const newKnockouts = [];
+    const totalPromoted = parseInt(data.totalPromoted);
+    
+    const promotedPerGroup = Math.floor(totalPromoted / data.groups);
+    const extraPromoted = totalPromoted % data.groups;
+    
+    console.log(`Promoted: ${promotedPerGroup} per group + ${extraPromoted} extra`);
+
+    let knockoutRounds = [];
+    if (totalPromoted <= 2) {
+        knockoutRounds = ['Final'];
+    } else if (totalPromoted <= 4) {
+        knockoutRounds = ['Semi-final', 'Final'];
+        if (data.thirdPlace) knockoutRounds.splice(1, 0, 'Third place');
+    } else if (totalPromoted <= 8) {
+        knockoutRounds = ['Quarter-final', 'Semi-final', 'Final'];
+        if (data.thirdPlace) knockoutRounds.splice(2, 0, 'Third place');
+    } else if (totalPromoted <= 16) {
+        knockoutRounds = ['Round of 16', 'Quarter-final', 'Semi-final', 'Final'];
+        if (data.thirdPlace) knockoutRounds.splice(3, 0, 'Third place');
+    }
+
+    console.log('Knockout rounds:', knockoutRounds);
+
+    for (let roundIndex = 0; roundIndex < knockoutRounds.length; roundIndex++) {
+        const roundName = knockoutRounds[roundIndex];
+        const matchesCount = this.getMatchesCountForRound(roundName, totalPromoted, data.thirdPlace);
+        const newMatches = [];
+
+        console.log(`Creating ${roundName} with ${matchesCount} matches`);
+
+        for (let matchIndex = 0; matchIndex < matchesCount; matchIndex++) {
+            let playerA = '';
+            let playerB = '';
+            let playerASource = null;
+            let playerBSource = null;
+
+            if (roundIndex === 0) {
+                [playerA, playerB, playerASource, playerBSource] = this.assignFirstRoundPositions(
+                    matchIndex, data.groups, promotedPerGroup, extraPromoted, totalPromoted
+                );
+            } else {
+                const prevRoundMatches = this.getMatchesCountForRound(knockoutRounds[roundIndex - 1], totalPromoted, data.thirdPlace);
+                
+                if (roundName === 'Third place') {
+                    playerA = 'M1L';
+                    playerB = 'M2L';
+                    playerASource = { type: 'loser', matchPosition: 0, roundIndex: roundIndex - 1 };
+                    playerBSource = { type: 'loser', matchPosition: 1, roundIndex: roundIndex - 1 };
+                } else {
+                    playerA = `M${matchIndex * 2 + 1}W`;
+                    playerB = `M${matchIndex * 2 + 2}W`;
+                    playerASource = { type: 'winner', matchPosition: matchIndex * 2, roundIndex: roundIndex - 1 };
+                    playerBSource = { type: 'winner', matchPosition: matchIndex * 2 + 1, roundIndex: roundIndex - 1 };
+                }
+            }
+
+            newMatches.push({
+                id: uuidv4(),
+                playerA: playerA,
+                playerAId: '',
+                playerB: playerB,
+                playerBId: '',
+                playerASource: playerASource,
+                playerBSource: playerBSource,
+                scoreA: '',
+                scoreB: ''
+            });
+        }
+
+        const newKnockout = {
+            name: roundName,
+            matches: newMatches
+        };
+        newKnockouts.push(newKnockout);
+    }
+
+    const newTournament = {
+        id: uuidv4(),
+        date: date.format(new Date(), 'YYYY/MM/DD'),
+        title: data.title,
+        totalPromoted: totalPromoted,
+        groups: newGroups,
+        knockouts: newKnockouts,
+        players: newPlayers
+    };
+
+    this.tournaments.push(newTournament);
+    await set(tournamentsRef, this.tournaments);
+
+    console.log('Tournament added successfully with proper knockout structure');
+    return newTournament.id;
+}
+
+static getMatchesCountForRound(roundName, totalPromoted, hasThirdPlace) {
+    switch (roundName) {
+        case 'Round of 16': return 8;
+        case 'Quarter-final': return 4;
+        case 'Semi-final': return 2;
+        case 'Third place': return 1;
+        case 'Final': return 1;
+        default: return Math.floor(totalPromoted / 2);
+    }
+}
+
+static assignFirstRoundPositions(matchIndex, groupsCount, promotedPerGroup, extraPromoted, totalPromoted) {
+    let playerA = '';
+    let playerB = '';
+    let playerASource = null;
+    let playerBSource = null;
+
+    console.log(`Creating match ${matchIndex} for ${totalPromoted} promoted teams`);
+
+    if (totalPromoted === 4) {
+        switch (matchIndex) {
+            case 0:
+                playerA = `Group A P1`;
+                playerASource = { type: 'group', groupName: 'Group A', position: 0 };
+                playerB = `Group B P2`; 
+                playerBSource = { type: 'group', groupName: 'Group B', position: 1 };
+                break;
+            case 1:
+                playerA = `Group B P1`;
+                playerASource = { type: 'group', groupName: 'Group B', position: 0 };
+                playerB = `Group A P2`;
+                playerBSource = { type: 'group', groupName: 'Group A', position: 1 };
+                break;
+        }
+    }
+    else if (totalPromoted === 8) {
+        switch (matchIndex) {
+            case 0:
+                playerA = `Group A P1`; playerASource = { type: 'group', groupName: 'Group A', position: 0 };
+                playerB = `Group B P2`; playerBSource = { type: 'group', groupName: 'Group B', position: 1 };
+                break;
+            case 1:
+                playerA = `Group C P1`; playerASource = { type: 'group', groupName: 'Group C', position: 0 };
+                playerB = `Group D P2`; playerBSource = { type: 'group', groupName: 'Group D', position: 1 };
+                break;
+            case 2:
+                playerA = `Group B P1`; playerASource = { type: 'group', groupName: 'Group B', position: 0 };
+                playerB = `Group A P2`; playerBSource = { type: 'group', groupName: 'Group A', position: 1 };
+                break;
+            case 3:
+                playerA = `Group D P1`; playerASource = { type: 'group', groupName: 'Group D', position: 0 };
+                playerB = `Group C P2`; playerBSource = { type: 'group', groupName: 'Group C', position: 1 };
+                break;
+        }
+    }
+    else {
+        const totalGroupSpots = promotedPerGroup * groupsCount + extraPromoted;
+        const modSpots = totalPromoted - totalGroupSpots;
+        
+        const groupAIndex = matchIndex % groupsCount;
+        const isFirstInPair = matchIndex % 2 === 0;
+        
+        if (isFirstInPair) {
+            const groupIndexA = groupAIndex;
+            const groupIndexB = (groupAIndex + 1) % groupsCount;
+            
+            playerA = `Group ${String.fromCharCode(65 + groupIndexA)} P1`;
+            playerASource = { type: 'group', groupName: `Group ${String.fromCharCode(65 + groupIndexA)}`, position: 0 };
+            
+            playerB = `Group ${String.fromCharCode(65 + groupIndexB)} P2`;
+            playerBSource = { type: 'group', groupName: `Group ${String.fromCharCode(65 + groupIndexB)}`, position: 1 };
+        } else {
+            const groupIndexA = groupAIndex;
+            const groupIndexB = (groupAIndex + 1) % groupsCount;
+            
+            playerA = `Group ${String.fromCharCode(65 + groupIndexB)} P1`;
+            playerASource = { type: 'group', groupName: `Group ${String.fromCharCode(65 + groupIndexB)}`, position: 0 };
+            
+            playerB = `Group ${String.fromCharCode(65 + groupIndexA)} P2`;
+            playerBSource = { type: 'group', groupName: `Group ${String.fromCharCode(65 + groupIndexA)}`, position: 1 };
+        }
+    }
+
+    console.log(`Match ${matchIndex}: ${playerA} vs ${playerB}`);
+    return [playerA, playerB, playerASource, playerBSource];
+}
+
+static getKnockoutRounds(totalPromoted, hasThirdPlace) {
+    let rounds = [];
+    
+    if (totalPromoted <= 2) {
+        rounds = ['Final'];
+    } else if (totalPromoted <= 4) {
+        rounds = ['Semi-final', 'Final'];
+        if (hasThirdPlace) rounds.splice(1, 0, 'Third place');
+    } else if (totalPromoted <= 8) {
+        rounds = ['Quarter-final', 'Semi-final', 'Final'];
+        if (hasThirdPlace) rounds.splice(2, 0, 'Third place');
+    } else if (totalPromoted <= 16) {
+        rounds = ['Round of 16', 'Quarter-final', 'Semi-final', 'Final'];
+        if (hasThirdPlace) rounds.splice(3, 0, 'Third place');
+    } else if (totalPromoted <= 32) {
+        rounds = ['Round of 32', 'Round of 16', 'Quarter-final', 'Semi-final', 'Final'];
+        if (hasThirdPlace) rounds.splice(4, 0, 'Third place');
+    }
+    
+    console.log(`Knockout rounds for ${totalPromoted} teams:`, rounds);
+    return rounds;
+}
 
     // static async registerUser(username, password) {
     //     const saltRounds = 10;
@@ -379,160 +548,191 @@ class Data {
         }
     }
 
-    static async updateMatch(id, participant, score) {
-        try {
-            const tournamentsRef = ref(database);
-            await this.fetchTournaments();
-            let matchDataToUpdate;
+static async updateMatch(id, participant, score) {
+    try {
+        const tournamentsRef = ref(database);
+        await this.fetchTournaments();
+        let matchDataToUpdate;
 
-            if (participant === 'a') {
-                matchDataToUpdate = {
-                    scoreA: score !== '' ? parseInt(score) : ''
-                };
-            } else if (participant === 'b') {
-                matchDataToUpdate = {
-                    scoreB: score !== '' ? parseInt(score) : ''
-                };
-            }
+        if (participant === 'a') {
+            matchDataToUpdate = { scoreA: score !== '' ? parseInt(score) : '' };
+        } else if (participant === 'b') {
+            matchDataToUpdate = { scoreB: score !== '' ? parseInt(score) : '' };
+        }
 
-            let matchUpdated = false;
-            let matchFound = false;
-            for (const tournament of this.tournaments) {
-                if (tournament.groups !== undefined) {
-                    let isAllGroupReady = true;
-                    for (const group of tournament.groups) {
-                        const matchIndex = group.matches.findIndex(match => match.id === id);
-                        if (matchIndex !== -1) {
-                            matchFound = true;
-                            group.matches[matchIndex] = {
-                                ...group.matches[matchIndex],
-                                ...matchDataToUpdate
-                            };
-                            matchUpdated = true;
+        let matchUpdated = false;
+        let matchFound = false;
+        
+        for (const tournament of this.tournaments) {
+            if (tournament.groups !== undefined) {
+                for (const group of tournament.groups) {
+                    const matchIndex = group.matches.findIndex(match => match.id === id);
+                    if (matchIndex !== -1) {
+                        matchFound = true;
+                        group.matches[matchIndex] = {
+                            ...group.matches[matchIndex],
+                            ...matchDataToUpdate
+                        };
+                        matchUpdated = true;
 
-                            const players = this.getPlayersInGroup(tournament, group);
-                            if (players.every(player => player.matchPlayed === players.length - 1)) {
-                                for (const knockout of tournament.knockouts) {
-                                    for (const match of knockout.matches) {
-                                        if (match.playerA.includes(group.name))
-                                            match.playerAId = players[match.playerA.split(group.name)[1] - 1].id;
-                                        else if (match.playerB.includes(group.name))
-                                            match.playerBId = players[match.playerB.split(group.name)[1] - 1].id;
-                                    }
-                                }
-                            } else {
-                                isAllGroupReady = false;
-                                for (const knockout of tournament.knockouts) {
-                                    for (const match of knockout.matches) {
-                                        for (const player of players) {
-                                            if (match.playerAId !== '' && match.playerAId.includes(player.id)) {
-                                                match.playerAId = '';
-                                                match.scoreA = '';
-                                                match.scoreB = '';
-                                            } else if (match.playerBId !== '' && match.playerBId.includes(player.id)) {
-                                                match.playerBId = '';
-                                                match.scoreA = '';
-                                                match.scoreB = '';
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        console.log(`🔄 Group match updated in ${group.name}, recalculating standings...`);
 
-                    if (matchFound) {
-                        if (isAllGroupReady) {
-                            const playersInDiv = this.getPlayersInDiv(tournament);
-
-                            for (let i = 0; i < tournament.totalPromoted % tournament.groups.length; i++) {
-                                for (const knockout of tournament.knockouts) {
-                                    for (const match of knockout.matches) {
-                                        const searchString = "Mod " + (i + 1);
-                                        if (match.playerA.includes(searchString))
-                                            match.playerAId = playersInDiv[i].id;
-                                        else if (match.playerB.includes(searchString)) {
-                                            match.playerBId = playersInDiv[i].id;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
+                        this.updateAllKnockoutPlayers(tournament);
                         break;
                     }
                 }
 
-                if (!matchUpdated && tournament.knockouts !== undefined) {
-                    for (let i = 0; i < tournament.knockouts.length; i++) {
-                        const matchIndex = tournament.knockouts[i].matches.findIndex(match => match.id === id);
-                        if (matchIndex !== -1) {
-                            tournament.knockouts[i].matches[matchIndex] = {
-                                ...tournament.knockouts[i].matches[matchIndex],
-                                ...matchDataToUpdate
-                            };
+                if (matchFound) break;
+            }
 
-                            if (tournament.knockouts[i].name !== 'Third place' && tournament.knockouts[i].name !== 'Final') {
-                                var nextKnockoutIndex = i + 1;
-                                const actualMatch = tournament.knockouts[i].matches[matchIndex];
-                                if (tournament.knockouts[i].name === 'Semi-final' && tournament.knockouts[nextKnockoutIndex].name === 'Third place') {
+            if (!matchUpdated && tournament.knockouts !== undefined) {
+                for (let i = 0; i < tournament.knockouts.length; i++) {
+                    const matchIndex = tournament.knockouts[i].matches.findIndex(match => match.id === id);
+                    if (matchIndex !== -1) {
+                        const actualMatch = tournament.knockouts[i].matches[matchIndex];
+                        
+                        tournament.knockouts[i].matches[matchIndex] = {
+                            ...actualMatch,
+                            ...matchDataToUpdate
+                        };
+                        matchUpdated = true;
 
-                                    const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
-                                    if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'L')) {
-                                        nextMatch.playerAId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
-                                    } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'L')) {
-                                        nextMatch.playerBId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
-                                    }
+                        this.updateKnockoutProgress(tournament, i, matchIndex, actualMatch, participant, score);
+                        break;
+                    }
+                }
+            }
+        }
 
-                                    nextKnockoutIndex++;
-                                }
+        if (matchUpdated) {
+            await set(tournamentsRef, this.tournaments);
+            console.log("✅ Match updated and ALL knockout players refreshed");
+        } else {
+            console.log("Match not found");
+        }
+    } catch (error) {
+        console.error("Error updating Match:", error);
+    }
+}
 
-                                const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
+static updateKnockoutProgress(tournament, currentRoundIndex, matchIndex, actualMatch, participant, score) {
+    console.log(`🔄 Updating knockout progress for ${tournament.knockouts[currentRoundIndex].name} match ${matchIndex}`);
+    
+    if (tournament.knockouts[currentRoundIndex].name !== 'Third place' && 
+        tournament.knockouts[currentRoundIndex].name !== 'Final') {
+        
+        let nextKnockoutIndex = currentRoundIndex + 1;
+        
+        if (nextKnockoutIndex < tournament.knockouts.length) {
+            
+            if (tournament.knockouts[currentRoundIndex].name === 'Semi-final' && 
+                tournament.knockouts[nextKnockoutIndex] && 
+                tournament.knockouts[nextKnockoutIndex].name === 'Third place') {
 
-                                if (nextMatch.playerA.includes('M' + (matchIndex + 1) + 'W')) {
-                                    nextMatch.playerAId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
-                                } else if (nextMatch.playerB.includes('M' + (matchIndex + 1) + 'W')) {
-                                    nextMatch.playerBId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
-                                }
+                const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[0];
+                if (nextMatch && nextMatch.playerASource && nextMatch.playerASource.type === 'loser' && 
+                    nextMatch.playerASource.matchPosition === matchIndex) {
+                    nextMatch.playerAId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                    console.log(`✅ Updated Third place: ${nextMatch.playerAId} from match ${matchIndex} loser`);
+                } else if (nextMatch && nextMatch.playerBSource && nextMatch.playerBSource.type === 'loser' &&
+                    nextMatch.playerBSource.matchPosition === matchIndex) {
+                    nextMatch.playerBId = actualMatch.scoreA < actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                    console.log(`✅ Updated Third place: ${nextMatch.playerBId} from match ${matchIndex} loser`);
+                }
+                nextKnockoutIndex++;
+            }
 
-                                if (score === '') {
-                                    const playerId = participant === 'a' ? actualMatch.playerAId : actualMatch.playerBId;
-
-                                    for (let j = i + 1; j < tournament.knockouts.length; j++) {
-                                        for (const match of tournament.knockouts[j].matches) {
-                                            if (match.playerAId !== '' && match.playerAId.includes(playerId)) {
-                                                match.playerAId = '';
-                                                match.scoreA = '';
-                                                match.scoreB = '';
-                                            } else if (match.playerBId !== '' && match.playerBId.includes(playerId)) {
-                                                match.playerBId = '';
-                                                match.scoreA = '';
-                                                match.scoreB = '';
-                                            }
-                                        }
-                                    }
-                                }
-
-                                matchUpdated = true;
-                                break;
-                            }
-
-                            matchUpdated = true;
-                        }
+            if (nextKnockoutIndex < tournament.knockouts.length) {
+                const nextRoundMatchIndex = Math.floor(matchIndex / 2);
+                if (nextRoundMatchIndex < tournament.knockouts[nextKnockoutIndex].matches.length) {
+                    const nextMatch = tournament.knockouts[nextKnockoutIndex].matches[nextRoundMatchIndex];
+                    
+                    if (nextMatch && nextMatch.playerASource && nextMatch.playerASource.type === 'winner' &&
+                        nextMatch.playerASource.matchPosition === matchIndex) {
+                        nextMatch.playerAId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                        console.log(`✅ Updated next round: ${nextMatch.playerAId} from match ${matchIndex} winner`);
+                    } else if (nextMatch && nextMatch.playerBSource && nextMatch.playerBSource.type === 'winner' &&
+                        nextMatch.playerBSource.matchPosition === matchIndex) {
+                        nextMatch.playerBId = actualMatch.scoreA > actualMatch.scoreB ? actualMatch.playerAId : actualMatch.playerBId;
+                        console.log(`✅ Updated next round: ${nextMatch.playerBId} from match ${matchIndex} winner`);
                     }
                 }
             }
 
-            if (matchUpdated) {
-                await set(tournamentsRef, this.tournaments);
-                console.log("Match updated successfully");
-            } else {
-                console.log("Match not found");
+            if (score === '') {
+                const playerId = participant === 'a' ? actualMatch.playerAId : actualMatch.playerBId;
+                this.clearPlayerFromLaterRounds(tournament, currentRoundIndex, playerId);
             }
-        } catch (error) {
-            console.error("Error updating Match:", error);
         }
     }
+}
+
+static clearPlayerFromLaterRounds(tournament, currentRoundIndex, playerId) {
+    console.log(`🔄 Clearing player ${playerId} from rounds after ${currentRoundIndex}`);
+    for (let j = currentRoundIndex + 1; j < tournament.knockouts.length; j++) {
+        for (const match of tournament.knockouts[j].matches) {
+            if (match.playerAId === playerId) {
+                match.playerAId = '';
+                match.scoreA = '';
+                match.scoreB = '';
+                console.log(`✅ Cleared player from ${tournament.knockouts[j].name}`);
+            } else if (match.playerBId === playerId) {
+                match.playerBId = '';
+                match.scoreA = '';
+                match.scoreB = '';
+                console.log(`✅ Cleared player from ${tournament.knockouts[j].name}`);
+            }
+        }
+    }
+}
+
+static updateAllKnockoutPlayers(tournament) {
+    console.log('🔄 Updating ALL knockout players...');
+    
+    for (const group of tournament.groups) {
+        const players = this.getPlayersInGroup(tournament, group);
+        
+        for (const knockout of tournament.knockouts) {
+            for (const match of knockout.matches) {
+                if (match.playerASource && match.playerASource.type === 'group' && 
+                    match.playerASource.groupName === group.name) {
+                    
+                    if (match.playerASource.position < players.length) {
+                        match.playerAId = players[match.playerASource.position].id;
+                        console.log(`✅ ${knockout.name}: ${players[match.playerASource.position].name} -> ${match.playerA}`);
+                    }
+                }
+                
+                if (match.playerBSource && match.playerBSource.type === 'group' &&
+                    match.playerBSource.groupName === group.name) {
+                    
+                    if (match.playerBSource.position < players.length) {
+                        match.playerBId = players[match.playerBSource.position].id;
+                        console.log(`✅ ${knockout.name}: ${players[match.playerBSource.position].name} -> ${match.playerB}`);
+                    }
+                }
+            }
+        }
+    }
+
+    const playersInDiv = this.getPlayersInDiv(tournament);
+    for (const knockout of tournament.knockouts) {
+        for (const match of knockout.matches) {
+            if (match.playerASource && match.playerASource.type === 'mod') {
+                const modPosition = match.playerASource.modPosition;
+                if (modPosition < playersInDiv.length) {
+                    match.playerAId = playersInDiv[modPosition].id;
+                }
+            }
+            if (match.playerBSource && match.playerBSource.type === 'mod') {
+                const modPosition = match.playerBSource.modPosition;
+                if (modPosition < playersInDiv.length) {
+                    match.playerBId = playersInDiv[modPosition].id;
+                }
+            }
+        }
+    }
+}
 }
 
 export default Data;

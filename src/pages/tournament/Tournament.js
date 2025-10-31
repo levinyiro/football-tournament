@@ -130,21 +130,21 @@ function Tournament() {
                     </thead>
                     <tbody>
                       {group.players.map((player, playerIndex) => {
-                        const rowClass = (group.isReady && playerIndex <= group.promoted) ? "green-row" : "";
+                        const rowClass = (playerIndex <= group.promoted) ? "green-row" : "";
 
                         return (
                           <tr key={playerIndex} className={rowClass}>
                             <td>{playerIndex + 1}</td>
                             <td>{player.name}</td>
                             <td>{player.team}</td>
-                            <td>{player.matchPlayed}</td>
-                            <td>{player.won}</td>
-                            <td>{player.draw}</td>
-                            <td>{player.lose}</td>
-                            <td>{player.gf}</td>
-                            <td>{player.ga}</td>
-                            <td>{player.gd}</td>
-                            <td style={{ fontWeight: 'bold' }}>{player.points}</td>
+                            <td>{player.name.trim() !== '' ? player.matchPlayed : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.won : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.draw : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.lose : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.gf : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.ga : ''}</td>
+                            <td>{player.name.trim() !== '' ? player.gd : ''}</td>
+                            <td style={{ fontWeight: 'bold' }}>{player.name.trim() !== '' ? player.points : ''}</td>
                             {isLoggedIn && (
                               <td>
                                 <button className='btn btn-primary btn-sm' onClick={() => openPlayerModal(player.id)}>Modify</button>
@@ -206,43 +206,50 @@ function Tournament() {
 
           {actualTab === 'matches' && (
             <div className="matches-tab mb-5">
-              {tournament.matches && tournament.matches.map((match, index) => (
-                <div key={index}>
-                  <h3 className='text-center mt-5 lead'>{match.name}</h3>
-                  <div className="container card p-3 mt-4">
-                    {match.matches.map((innerMatch, innerMatchIndex) => (
-                      <div key={innerMatchIndex}>
-                        {innerMatchIndex !== 0 && <hr className='m-1' />}
-                        <div className='row d-flex align-items-center p-3'>
-                          <div className={`col-4 text-center team ${innerMatch.playerAId === innerMatch.winner ? 'winner' : ''}`}>
-                            <h4>{innerMatch.playerA ? innerMatch.playerA.name : '?'}</h4>
-                            {innerMatch.playerA && innerMatch.playerA.team && <p>{innerMatch.playerA.team}</p>}
-                          </div>
-                          <div className='col-1'></div>
-                          {isLoggedIn ? (
-                            <div className='col-2 py-2 row'>
-                              <div className='col-4'>
-                                <input type="text" id={`a;${innerMatch.id}`} value={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
-                              </div>
-                              <div className='col-4 d-flex justify-content-center align-items-center'></div>
-                              <div className='col-4'>
-                                <input type="text" id={`b;${innerMatch.id}`} value={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
-                              </div>
+              {tournament.matches && tournament.matches.map((match, index) => {
+                // Szűrd le csak a megjelenítendő mérkőzéseket
+                const visibleMatches = match.matches.filter(innerMatch =>
+                  innerMatch.playerA?.name?.trim() !== '' && innerMatch.playerB?.name?.trim() !== ''
+                );
+
+                return (
+                  <div key={index}>
+                    <h3 className='text-center mt-5 lead'>{match.name}</h3>
+                    <div className="container card p-3 mt-4">
+                      {visibleMatches.map((innerMatch, innerMatchIndex) => (
+                        <div key={innerMatch.id || innerMatchIndex}>
+                          {innerMatchIndex !== 0 && <hr className='m-1' />}
+                          <div className='row d-flex align-items-center p-3'>
+                            <div className={`col-4 text-center team ${innerMatch.playerAId === innerMatch.winner ? 'winner' : ''}`}>
+                              <h4>{innerMatch.playerA?.name || '?'}</h4>
+                              {innerMatch.playerA?.team && <p>{innerMatch.playerA.team}</p>}
                             </div>
-                          ) : (
-                            <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
-                          )}
-                          <div className='col-1'></div>
-                          <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
-                            <h4>{innerMatch.playerB ? innerMatch.playerB.name : '?'}</h4>
-                            {innerMatch.playerB && innerMatch.playerB.team && <p>{innerMatch.playerB.team}</p>}
+                            <div className='col-1'></div>
+                            {isLoggedIn ? (
+                              <div className='col-2 py-2 row'>
+                                <div className='col-4'>
+                                  <input type="text" id={`a;${innerMatch.id}`} value={innerMatch.scoreA} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                                </div>
+                                <div className='col-4 d-flex justify-content-center align-items-center'></div>
+                                <div className='col-4'>
+                                  <input type="text" id={`b;${innerMatch.id}`} value={innerMatch.scoreB} className='form-control text-center' onChange={e => modifyMatch(e.target)} />
+                                </div>
+                              </div>
+                            ) : (
+                              <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
+                            )}
+                            <div className='col-1'></div>
+                            <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
+                              <h4>{innerMatch.playerB?.name || '?'}</h4>
+                              {innerMatch.playerB?.team && <p>{innerMatch.playerB.team}</p>}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
