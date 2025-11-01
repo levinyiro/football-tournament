@@ -174,7 +174,7 @@ function Tournament() {
                             <h4>{match.playerA ? match.playerA.name : '?'}</h4>
                             {match.playerA && match.playerA.team && <p>{match.playerA.team}</p>}
                           </div>
-                          <div className='col-1'></div>
+                          <div className='d-none d-sm-block col-sm-1'></div>
 
                           {isLoggedIn ? (
                             <div className='col-2 py-2 row'>
@@ -187,10 +187,10 @@ function Tournament() {
                               </div>
                             </div>
                           ) : (
-                            <div className='col-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
+                            <div className='col-4 col-sm-2 result py-2 text-center'>{match.scoreA} - {match.scoreB}</div>
                           )}
 
-                          <div className='col-1'></div>
+                          <div className='d-none d-sm-block col-sm-1'></div>
                           <div className={`col-4 text-center team ${match.playerBId === match.winner ? 'winner' : ''}`}>
                             <h4>{match.playerB ? match.playerB.name : '?'}</h4>
                             {match.playerB && match.playerB.team && <p>{match.playerB.team}</p>}
@@ -224,7 +224,7 @@ function Tournament() {
                               <h4>{innerMatch.playerA?.name || '?'}</h4>
                               {innerMatch.playerA?.team && <p>{innerMatch.playerA.team}</p>}
                             </div>
-                            <div className='col-1'></div>
+                            <div className='d-none d-sm-block col-sm-1'></div>
                             {isLoggedIn ? (
                               <div className='col-2 py-2 row'>
                                 <div className='col-4'>
@@ -236,9 +236,9 @@ function Tournament() {
                                 </div>
                               </div>
                             ) : (
-                              <div className='col-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
+                              <div className='col-4 col-sm-2 result py-2 text-center'>{innerMatch.scoreA} - {innerMatch.scoreB}</div>
                             )}
-                            <div className='col-1'></div>
+                            <div className='d-none d-sm-block col-sm-1'></div>
                             <div className={`col-4 text-center team ${innerMatch.playerBId === innerMatch.winner ? 'winner' : ''}`}>
                               <h4>{innerMatch.playerB?.name || '?'}</h4>
                               {innerMatch.playerB?.team && <p>{innerMatch.playerB.team}</p>}
