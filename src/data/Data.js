@@ -328,9 +328,7 @@ static async addTournament(data) {
                 [playerA, playerB, playerASource, playerBSource] = this.assignFirstRoundPositions(
                     matchIndex, data.groups, promotedPerGroup, extraPromoted, totalPromoted
                 );
-            } else {
-                const prevRoundMatches = this.getMatchesCountForRound(knockoutRounds[roundIndex - 1], totalPromoted, data.thirdPlace);
-                
+            } else {                
                 if (roundName === 'Third place') {
                     playerA = 'M1L';
                     playerB = 'M2L';
@@ -414,6 +412,8 @@ static assignFirstRoundPositions(matchIndex, groupsCount, promotedPerGroup, extr
                 playerB = `Group A P2`;
                 playerBSource = { type: 'group', groupName: 'Group A', position: 1 };
                 break;
+            default:
+                break;
         }
     }
     else if (totalPromoted === 8) {
@@ -434,12 +434,11 @@ static assignFirstRoundPositions(matchIndex, groupsCount, promotedPerGroup, extr
                 playerA = `Group D P1`; playerASource = { type: 'group', groupName: 'Group D', position: 0 };
                 playerB = `Group C P2`; playerBSource = { type: 'group', groupName: 'Group C', position: 1 };
                 break;
+            default:
+                break;
         }
     }
-    else {
-        const totalGroupSpots = promotedPerGroup * groupsCount + extraPromoted;
-        const modSpots = totalPromoted - totalGroupSpots;
-        
+    else {        
         const groupAIndex = matchIndex % groupsCount;
         const isFirstInPair = matchIndex % 2 === 0;
         
