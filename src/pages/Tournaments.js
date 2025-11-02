@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import Data from '../data/Data';
 import Modal from 'react-bootstrap/Modal';
 
@@ -9,6 +10,7 @@ function Tournaments() {
   const [inputParticipantsValue, setInputParticipantsValue] = useState('');
   const [roundRobin, setRoundRobin] = useState(true);
   const [knockout, setKnockout] = useState(false);
+  const { isLoggedIn } = useAuth();
   const totalPromotedOptions = [2, 4, 8, 16, 32, 64];
   const navigate = useNavigate();
 
@@ -78,9 +80,9 @@ function Tournaments() {
           </div>
         </div>
         <div className='col-6 d-flex justify-content-end align-items-center'>
-          <div>
+          {isLoggedIn && (<div>
             <button className='btn btn-sm btn-success' onClick={() => setShowAddTournamentModal(true)}>Add tournament</button>
-          </div>
+          </div>)}
         </div>
       </div>
 
