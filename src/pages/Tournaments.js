@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Data from '../../data/Data';
+import Data from '../data/Data';
 import Modal from 'react-bootstrap/Modal';
-import './Tournaments.scss';
 
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);

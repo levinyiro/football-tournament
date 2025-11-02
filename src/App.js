@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.scss';
-import Tournaments from './pages/tournaments/Tournaments';
-import Tournament from './pages/tournament/Tournament';
+import Tournaments from './pages/Tournaments';
+import Tournament from './pages/Tournament';
 import NotFound from './pages/NotFound';
-import Header from './components/header/Header';
+import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
 
 function App() {

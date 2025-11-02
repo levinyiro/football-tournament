@@ -1,12 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import Data from '../../data/Data';
+import { useAuth } from '../contexts/AuthContext';
+import Data from '../data/Data';
 import Modal from 'react-bootstrap/Modal';
-import './Tournament.scss';
-import Group from '../../components/Group';
-import Knockout from '../../components/Knockout';
-import Matches from '../../components/Matches';
+import Group from '../components/Group';
+import Knockout from '../components/Knockout';
+import Matches from '../components/Matches';
 
 function Tournament() {
   const { id } = useParams();
@@ -69,10 +68,17 @@ function Tournament() {
   }
 
   return (
-    <div className="Tournament container">
+    <div className="Tournament">
       {tournament && (
         <div>
-          <div className="d-flex align-items-center">
+          {/* <img src={} alt={tournament.title} className="tournament-hero" /> */}
+          {tournament.image ? (
+            <div>
+              <div className="tournament-hero" style={{backgroundImage: `url(../${tournament.image})`}}></div>
+              <div className='hero-transform'></div>
+            </div>
+          ) : (<div style={{padding: '30px'}}></div>)}
+          <div className="d-flex align-items-center container">
             <div className='d-inline'>
               <h1 className="mb-3">{tournament.title}</h1>
             </div>
@@ -83,7 +89,7 @@ function Tournament() {
             )}
           </div>
 
-          <div className="d-flex mb-3 nav nav-pills" role="tablist">
+          <div className="d-flex mb-3 nav nav-pills container" role="tablist">
             {tournament.groups !== undefined && (
               <button
                 className={`nav-link tournament-nav-link ${actualTab === 'group' ? 'active' : ''} me-2`}

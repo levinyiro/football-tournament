@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import Modal from 'react-bootstrap/Modal';
-import Data from '../../data/Data';
-import './Header.scss';
+import Data from '../data/Data';
 
 function Header() {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -43,31 +42,18 @@ function Header() {
 
     return (
         <div className="Header">
-            <nav className="navbar navbar-expand-md navbar-dark">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="/">Football Tournament</a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-sm-0">
-                            <li className="nav-item">
-                                <a className="nav-link" href="/">Home</a>
-                            </li>
-                        </ul>
-
-                        <div className="d-flex justify-content-md-end mb-2 mb-sm-0">
-                            {!isLoggedIn ? (
-                                <button className="btn btn-primary btn-sm" onClick={() => showModalFunc()}>Sign in</button>
-                            ) : (
-                                <button className="btn btn-danger btn-sm" onClick={handleLogout}>Sign out</button>
-                            )}
-                        </div>
-                    </div >
-                </div >
-            </nav >
+            <nav>
+                <div className="container-fluid d-flex justify-content-between align-items-center my-2">
+                    <span className="navbar-brand mb-0 ms-1" onClick={() => window.location = '/'}>Football</span>
+                    <div>
+                        {isLoggedIn ?
+                            <button className="btn btn-outline-light btn-sm" onClick={() => handleLogout()}>Logout</button>
+                            :
+                            <button className="btn btn-outline-light btn-sm" onClick={() => showModalFunc()}>Login</button>
+                        }
+                    </div>
+                </div>
+            </nav>
 
             <Modal onHide={() => closeModal()} show={showModal}>
                 <Modal.Header closeButton style={{ border: 0 }}>

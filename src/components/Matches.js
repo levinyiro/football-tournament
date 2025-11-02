@@ -2,7 +2,6 @@ function Matches({ tournament, isLoggedIn, modifyMatch }) {
     return (
         <div className="matches-tab mb-5">
             {tournament.matches && tournament.matches.map((match, index) => {
-                // Szűrd le csak a megjelenítendő mérkőzéseket
                 const visibleMatches = match.matches.filter(innerMatch =>
                     innerMatch.playerA?.name?.trim() !== '' && innerMatch.playerB?.name?.trim() !== ''
                 );
