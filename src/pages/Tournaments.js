@@ -93,7 +93,10 @@ function Tournaments() {
               {tournament.title}
             </div>
             <div className="col-md-4 d-none d-md-flex">
-              {new Date(tournament.date).toISOString().slice(0, 10).replace(/-/g, '.')}
+              {(() => {
+                const d = new Date(tournament.date);
+                return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+              })()}
             </div>
             <div className="col-md-4 d-none d-md-flex">
               <button className="btn btn-primary btn-sm">Explore</button>
