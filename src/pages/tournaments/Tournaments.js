@@ -59,7 +59,6 @@ function Tournaments() {
 
     try {
       const id = await Data.addTournament(formJson);
-      console.log(id);
       navigate(`/tournament/${id}`);
     } catch (e) {
       console.error('Error creating tournament:', e);
