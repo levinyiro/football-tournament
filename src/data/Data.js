@@ -274,12 +274,13 @@ class Data {
             lastPlayerIndex += groupSizes[i];
 
             const playerCount = newGroup.players.length;
+            const groupMatches = [];
 
             for (let j = 0; j < playerCount; j++) {
                 for (let k = j + 1; k < playerCount; k++) {
                     const playerA = newGroup.players[j];
                     const playerB = newGroup.players[k];
-                    newGroup.matches.push({
+                    groupMatches.push({
                         id: uuidv4(),
                         playerAId: playerA,
                         playerBId: playerB,
@@ -289,6 +290,12 @@ class Data {
                 }
             }
 
+            for (let j = groupMatches.length - 1; j > 0; j--) {
+                const k = Math.floor(Math.random() * (j + 1));
+                [groupMatches[j], groupMatches[k]] = [groupMatches[k], groupMatches[j]];
+            }
+
+            newGroup.matches = groupMatches;
             newGroups.push(newGroup);
         }
 
