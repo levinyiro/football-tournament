@@ -1,4 +1,34 @@
-function Group({ tournament, isLoggedIn, openPlayerModal }) {
+import { useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { useAuth } from '../contexts/AuthContext';
+import Data from '../data/Data';
+
+function Group({ tournament, fetchTournament }) {
+    const [actualPlayerModify, setActualPlayerModify] = useState(null);
+    const [playerName, setPlayerName] = useState('');
+    const [playerTeam, setPlayerTeam] = useState('');
+    const { isLoggedIn } = useAuth();
+
+    const openPlayerModal = async (playerId) => {
+        setActualPlayerModify(playerId);
+        const player = tournament.players.find(x => x.id === playerId);
+        setPlayerName(player.name);
+        setPlayerTeam(player.team);
+    }
+
+    const closePlayerModal = () => {
+        setActualPlayerModify(null);
+        setPlayerName('');
+        setPlayerTeam('');
+    }
+
+    const handlePlayerModify = async (e) => {
+        e.preventDefault();
+        await Data.updatePlayer({ id: actualPlayerModify, name: playerName, team: playerTeam });
+        fetchTournament();
+        closePlayerModal();
+    }
+
     return (
         <div className="tab-content mb-5">
             {tournament.groups && tournament.groups.map((group, index) => {
@@ -59,6 +89,34 @@ function Group({ tournament, isLoggedIn, openPlayerModal }) {
                     </div>
                 );
             })}
+
+            <Modal onHide={() => closePlayerModal()} show={actualPlayerModify}>
+                <Modal.Header closeButton style={{ border: 0 }}>
+                    <Modal.Title>
+                        Modify {actualPlayerModify && tournament.players.find(x => x.id === actualPlayerModify).name}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form onSubmit={handlePlayerModify}>
+                        <div className="mb-3">
+                            <label htmlFor="inputPlayerName" className="form-label">Name</label>
+                            <input required type="text" className="form-control" id="inputPlayerName" name="playerName" value={playerName} onChange={e => setPlayerName(e.target.value)} />
+                            <div className="invalid-feedback">Name is required</div>
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="inputPlayerTeam" className="form-label">Team</label>
+                            <input type="text" className="form-control" id="inputPlayerTeam" name="playerTeam" value={playerTeam} onChange={e => setPlayerTeam(e.target.value)} />
+                        </div>
+
+                        <div className="row">
+                            <div className="col-5">
+                                <button className="btn btn-primary">Modify</button>
+                            </div>
+                        </div>
+                    </form>
+                </Modal.Body>
+            </Modal>
         </div>
     )
 };
