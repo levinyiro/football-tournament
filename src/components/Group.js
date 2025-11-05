@@ -48,13 +48,13 @@ function Group({ tournament, fetchTournament }) {
                                 <tr>
                                     <th>Pos</th>
                                     <th>Name</th>
-                                    <th>Team</th>
+                                    <th className='d-none d-md-table-cell'>Team</th>
                                     <th>MP</th>
                                     <th>W</th>
                                     <th>D</th>
                                     <th>L</th>
-                                    <th>GF</th>
-                                    <th>GA</th>
+                                    <th className='d-none d-md-table-cell'>GF</th>
+                                    <th className='d-none d-md-table-cell'>GA</th>
                                     <th>GD</th>
                                     <th>Points</th>
                                 </tr>
@@ -67,13 +67,13 @@ function Group({ tournament, fetchTournament }) {
                                         <tr key={playerIndex} className={rowClass}>
                                             <td>{playerIndex + 1}</td>
                                             <td>{player.name}</td>
-                                            <td>{player.team}</td>
+                                            <td className='d-none d-md-table-cell'>{player.team}</td>
                                             <td>{player.name.trim() !== '' ? player.matchPlayed : ''}</td>
                                             <td>{player.name.trim() !== '' ? player.won : ''}</td>
                                             <td>{player.name.trim() !== '' ? player.draw : ''}</td>
                                             <td>{player.name.trim() !== '' ? player.lose : ''}</td>
-                                            <td>{player.name.trim() !== '' ? player.gf : ''}</td>
-                                            <td>{player.name.trim() !== '' ? player.ga : ''}</td>
+                                            <td className='d-none d-md-table-cell'>{player.name.trim() !== '' ? player.gf : ''}</td>
+                                            <td className='d-none d-md-table-cell'>{player.name.trim() !== '' ? player.ga : ''}</td>
                                             <td>{player.name.trim() !== '' ? player.gd : ''}</td>
                                             <td style={{ fontWeight: 'bold' }}>{player.name.trim() !== '' ? player.points : ''}</td>
                                             {isLoggedIn && (
