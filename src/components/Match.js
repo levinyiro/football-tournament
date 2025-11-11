@@ -30,6 +30,7 @@ return (
       >
         <h5 className="mb-0">{match.playerA?.name || '?'}</h5>
         {match.playerA?.team && <p className="text-muted small mb-0">{match.playerA.team}</p>}
+        {match.oddsA && <p className="text-muted small mt-1">Odds: {match.oddsA}</p>}
       </div>
 
       <div className="col-12 col-md-3 my-2">
@@ -62,6 +63,7 @@ return (
       >
         <h5 className="mb-0">{match.playerB?.name || '?'}</h5>
         {match.playerB?.team && <p className="text-muted small mb-0">{match.playerB.team}</p>}
+        {match.oddsB && <p className="text-muted small mt-1">Odds: {match.oddsB}</p>}
       </div>
     </div>
   </div>
