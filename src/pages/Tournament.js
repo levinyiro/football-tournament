@@ -28,21 +28,20 @@ function Tournament() {
     <div className="Tournament">
       {tournament && (
         <div>
-          {tournament.image ? (
-            <div>
-              <div className="tournament-hero" style={{backgroundImage: `url(../${tournament.image})`}}></div>
-              <div className='hero-transform'></div>
-            </div>
-          ) : (<div style={{padding: '30px'}}></div>)}
-          <div className="d-flex align-items-center container">
-            <div className='d-inline'>
-              <h1 className="mb-3">{tournament.title}</h1>
-            </div>
-            {isLoading && (
-              <div className="spinner-border text-light d-inline ms-4 mb-3" role="status">
-                <span className="visually-hidden">Loading...</span>
+          <div className="d-flex align-items-center container tournament-header">
+            {tournament.image && (
+              <div className="tournament-cover-image">
+                <img src={`../${tournament.image}`} alt={tournament.title} />
               </div>
             )}
+            <div className='tournament-title-section'>
+              <h1 className="mb-3">{tournament.title}</h1>
+              {isLoading && (
+                <div className="spinner-border text-light d-inline ms-2" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="d-flex mb-3 nav nav-pills container" role="tablist">
