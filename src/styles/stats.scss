@@ -1,0 +1,641 @@
+// ============================================
+// Variables
+// ============================================
+
+$primary-color: #667eea;
+$secondary-color: #764ba2;
+$text-dark: #333;
+$text-light: #666;
+$text-muted: #999;
+$bg-light: #f9f9f9;
+$border-color: #eee;
+$success-color: #27ae60;
+$error-color: #e74c3c;
+$warning-color: #f39c12;
+
+$spacing-xs: 5px;
+$spacing-sm: 10px;
+$spacing-md: 15px;
+$spacing-lg: 20px;
+$spacing-xl: 25px;
+$spacing-2xl: 30px;
+$spacing-3xl: 40px;
+
+$font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-size-base: 1em;
+$font-size-sm: 0.85em;
+$font-size-lg: 1.1em;
+$font-size-xl: 1.3em;
+$font-size-2xl: 1.8em;
+$font-size-3xl: 2.2em;
+$font-size-4xl: 2.5em;
+
+$border-radius: 10px;
+$box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+$box-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+$transition-speed: 0.3s;
+$transition-easing: ease;
+
+// ============================================
+// Mixins
+// ============================================
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin box-shadow($shadow: $box-shadow) {
+  box-shadow: $shadow;
+}
+
+@mixin border-bottom($size: 2px, $color: $primary-color) {
+  border-bottom: $size solid $color;
+}
+
+@mixin transition($properties: all) {
+  transition: $properties $transition-speed $transition-easing;
+}
+
+@mixin card {
+  background: white;
+  border-radius: $border-radius;
+  padding: $spacing-lg;
+  @include box-shadow;
+  transition: transform $transition-speed $transition-easing, box-shadow $transition-speed $transition-easing;
+
+  &:hover {
+    transform: translateY(-5px);
+    @include box-shadow($box-shadow-hover);
+  }
+}
+
+@mixin stat-text($size: $font-size-base, $weight: 600, $color: $text-dark) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
+@mixin grid($columns: auto-fit, $min-width: 350px, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($columns, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+// ============================================
+// Statistics Component Styles
+// ============================================
+
+.Statistics {
+  padding: $spacing-2xl 0;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #f5f7fa 0%,
+    #c3cfe2 100%
+  );
+}
+
+// ============================================
+// Stats Grid
+// ============================================
+
+.Statistics .stats-grid {
+  @include grid;
+  margin-bottom: $spacing-3xl;
+}
+
+.Statistics .stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: $spacing-xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  transition: all $transition-speed $transition-easing;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+
+  .stat-title {
+    @include stat-text($font-size-sm);
+    color: $primary-color;
+    text-transform: uppercase;
+    margin-bottom: $spacing-lg;
+    letter-spacing: 1.5px;
+    opacity: 0.8;
+  }
+
+  .stat-value {
+    @include stat-text($font-size-4xl, bold);
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: $spacing-xs;
+  }
+
+  .stat-subtitle {
+    @include stat-text($font-size-base, 400);
+    color: $text-light;
+  }
+}
+
+// ============================================
+// Top Section
+// ============================================
+
+.Statistics .top-section {
+  margin-bottom: $spacing-3xl;
+
+  .section-title {
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.Statistics .top-players {
+  @include grid;
+}
+
+.Statistics .top-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: $spacing-xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-speed $transition-easing;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+  }
+
+  &:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    transform: translateY(-8px);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+
+  .medal {
+    font-size: 3.5em;
+    margin-bottom: $spacing-md;
+    display: inline-block;
+  }
+
+  .top-card-title {
+    color: $primary-color;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: $spacing-md;
+    opacity: 0.8;
+  }
+
+  .top-card-value {
+    @include stat-text(1.8em, bold);
+    color: $text-dark;
+    margin-bottom: $spacing-xs;
+  }
+
+  .top-card-detail {
+    @include stat-text($font-size-base, 400);
+    color: $text-light;
+  }
+}
+
+// ============================================
+// Charts Section
+// ============================================
+
+.Statistics .charts-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: $spacing-2xl;
+  margin-bottom: $spacing-3xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+
+  .section-title {
+    @include stat-text($font-size-2xl, 700);
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color, $secondary-color);
+    }
+  }
+}
+
+.Statistics .charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xl;
+}
+
+.Statistics .chart-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: $spacing-lg;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all $transition-speed $transition-easing;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border-color: rgba(102, 126, 234, 0.25);
+  }
+
+  .chart-title {
+    @include stat-text($font-size-lg, 700);
+    color: $primary-color;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  svg {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.05));
+  }
+}
+
+// ============================================
+// Tournament Winners Section
+// ============================================
+
+.Statistics .tournaments-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: $spacing-2xl;
+  margin-bottom: $spacing-3xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+
+  .section-title {
+    @include stat-text($font-size-2xl, 700);
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color, $secondary-color);
+    }
+  }
+}
+
+.Statistics .tournament-winners-grid {
+  @include grid($min-width: 280px);
+}
+
+.Statistics .tournament-winner-card {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border-radius: $border-radius;
+  padding: $spacing-lg;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: transform $transition-speed $transition-easing, box-shadow $transition-speed $transition-easing;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+  }
+
+  .winner-date {
+    font-size: $font-size-sm;
+    color: #333;
+    opacity: 0.8;
+    font-weight: 600;
+    margin-bottom: $spacing-xs;
+  }
+
+  .winner-title {
+    @include stat-text($font-size-lg, 700);
+    color: #333;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+  }
+
+  .podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    height: 180px;
+    padding: $spacing-md 0;
+  }
+
+  .podium-position {
+    text-align: center;
+    padding: $spacing-md;
+    border-radius: 6px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    .medal {
+      font-size: 2.5em;
+      margin-bottom: $spacing-sm;
+    }
+
+    .position-name {
+      @include stat-text($font-size-sm, 600);
+      color: #333;
+      word-break: break-word;
+    }
+
+    &.gold {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0.1) 100%);
+      border: 2px solid #ffd700;
+      min-height: 160px;
+
+      .medal {
+        font-size: 3em;
+      }
+    }
+
+    &.silver {
+      background: linear-gradient(135deg, rgba(192, 192, 192, 0.3) 0%, rgba(192, 192, 192, 0.1) 100%);
+      border: 2px solid #c0c0c0;
+      min-height: 120px;
+      opacity: 0.9;
+    }
+
+    &.bronze {
+      background: linear-gradient(135deg, rgba(205, 127, 50, 0.3) 0%, rgba(205, 127, 50, 0.1) 100%);
+      border: 2px solid #cd7f32;
+      min-height: 100px;
+      opacity: 0.85;
+    }
+  }
+
+  .tournament-stats-small {
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: $spacing-sm 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: $font-size-sm;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      span {
+        color: #666;
+        font-weight: 500;
+      }
+
+      strong {
+        color: #333;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// ============================================
+// Players Section
+// ============================================
+
+.Statistics .players-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: $spacing-2xl;
+  margin-bottom: $spacing-3xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+
+  .section-title {
+    @include stat-text($font-size-2xl, 700);
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-color, $secondary-color);
+    }
+  }
+}
+
+// ============================================
+// Table Styles
+// ============================================
+
+.Statistics .header-row,
+.Statistics .player-row {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  align-items: center;
+}
+
+.Statistics .header-row {
+  @include border-bottom(2px, $primary-color);
+  margin-bottom: $spacing-md;
+}
+
+.Statistics .player-row {
+  border-bottom: 1px solid $border-color;
+
+  &:hover {
+    background: $bg-light;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.Statistics .header-cell {
+  text-align: center;
+  color: $primary-color;
+  font-weight: 700;
+  font-size: $font-size-sm;
+  text-transform: uppercase;
+
+  &:first-child {
+    text-align: left;
+  }
+}
+
+.Statistics .player-name {
+  @include stat-text;
+}
+
+.Statistics .stat-cell {
+  text-align: center;
+  color: $text-light;
+  @include stat-text;
+
+  &.wins {
+    color: $success-color;
+    font-weight: 700;
+  }
+
+  &.losses {
+    color: $error-color;
+    font-weight: 700;
+  }
+
+  &.winrate {
+    color: $primary-color;
+    font-weight: 700;
+  }
+
+  &.medals {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-xs;
+    flex-wrap: wrap;
+  }
+}
+
+.medal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.gold {
+    background: rgba(255, 215, 0, 0.2);
+    color: #d4a500;
+  }
+
+  &.silver {
+    background: rgba(192, 192, 192, 0.2);
+    color: #808080;
+  }
+
+  &.bronze {
+    background: rgba(205, 127, 50, 0.2);
+    color: #8b4513;
+  }
+
+  &.empty {
+    color: #999;
+  }
+}
+
+// ============================================
+// Responsive Design
+// ============================================
+
+@media (max-width: 1024px) {
+  .Statistics .top-players {
+    @include grid($min-width: 250px);
+  }
+
+  .Statistics .tournament-winners-grid {
+    @include grid($min-width: 250px);
+  }
+
+  .Statistics .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .Statistics .header h1 {
+    font-size: 1.8em;
+  }
+
+  .Statistics .player-row,
+  .Statistics .header-row {
+    grid-template-columns: 1fr 50px 50px 50px 70px;
+    gap: $spacing-sm;
+
+    .header-cell:nth-child(n + 6),
+    .stat-cell:nth-child(n + 6) {
+      display: none;
+    }
+  }
+
+  .Statistics .stats-grid {
+    @include grid($min-width: 250px);
+  }
+
+  .Statistics .top-players {
+    @include grid($min-width: 220px);
+  }
+
+  .Statistics .tournament-winners-grid {
+    @include grid($min-width: 220px);
+  }
+
+  .Statistics .top-card {
+    padding: $spacing-md;
+
+    .medal {
+      font-size: 2em;
+    }
+
+    .top-card-value {
+      font-size: 1.5em;
+    }
+  }
+
+  .Statistics .tournament-winner-card {
+    padding: $spacing-md;
+
+    .medal-large {
+      font-size: 2.2em;
+    }
+
+    .winner-name {
+      font-size: 1em;
+    }
+  }
+}

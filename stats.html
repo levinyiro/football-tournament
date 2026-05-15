@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA Turné Statisztikák</title>
+    <link rel="stylesheet" href="styles/stats.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚽ FIFA Turné Statisztikák</h1>
+            <p>Játékosok teljesítményelemzése az összes tornáról</p>
+        </div>
+
+        <div id="statsContainer"></div>
+    </div>
+
+    <script>
+        const data = [
+  {
+    "date": "2023/09/29",
+    "groups": [
+      {
+        "id": "f574387d-0f95-46f8-b84f-dae2b6661020",
+        "matches": [
+          {
+            "id": "781c405d-a31e-4fdf-b2e5-2e16104d4c55",
+            "playerAId": "cf9ee3ff-de2b-4d65-9afa-3e3fb8e7ea6a",
+            "playerBId": "2f5d3b15-1054-4de8-b4f8-1a23e18d49df",
+            "scoreA": 0,
+            "scoreB": 2
+          },
+          {
+            "id": "ab92e702-64ae-47f7-ab26-d4426edc4a03",
+            "playerAId": "cf9ee3ff-de2b-4d65-9afa-3e3fb8e7ea6a",
+            "playerBId": "fd2dfabf-91ed-40d2-b45e-f9649f34c926",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "7216baf1-5c52-4ca2-ad0b-99aa08cedd92",
+            "playerAId": "2f5d3b15-1054-4de8-b4f8-1a23e18d49df",
+            "playerBId": "fd2dfabf-91ed-40d2-b45e-f9649f34c926",
+            "scoreA": 1,
+            "scoreB": 1
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "cf9ee3ff-de2b-4d65-9afa-3e3fb8e7ea6a",
+          "2f5d3b15-1054-4de8-b4f8-1a23e18d49df",
+          "fd2dfabf-91ed-40d2-b45e-f9649f34c926"
+        ]
+      },
+      {
+        "id": "871dd87b-0869-4928-9b07-8f73605610e0",
+        "matches": [
+          {
+            "id": "3509b6e3-5056-4b14-b786-941cdf6b7e50",
+            "playerAId": "ef60b0bd-6df3-4d43-b91b-de090f20a24b",
+            "playerBId": "e8656345-00e7-4250-a39e-ab6754f47b17",
+            "scoreA": 1,
+            "scoreB": 9
+          },
+          {
+            "id": "de2cb496-639e-4d95-9885-534c7a702f55",
+            "playerAId": "ef60b0bd-6df3-4d43-b91b-de090f20a24b",
+            "playerBId": "4da6a105-01e5-4114-8f4b-2f7fe5a0b5e5",
+            "scoreA": 0,
+            "scoreB": 8
+          },
+          {
+            "id": "8d8f474e-90e8-4764-ae36-ab078aa92e9e",
+            "playerAId": "e8656345-00e7-4250-a39e-ab6754f47b17",
+            "playerBId": "4da6a105-01e5-4114-8f4b-2f7fe5a0b5e5",
+            "scoreA": 4,
+            "scoreB": 1
+          }
+        ],
+        "name": "Group B",
+        "players": [
+          "ef60b0bd-6df3-4d43-b91b-de090f20a24b",
+          "e8656345-00e7-4250-a39e-ab6754f47b17",
+          "4da6a105-01e5-4114-8f4b-2f7fe5a0b5e5"
+        ]
+      },
+      {
+        "id": "bd262374-b79b-4882-ac29-4c13e92a1b7d",
+        "matches": [
+          {
+            "id": "0ff7039f-b0c6-42fb-85fc-2b7b6ad91663",
+            "playerAId": "476dc219-a0aa-477e-8d58-3b614962ba1f",
+            "playerBId": "3b09c8f1-a42b-4a7d-bafc-5566f929d120",
+            "scoreA": 4,
+            "scoreB": 1
+          },
+          {
+            "id": "3252cf2d-4dfe-41d3-93d9-f886c26d2d42",
+            "playerAId": "476dc219-a0aa-477e-8d58-3b614962ba1f",
+            "playerBId": "2035bfcb-c04f-45d3-8b75-4120db8985aa",
+            "scoreA": 3,
+            "scoreB": 5
+          },
+          {
+            "id": "c2cff0c6-c63a-4587-888f-461015c89822",
+            "playerAId": "3b09c8f1-a42b-4a7d-bafc-5566f929d120",
+            "playerBId": "2035bfcb-c04f-45d3-8b75-4120db8985aa",
+            "scoreA": 2,
+            "scoreB": 5
+          }
+        ],
+        "name": "Group C",
+        "players": [
+          "476dc219-a0aa-477e-8d58-3b614962ba1f",
+          "3b09c8f1-a42b-4a7d-bafc-5566f929d120",
+          "2035bfcb-c04f-45d3-8b75-4120db8985aa"
+        ]
+      },
+      {
+        "id": "f559766e-1123-4b2b-a860-7b36a38774a6",
+        "matches": [
+          {
+            "id": "feb955cb-0131-45db-9232-9b1016402400",
+            "playerAId": "ee24c941-6618-402b-83a7-3d132afa0b98",
+            "playerBId": "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+            "scoreA": 1,
+            "scoreB": 2
+          },
+          {
+            "id": "988804d6-3224-45af-94d0-ab61c5ada216",
+            "playerAId": "ee24c941-6618-402b-83a7-3d132afa0b98",
+            "playerBId": "8d5d65ad-7c27-4781-893c-9981dfbee785",
+            "scoreA": 4,
+            "scoreB": 1
+          },
+          {
+            "id": "27cc83a8-41f0-42b2-b200-faf788d0e624",
+            "playerAId": "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+            "playerBId": "8d5d65ad-7c27-4781-893c-9981dfbee785",
+            "scoreA": 6,
+            "scoreB": 3
+          }
+        ],
+        "name": "Group D",
+        "players": [
+          "ee24c941-6618-402b-83a7-3d132afa0b98",
+          "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+          "8d5d65ad-7c27-4781-893c-9981dfbee785"
+        ]
+      }
+    ],
+    "id": "fb27e85b-ea33-4539-af7a-6579e2d81299",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "fab2816f-6f50-4dbd-aeaf-bac18b9a6e60",
+            "playerA": "Group A 1",
+            "playerAId": "fd2dfabf-91ed-40d2-b45e-f9649f34c926",
+            "playerB": "Group C 1",
+            "playerBId": "2035bfcb-c04f-45d3-8b75-4120db8985aa",
+            "scoreA": 4,
+            "scoreB": 2
+          },
+          {
+            "id": "8daaa425-cf41-4479-95ed-5d74a394ddba",
+            "playerA": "Group B 1",
+            "playerAId": "e8656345-00e7-4250-a39e-ab6754f47b17",
+            "playerB": "Group D 1",
+            "playerBId": "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+            "scoreA": 2,
+            "scoreB": 3
+          }
+        ],
+        "name": "Semi-final"
+      },
+      {
+        "matches": [
+          {
+            "id": "bcb3e063-cb40-4756-960c-5a83aa3b316f",
+            "playerA": "M1L",
+            "playerAId": "2035bfcb-c04f-45d3-8b75-4120db8985aa",
+            "playerB": "M2L",
+            "playerBId": "e8656345-00e7-4250-a39e-ab6754f47b17",
+            "scoreA": 3,
+            "scoreB": 9
+          }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "f2a7f026-5f66-47c0-9db9-7dc09290b5cd",
+            "playerA": "M1W",
+            "playerAId": "fd2dfabf-91ed-40d2-b45e-f9649f34c926",
+            "playerB": "M2W",
+            "playerBId": "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+            "scoreA": 4,
+            "scoreB": 3
+          }
+        ],
+        "name": "Final"
+      }
+    ],
+    "players": [
+      {
+        "id": "cf9ee3ff-de2b-4d65-9afa-3e3fb8e7ea6a",
+        "name": "Csabi",
+        "team": ""
+      },
+      {
+        "id": "2f5d3b15-1054-4de8-b4f8-1a23e18d49df",
+        "name": "Lancz",
+        "team": ""
+      },
+      {
+        "id": "fd2dfabf-91ed-40d2-b45e-f9649f34c926",
+        "name": "Rocsó",
+        "team": ""
+      },
+      {
+        "id": "ef60b0bd-6df3-4d43-b91b-de090f20a24b",
+        "name": "Szabó",
+        "team": ""
+      },
+      {
+        "id": "e8656345-00e7-4250-a39e-ab6754f47b17",
+        "name": "Dávid",
+        "team": ""
+      },
+      {
+        "id": "4da6a105-01e5-4114-8f4b-2f7fe5a0b5e5",
+        "name": "Levi",
+        "team": ""
+      },
+      {
+        "id": "476dc219-a0aa-477e-8d58-3b614962ba1f",
+        "name": "Zsombor",
+        "team": ""
+      },
+      {
+        "id": "3b09c8f1-a42b-4a7d-bafc-5566f929d120",
+        "name": "Kapocsi",
+        "team": ""
+      },
+      {
+        "id": "2035bfcb-c04f-45d3-8b75-4120db8985aa",
+        "name": "Tamás",
+        "team": ""
+      },
+      {
+        "id": "ee24c941-6618-402b-83a7-3d132afa0b98",
+        "name": "Lancz",
+        "team": ""
+      },
+      {
+        "id": "71fa74a0-578c-4704-b4ef-8f5829e5c3b1",
+        "name": "Levi",
+        "team": ""
+      },
+      {
+        "id": "8d5d65ad-7c27-4781-893c-9981dfbee785",
+        "name": "Zsombor",
+        "team": ""
+      }
+    ],
+    "title": "23H2 FIFA Grand Cup",
+    "totalPromoted": "4"
+  },
+  {
+    "date": "2024/04/05",
+    "groups": [
+      {
+        "id": "2c465048-a3ad-4730-a842-4e2f551483b9",
+        "matches": [
+          {
+            "id": "ac331a89-5d42-44f7-8c7f-0ddb80a30d6b",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "4e218c1d-0e90-4039-934b-6cba81330d4f",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "scoreA": 4,
+            "scoreB": 1
+          },
+          {
+            "id": "ebdefd16-1fbd-4bf3-b38b-80541a3a2d3a",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "476368d7-56da-44f6-b53b-aff0419e3445",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "scoreA": 3,
+            "scoreB": 1
+          },
+          {
+            "id": "cef8a70f-828a-44ba-be80-8ca3721f4137",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "scoreA": 4,
+            "scoreB": 2
+          },
+          {
+            "id": "073efe34-558a-4b27-94b3-1e5c4272026b",
+            "playerAId": "2c23740c-1033-45af-a384-46c5b000d888",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 1,
+            "scoreB": 4
+          },
+          {
+            "id": "6eb39393-b3f5-4318-83c9-28c4b4f6bc6f",
+            "playerAId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "playerBId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "scoreA": 3,
+            "scoreB": 1
+          },
+          {
+            "id": "a76d17fc-4f02-4f79-be6a-11f4a16ca004",
+            "playerAId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "playerBId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "1babd149-e2bc-4ec6-b012-71c63ebc4ed3",
+            "playerAId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "playerBId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "scoreA": 5,
+            "scoreB": 4
+          },
+          {
+            "id": "c6774cd4-a778-41ef-9125-cba9d4e91c64",
+            "playerAId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "playerBId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "scoreA": 5,
+            "scoreB": 2
+          },
+          {
+            "id": "eae1d90c-5a3b-4791-90f2-9dc74a0a95e5",
+            "playerAId": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 4,
+            "scoreB": 5
+          },
+          {
+            "id": "04b28586-9ff7-4476-a0e5-0d0eab4898d6",
+            "playerAId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "playerBId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "af0d7c59-7ad0-4a65-b6bf-aa67adfc58aa",
+            "playerAId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "playerBId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "scoreA": 5,
+            "scoreB": 2
+          },
+          {
+            "id": "75144c3f-a49a-4a14-9174-b88e01ef5b61",
+            "playerAId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "playerBId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "scoreA": 13,
+            "scoreB": 1
+          },
+          {
+            "id": "e7d42d75-7ed3-4d78-b03c-fa763d604b71",
+            "playerAId": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 5,
+            "scoreB": 2
+          },
+          {
+            "id": "34fdc501-a30f-442c-b01b-9956cca8a707",
+            "playerAId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "playerBId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "633630bf-2985-4c24-93bb-44a132bd5590",
+            "playerAId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "playerBId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "c7027207-eac0-4219-bcb9-21839aa7622d",
+            "playerAId": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "d2fa9751-b47d-42a1-8429-12912a5d0687",
+            "playerAId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "playerBId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "scoreA": 5,
+            "scoreB": 4
+          },
+          {
+            "id": "90674a5e-2fb9-4852-92c5-299218321c3b",
+            "playerAId": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 5,
+            "scoreB": 1
+          },
+          {
+            "id": "0edf1219-fd1c-42eb-b732-3c4cc81fff3c",
+            "playerAId": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+            "playerBId": "83a099eb-bae8-41b6-9135-19f424deee71",
+            "scoreA": 2,
+            "scoreB": 9
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "2c23740c-1033-45af-a384-46c5b000d888",
+          "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+          "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+          "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+          "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+          "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+          "83a099eb-bae8-41b6-9135-19f424deee71"
+        ]
+      }
+    ],
+    "id": "a74d80ed-03c9-40f8-8eca-e13b5b74e60e",
+    "players": [
+      {
+        "id": "2c23740c-1033-45af-a384-46c5b000d888",
+        "name": "Dávid",
+        "team": ""
+      },
+      {
+        "id": "889f99a2-9667-4d92-9e68-8e4c4e96de91",
+        "name": "Lancz",
+        "team": ""
+      },
+      {
+        "id": "4691be2c-7884-4ad7-8c75-9c1cd34a3164",
+        "name": "Levi",
+        "team": ""
+      },
+      {
+        "id": "3a07b9a1-02a3-4ce9-8bbc-066c71237f52",
+        "name": "Csabi",
+        "team": ""
+      },
+      {
+        "id": "76c946a8-1ebe-4670-86db-5e54ff21bfd7",
+        "name": "Tamás",
+        "team": ""
+      },
+      {
+        "id": "8a6c57de-bc76-4c27-bc89-c1f39016fd82",
+        "name": "Szabó",
+        "team": ""
+      },
+      {
+        "id": "83a099eb-bae8-41b6-9135-19f424deee71",
+        "name": "Rocso",
+        "team": ""
+      }
+    ],
+    "title": "24H1 FIFA Grand Cup",
+    "totalPromoted": "2"
+  },
+  {
+    "date": "2025/11/14",
+    "groups": [
+      {
+        "id": "67d8c0ba-a600-47f0-a571-71887eafab32",
+        "matches": [
+          {
+            "id": "7b1f9d8d-1a2a-4b0c-9f39-2d7b0a1c6ab0",
+            "playerAId": "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+            "playerBId": "d0e68a71-9514-4e68-a9cb-24e842bd37d8",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "2a2e3f4b-5c6d-4781-9b8a-3f0e2d1c4b5a",
+            "playerAId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "playerBId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "scoreA": 6,
+            "scoreB": 5
+          },
+          {
+            "id": "3c4b5a6d-7e8f-4123-abcd-0a1b2c3d4e5f",
+            "playerAId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerBId": "d0e68a71-9514-4e68-a9cb-24e842bd37d8",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "4d5e6f70-8123-4abc-9def-1a2b3c4d5e6f",
+            "playerAId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "scoreA": 4,
+            "scoreB": 2
+          },
+          {
+            "id": "5e6f7081-2345-4f6a-8b7c-2d3e4f5a6b7c",
+            "playerAId": "d0e68a71-9514-4e68-a9cb-24e842bd37d8",
+            "playerBId": "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "6f708192-3456-4a7b-8c9d-3e4f5a6b7c8d",
+            "playerAId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBId": "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+            "scoreA": 4,
+            "scoreB": 1
+          },
+          {
+            "id": "80a1b2c3-d4e5-46f7-8a9b-4c5d6e7f8a9b",
+            "playerAId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerBId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "scoreA": 6,
+            "scoreB": 0
+          },
+          {
+            "id": "91b2c3d4-e5f6-4781-9a2b-5c6d7e8f9a0b",
+            "playerAId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "scoreA": 0,
+            "scoreB": 3
+          },
+          {
+            "id": "a2c3d4e5-f6a7-4891-8b2c-6d7e8f9a0b1c",
+            "playerAId": "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+            "playerBId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "scoreA": 5,
+            "scoreB": 9
+          },
+          {
+            "id": "b3d4e5f6-a7b8-49c1-8d2e-7f8a9b0c1d2e",
+            "playerAId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "playerBId": "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+            "scoreA": 5,
+            "scoreB": 0
+          },
+          {
+            "id": "c4e5f6a7-b8c9-4ad1-8e2f-8a9b0c1d2e3f",
+            "playerAId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerBId": "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+            "scoreA": 3,
+            "scoreB": 1
+          },
+          {
+            "id": "d5f6a7b8-c9d0-4be1-9f30-9b0c1d2e3f4a",
+            "playerAId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBId": "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+            "scoreA": 6,
+            "scoreB": 0
+          },
+          {
+            "id": "e6a7b8c9-d0e1-4cf1-0a23-ab1c2d3e4f5a",
+            "playerAId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "playerBId": "d0e68a71-9514-4e68-a9cb-24e842bd37d8",
+            "scoreA": 3,
+            "scoreB": 0
+          },
+          {
+            "id": "f7b8c9d0-e1f2-4da1-1b34-bc2d3e4f5a6b",
+            "playerAId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerBId": "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+            "scoreA": 3,
+            "scoreB": 2
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+          "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+          "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+          "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+          "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+          "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+          "d0e68a71-9514-4e68-a9cb-24e842bd37d8"
+        ]
+      }
+    ],
+    "id": "bb071e25-877c-439c-9ddd-e46e33b850b2",
+    "image": "szabo25.png",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "fc925a42-e6d3-4a14-8241-c9f938dd9fcc",
+            "playerA": "Group A P1",
+            "playerAId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "playerASource": {
+              "groupName": "Group A",
+              "position": 0,
+              "type": "group"
+            },
+            "playerB": "Group A P4",
+            "playerBId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "playerBSource": {
+              "groupName": "Group A",
+              "position": 3,
+              "type": "group"
+            },
+            "scoreA": 3,
+            "scoreB": 1
+          },
+          {
+            "id": "0520dc1a-5194-42ce-94b9-3f8d34c143e6",
+            "playerA": "Group A P2",
+            "playerAId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerASource": {
+              "groupName": "Group A",
+              "position": 1,
+              "type": "group"
+            },
+            "playerB": "Group A P3",
+            "playerBId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBSource": {
+              "groupName": "Group A",
+              "position": 2,
+              "type": "group"
+            },
+            "scoreA": 2,
+            "scoreB": 4
+          }
+        ],
+        "name": "Semi-final"
+      },
+      {
+        "matches": [
+          {
+            "id": "85caa71c-957d-4a6b-b9f9-8ec31ec2f454",
+            "playerA": "M1L",
+            "playerAId": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+            "playerASource": {
+              "matchPosition": 0,
+              "roundIndex": 0,
+              "type": "loser"
+            },
+            "playerB": "M2L",
+            "playerBId": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+            "playerBSource": {
+              "matchPosition": 1,
+              "roundIndex": 0,
+              "type": "loser"
+            },
+            "scoreA": 2,
+            "scoreB": 4
+          }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "8be9c0ea-0965-42b2-bb81-401d424b7fb5",
+            "playerA": "M1W",
+            "playerAId": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+            "playerASource": {
+              "matchPosition": 0,
+              "roundIndex": 1,
+              "type": "winner"
+            },
+            "playerB": "M2W",
+            "playerBId": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+            "playerBSource": {
+              "matchPosition": 1,
+              "roundIndex": 1,
+              "type": "winner"
+            },
+            "scoreA": 7,
+            "scoreB": 4
+          }
+        ],
+        "name": "Final"
+      }
+    ],
+    "players": [
+      {
+        "id": "76523c88-3ab5-4f83-a22a-cbb9a96b22b9",
+        "name": "Szabó",
+        "team": "Average (GHA)"
+      },
+      {
+        "id": "8683057a-7161-4d19-ae0e-f3fd8dcbddfc",
+        "name": "Zsombor",
+        "team": "Intermediate (HUN)"
+      },
+      {
+        "id": "767f238c-cea3-4299-b5ed-8f90bb47d01f",
+        "name": "Tamás",
+        "team": "Intermediate (ENG)"
+      },
+      {
+        "id": "27c27631-0e1e-4811-89ad-9c0fa8fe1d11",
+        "name": "Kapocsi",
+        "team": "Average (ROM)"
+      },
+      {
+        "id": "40dcca10-39c0-472e-a806-2c36b93e4cd7",
+        "name": "Levi",
+        "team": "Advanced (CRO)"
+      },
+      {
+        "id": "72ac9ca8-a5e5-4a21-8f1c-f732483c27db",
+        "name": "Dávid",
+        "team": "Advanced (FRA)"
+      },
+      {
+        "id": "d0e68a71-9514-4e68-a9cb-24e842bd37d8",
+        "name": "Nándi",
+        "team": "Beginner (POL)"
+      }
+    ],
+    "title": "25 - Szabó World Cup - Powered by Toyota",
+    "totalPromoted": 4
+  },
+  {
+    "date": "2026/06/19",
+    "groups": [
+      {
+        "id": "7b5ffa74-ae27-40ec-8be3-88f8818d356d",
+        "matches": [
+          {
+            "id": "m1",
+            "oddsA": 2.3,
+            "oddsB": 1.6,
+            "playerAId": "58e022c6-10e2-47c3-b1b5-f0db772b6cc0",
+            "playerBId": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m2",
+            "oddsA": 3,
+            "oddsB": 1.4,
+            "playerAId": "6a14685e-1551-43ac-9505-124a1098726f",
+            "playerBId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m3",
+            "oddsA": 1.55,
+            "oddsB": 2.4,
+            "playerAId": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+            "playerBId": "edebeee4-2848-4116-a0d9-720af4cc1781",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m4",
+            "oddsA": 1.75,
+            "oddsB": 2.05,
+            "playerAId": "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+            "playerBId": "58e022c6-10e2-47c3-b1b5-f0db772b6cc0",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m5",
+            "oddsA": 1.4,
+            "oddsB": 3,
+            "playerAId": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+            "playerBId": "6a14685e-1551-43ac-9505-124a1098726f",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m6",
+            "oddsA": 2.1,
+            "oddsB": 1.75,
+            "playerAId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "playerBId": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m7",
+            "oddsA": 2.3,
+            "oddsB": 1.6,
+            "playerAId": "edebeee4-2848-4116-a0d9-720af4cc1781",
+            "playerBId": "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m8",
+            "oddsA": 2.4,
+            "oddsB": 1.65,
+            "playerAId": "58e022c6-10e2-47c3-b1b5-f0db772b6cc0",
+            "playerBId": "6a14685e-1551-43ac-9505-124a1098726f",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m9",
+            "oddsA": 2.6,
+            "oddsB": 1.55,
+            "playerAId": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+            "playerBId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m10",
+            "oddsA": 1.3,
+            "oddsB": 3.4,
+            "playerAId": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+            "playerBId": "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m11",
+            "oddsA": 2.3,
+            "oddsB": 1.6,
+            "playerAId": "edebeee4-2848-4116-a0d9-720af4cc1781",
+            "playerBId": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m12",
+            "oddsA": 1.35,
+            "oddsB": 3.1,
+            "playerAId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "playerBId": "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m13",
+            "oddsA": 3,
+            "oddsB": 1.4,
+            "playerAId": "6a14685e-1551-43ac-9505-124a1098726f",
+            "playerBId": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "m14",
+            "oddsA": 3.2,
+            "oddsB": 1.35,
+            "playerAId": "58e022c6-10e2-47c3-b1b5-f0db772b6cc0",
+            "playerBId": "edebeee4-2848-4116-a0d9-720af4cc1781",
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Group A",
+        "players": [
+          "f2c4af83-e883-4037-8997-75c261ef5b1c",
+          "460ecca6-ce66-4211-841a-b68c3ac515f3",
+          "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+          "edebeee4-2848-4116-a0d9-720af4cc1781",
+          "6a14685e-1551-43ac-9505-124a1098726f",
+          "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+          "58e022c6-10e2-47c3-b1b5-f0db772b6cc0"
+        ]
+      }
+    ],
+    "id": "4873ced1-95ac-4df3-b033-019aff059953",
+    "image": "szabo26.png",
+    "knockouts": [
+      {
+        "matches": [
+          {
+            "id": "134eff81-9780-45bf-a8f7-1b4cabdf8ab7",
+            "playerA": "Group A P1",
+            "playerAId": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+            "playerASource": {
+              "groupName": "Group A",
+              "position": 0,
+              "type": "group"
+            },
+            "playerB": "Group A P4",
+            "playerBId": "edebeee4-2848-4116-a0d9-720af4cc1781",
+            "playerBSource": {
+              "groupName": "Group A",
+              "position": 3,
+              "type": "group"
+            },
+            "scoreA": "",
+            "scoreB": ""
+          },
+          {
+            "id": "9ac935d6-f307-4c1a-b563-043dbf1251e6",
+            "playerA": "Group A P2",
+            "playerAId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "playerASource": {
+              "groupName": "Group A",
+              "position": 1,
+              "type": "group"
+            },
+            "playerB": "Group A P3",
+            "playerBId": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+            "playerBSource": {
+              "groupName": "Group A",
+              "position": 2,
+              "type": "group"
+            },
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Semi-final"
+      },
+      {
+        "matches": [
+          {
+            "id": "2f5544fd-9389-43dd-a74b-49403dd44143",
+            "playerA": "M1L",
+            "playerAId": "",
+            "playerASource": {
+              "matchPosition": 0,
+              "roundIndex": 0,
+              "type": "loser"
+            },
+            "playerB": "M2L",
+            "playerBId": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+            "playerBSource": {
+              "matchPosition": 1,
+              "roundIndex": 0,
+              "type": "loser"
+            },
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Third place"
+      },
+      {
+        "matches": [
+          {
+            "id": "c5ea92b6-2124-4b8a-b4e8-5fdf599f43e0",
+            "playerA": "M1W",
+            "playerAId": "",
+            "playerASource": {
+              "matchPosition": 0,
+              "roundIndex": 1,
+              "type": "winner"
+            },
+            "playerB": "M2W",
+            "playerBId": "",
+            "playerBSource": {
+              "matchPosition": 1,
+              "roundIndex": 1,
+              "type": "winner"
+            },
+            "scoreA": "",
+            "scoreB": ""
+          }
+        ],
+        "name": "Final"
+      }
+    ],
+    "players": [
+      {
+        "id": "9bb746a8-dea0-4848-b076-a47d55cd28ac",
+        "name": "Levi",
+        "team": "Intermediate"
+      },
+      {
+        "id": "58e022c6-10e2-47c3-b1b5-f0db772b6cc0",
+        "name": "Zsombor",
+        "team": "Beginner"
+      },
+      {
+        "id": "6a14685e-1551-43ac-9505-124a1098726f",
+        "name": "Lancz",
+        "team": "Average"
+      },
+      {
+        "id": "f2c4af83-e883-4037-8997-75c261ef5b1c",
+        "name": "Kapocsi",
+        "team": "Advanced"
+      },
+      {
+        "id": "edebeee4-2848-4116-a0d9-720af4cc1781",
+        "name": "Tamás",
+        "team": "Intermediate"
+      },
+      {
+        "id": "5ba700f6-78ff-41be-b04e-b80a81f8a17b",
+        "name": "Szabó",
+        "team": "Average"
+      },
+      {
+        "id": "460ecca6-ce66-4211-841a-b68c3ac515f3",
+        "name": "Dávid",
+        "team": "Advanced"
+      }
+    ],
+    "title": "26 - Zsombor Újpalota Jagermeister World Cup",
+    "totalPromoted": 4
+  }
+];
+
+        // Build player name map by consolidating same names across tournaments
+        const playerNameMap = {};
+        data.forEach(tournament => {
+            tournament.players.forEach(player => {
+                if (player.name && player.id) {
+                    if (!playerNameMap[player.name]) {
+                        playerNameMap[player.name] = player.id;
+                    }
+                }
+            });
+        });
+
+        // Process all matches and consolidate by player name
+        const playerStats = {};
+        const tournaments = [];
+
+        data.forEach((tournament, tournamentIdx) => {
+            const tournamentInfo = {
+                title: tournament.title,
+                date: tournament.date,
+                matches: []
+            };
+
+            // Process group stage matches
+            (tournament.groups || []).forEach(group => {
+                (group.matches || []).forEach(match => {
+                    if (match.scoreA !== "" && match.scoreB !== "") {
+                        const scoreA = parseInt(match.scoreA);
+                        const scoreB = parseInt(match.scoreB);
+
+                        const playerAId = match.playerAId;
+                        const playerBId = match.playerBId;
+
+                        // Find player names
+                        let playerAName = '';
+                        let playerBName = '';
+
+                        tournament.players.forEach(p => {
+                            if (p.id === playerAId) playerAName = p.name;
+                            if (p.id === playerBId) playerBName = p.name;
+                        });
+
+                        if (playerAName && playerBName) {
+                            // Initialize if not exists
+                            if (!playerStats[playerAName]) {
+                                playerStats[playerAName] = {
+                                    matches: 0,
+                                    wins: 0,
+                                    losses: 0,
+                                    draws: 0,
+                                    goalsFor: 0,
+                                    goalsAgainst: 0,
+                                    tournaments: new Set(),
+                                    matches_detail: []
+                                };
+                            }
+                            if (!playerStats[playerBName]) {
+                                playerStats[playerBName] = {
+                                    matches: 0,
+                                    wins: 0,
+                                    losses: 0,
+                                    draws: 0,
+                                    goalsFor: 0,
+                                    goalsAgainst: 0,
+                                    tournaments: new Set(),
+                                    matches_detail: []
+                                };
+                            }
+
+                            playerStats[playerAName].tournaments.add(tournament.title);
+                            playerStats[playerBName].tournaments.add(tournament.title);
+                            playerStats[playerAName].matches++;
+                            playerStats[playerBName].matches++;
+                            playerStats[playerAName].goalsFor += scoreA;
+                            playerStats[playerAName].goalsAgainst += scoreB;
+                            playerStats[playerBName].goalsFor += scoreB;
+                            playerStats[playerBName].goalsAgainst += scoreA;
+
+                            if (scoreA > scoreB) {
+                                playerStats[playerAName].wins++;
+                                playerStats[playerBName].losses++;
+                            } else if (scoreB > scoreA) {
+                                playerStats[playerBName].wins++;
+                                playerStats[playerAName].losses++;
+                            } else {
+                                playerStats[playerAName].draws++;
+                                playerStats[playerBName].draws++;
+                            }
+
+                            playerStats[playerAName].matches_detail.push({
+                                opponent: playerBName,
+                                scoreFor: scoreA,
+                                scoreAgainst: scoreB,
+                                tournament: tournament.title
+                            });
+                            playerStats[playerBName].matches_detail.push({
+                                opponent: playerAName,
+                                scoreFor: scoreB,
+                                scoreAgainst: scoreA,
+                                tournament: tournament.title
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Process knockout matches
+            (tournament.knockouts || []).forEach(round => {
+                (round.matches || []).forEach(match => {
+                    if (match.scoreA !== "" && match.scoreB !== "" && match.playerAId && match.playerBId) {
+                        const scoreA = parseInt(match.scoreA);
+                        const scoreB = parseInt(match.scoreB);
+
+                        const playerAId = match.playerAId;
+                        const playerBId = match.playerBId;
+
+                        let playerAName = '';
+                        let playerBName = '';
+
+                        tournament.players.forEach(p => {
+                            if (p.id === playerAId) playerAName = p.name;
+                            if (p.id === playerBId) playerBName = p.name;
+                        });
+
+                        if (playerAName && playerBName) {
+                            if (!playerStats[playerAName]) {
+                                playerStats[playerAName] = {
+                                    matches: 0,
+                                    wins: 0,
+                                    losses: 0,
+                                    draws: 0,
+                                    goalsFor: 0,
+                                    goalsAgainst: 0,
+                                    tournaments: new Set(),
+                                    matches_detail: []
+                                };
+                            }
+                            if (!playerStats[playerBName]) {
+                                playerStats[playerBName] = {
+                                    matches: 0,
+                                    wins: 0,
+                                    losses: 0,
+                                    draws: 0,
+                                    goalsFor: 0,
+                                    goalsAgainst: 0,
+                                    tournaments: new Set(),
+                                    matches_detail: []
+                                };
+                            }
+
+                            playerStats[playerAName].tournaments.add(tournament.title);
+                            playerStats[playerBName].tournaments.add(tournament.title);
+                            playerStats[playerAName].matches++;
+                            playerStats[playerBName].matches++;
+                            playerStats[playerAName].goalsFor += scoreA;
+                            playerStats[playerAName].goalsAgainst += scoreB;
+                            playerStats[playerBName].goalsFor += scoreB;
+                            playerStats[playerBName].goalsAgainst += scoreA;
+
+                            if (scoreA > scoreB) {
+                                playerStats[playerAName].wins++;
+                                playerStats[playerBName].losses++;
+                            } else if (scoreB > scoreA) {
+                                playerStats[playerBName].wins++;
+                                playerStats[playerAName].losses++;
+                            } else {
+                                playerStats[playerAName].draws++;
+                                playerStats[playerBName].draws++;
+                            }
+                        }
+                    }
+                });
+            });
+
+            tournaments.push(tournamentInfo);
+        });
+
+        // Convert tournaments set to array for display
+        Object.keys(playerStats).forEach(name => {
+            playerStats[name].tournaments = Array.from(playerStats[name].tournaments);
+        });
+
+        // Sort players by wins
+        const sortedPlayers = Object.entries(playerStats)
+            .sort((a, b) => b[1].wins - a[1].wins);
+
+        // Render statistics
+        const container = document.getElementById('statsContainer');
+
+        // Top stats cards
+        const topStats = document.createElement('div');
+        topStats.className = 'top-section';
+        topStats.innerHTML = '<h2 class="section-title">Csúcsteljesítmények</h2>';
+
+        const topPlayers = document.createElement('div');
+        topPlayers.className = 'top-players';
+
+        const topCard1 = document.createElement('div');
+        topCard1.className = 'top-card';
+        const topWinner = sortedPlayers[0];
+        topCard1.innerHTML = `
+            <div class="medal">🥇</div>
+            <div class="top-card-title">Legtöbb győzelem</div>
+            <div class="top-card-value">${topWinner[0]}</div>
+            <div class="top-card-detail">${topWinner[1].wins} győzelem ${topWinner[1].matches} mérkőzésből</div>
+        `;
+
+        const topCard2 = document.createElement('div');
+        topCard2.className = 'top-card';
+        const topScorer = sortedPlayers.reduce((max, player) =>
+            player[1].goalsFor > max[1].goalsFor ? player : max
+        );
+        topCard2.innerHTML = `
+            <div class="medal">⚽</div>
+            <div class="top-card-title">Legtöbb gól</div>
+            <div class="top-card-value">${topScorer[0]}</div>
+            <div class="top-card-detail">${topScorer[1].goalsFor} gól az összes mérkőzésben</div>
+        `;
+
+        const topCard3 = document.createElement('div');
+        topCard3.className = 'top-card';
+        const topWinRate = sortedPlayers.filter(p => p[1].matches >= 3).reduce((max, player) => {
+            const winRate = (player[1].wins / player[1].matches) * 100;
+            const maxWinRate = (max[1].wins / max[1].matches) * 100;
+            return winRate > maxWinRate ? player : max;
+        });
+        const topWinRatePercent = ((topWinRate[1].wins / topWinRate[1].matches) * 100).toFixed(1);
+        topCard3.innerHTML = `
+            <div class="medal">📊</div>
+            <div class="top-card-title">Legjobb győzelmi arány (min. 3 mérkőzés)</div>
+            <div class="top-card-value">${topWinRate[0]}</div>
+            <div class="top-card-detail">${topWinRatePercent}% (${topWinRate[1].wins}/${topWinRate[1].matches})</div>
+        `;
+
+        topPlayers.appendChild(topCard1);
+        topPlayers.appendChild(topCard2);
+        topPlayers.appendChild(topCard3);
+        topStats.appendChild(topPlayers);
+        container.appendChild(topStats);
+
+        // Overall stats cards
+        const statsRow = document.createElement('div');
+        statsRow.className = 'stats-grid';
+
+        const totalMatches = sortedPlayers.reduce((sum, p) => sum + p[1].matches, 0) / 2;
+        const totalGoals = sortedPlayers.reduce((sum, p) => sum + p[1].goalsFor, 0) / 2;
+        const avgGoalsPerMatch = (totalGoals / totalMatches).toFixed(2);
+
+        const card1 = document.createElement('div');
+        card1.className = 'stat-card';
+        card1.innerHTML = `
+            <div class="stat-title">Összes mérkőzés</div>
+            <div class="stat-value">${Math.round(totalMatches)}</div>
+            <div class="stat-subtitle">Játszott mérkőzések a tornákon</div>
+        `;
+
+        const card2 = document.createElement('div');
+        card2.className = 'stat-card';
+        card2.innerHTML = `
+            <div class="stat-title">Összes gól</div>
+            <div class="stat-value">${Math.round(totalGoals)}</div>
+            <div class="stat-subtitle">Gólok az összes mérkőzésben</div>
+        `;
+
+        const card3 = document.createElement('div');
+        card3.className = 'stat-card';
+        card3.innerHTML = `
+            <div class="stat-title">Átlagos gólok/mérkőzés</div>
+            <div class="stat-value">${avgGoalsPerMatch}</div>
+            <div class="stat-subtitle">Mérkőzésenként lőtt gólok</div>
+        `;
+
+        const card4 = document.createElement('div');
+        card4.className = 'stat-card';
+        card4.innerHTML = `
+            <div class="stat-title">Aktív játékosok</div>
+            <div class="stat-value">${sortedPlayers.length}</div>
+            <div class="stat-subtitle">Részt vett a tornákon</div>
+        `;
+
+        statsRow.appendChild(card1);
+        statsRow.appendChild(card2);
+        statsRow.appendChild(card3);
+        statsRow.appendChild(card4);
+        container.appendChild(statsRow);
+
+        // Player statistics table
+        const playersSection = document.createElement('div');
+        playersSection.className = 'players-section';
+        playersSection.innerHTML = '<h2 class="section-title">Játékos Statisztikák</h2>';
+
+        const headerRow = document.createElement('div');
+        headerRow.className = 'header-row';
+        headerRow.innerHTML = `
+            <div class="header-cell">Játékos</div>
+            <div class="header-cell">Mérkőzés</div>
+            <div class="header-cell">Győzelem</div>
+            <div class="header-cell">Vereség</div>
+            <div class="header-cell">Döntetlenszázalék</div>
+            <div class="header-cell">Gólkülönbség</div>
+            <div class="header-cell">Tornák</div>
+            <div class="header-cell">Átlag gól</div>
+        `;
+        playersSection.appendChild(headerRow);
+
+        sortedPlayers.forEach(([name, stats]) => {
+            const winRate = ((stats.wins / stats.matches) * 100).toFixed(1);
+            const goalDiff = stats.goalsFor - stats.goalsAgainst;
+            const avgGoal = (stats.goalsFor / stats.matches).toFixed(1);
+
+            const playerRow = document.createElement('div');
+            playerRow.className = 'player-row';
+            playerRow.innerHTML = `
+                <div class="player-name">${name}</div>
+                <div class="stat-cell">${stats.matches}</div>
+                <div class="stat-cell wins">${stats.wins}</div>
+                <div class="stat-cell losses">${stats.losses}</div>
+                <div class="stat-cell winrate">${winRate}%</div>
+                <div class="stat-cell">${goalDiff > 0 ? '+' : ''}${goalDiff}</div>
+                <div class="stat-cell">${stats.tournaments.length}</div>
+                <div class="stat-cell">${avgGoal}</div>
+            `;
+            playersSection.appendChild(playerRow);
+        });
+
+        container.appendChild(playersSection);
+    </script>
+</body>
+</html>

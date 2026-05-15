@@ -4,6 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.scss';
 import Tournaments from './pages/Tournaments';
 import Tournament from './pages/Tournament';
+import Statistics from './pages/Statistics';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Tournaments />} />
             <Route path="/tournament/:id" element={<Tournament />} />
+            <Route path="/statistics" element={<Statistics />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

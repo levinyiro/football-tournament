@@ -12,7 +12,7 @@ function Header() {
     const handleLogin = async (e) => {
         e.preventDefault();
         const res = await Data.login(username, password);
-        
+
         if (!res) {
             // error
         } else {
@@ -44,7 +44,11 @@ function Header() {
         <div className="Header">
             <nav>
                 <div className="container-fluid d-flex justify-content-between align-items-center my-2">
-                    <span className="navbar-brand mb-0 ms-1" onClick={() => window.location = '/'}>Football</span>
+                    <div className="d-flex gap-3">
+                        <span className="navbar-brand mb-0 ms-1" onClick={() => window.location = '/'} style={{ cursor: 'pointer' }}>Football</span>
+                        <a href="/" className="nav-link text-light">Tornák</a>
+                        <a href="/statistics" className="nav-link text-light">Statisztikák</a>
+                    </div>
                     <div>
                         {isLoggedIn ?
                             <button className="btn btn-outline-light btn-sm" onClick={() => handleLogout()}>Logout</button>
