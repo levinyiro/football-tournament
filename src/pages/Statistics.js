@@ -232,28 +232,40 @@ function Statistics() {
 
           // If no knockout stage, determine winner from group stage
           if (!tournamentStats.winner && Object.keys(groupStageStats).length > 0) {
-            // Sort players by win rate
-            const sortedByWinRate = Object.entries(groupStageStats)
-              .map(([name, stats]) => ({
-                name,
-                winRate: (stats.wins / stats.matches) * 100,
-                stats,
-              }))
-              .sort((a, b) => b.winRate - a.winRate);
+            // Sort players by points, goal difference, and goals for (like group standings)
+            const sortedByStandings = Object.entries(groupStageStats)
+              .map(([name, stats]) => {
+                const points = stats.wins * 3 + stats.draws;
+                const goalsFor = playerStatsMap[name]?.goalsFor || 0;
+                const goalsAgainst = playerStatsMap[name]?.goalsAgainst || 0;
+                const goalDiff = goalsFor - goalsAgainst;
+                return {
+                  name,
+                  points,
+                  goalDiff,
+                  goalsFor,
+                  stats,
+                };
+              })
+              .sort((a, b) => {
+                if (a.points !== b.points) return b.points - a.points;
+                if (a.goalDiff !== b.goalDiff) return b.goalDiff - a.goalDiff;
+                return b.goalsFor - a.goalsFor;
+              });
 
             // Award medals
-            if (sortedByWinRate[0]) {
-              tournamentStats.winner = sortedByWinRate[0].name;
-              playerStatsMap[sortedByWinRate[0].name].tournamentWins++;
-              playerStatsMap[sortedByWinRate[0].name].goldMedals++;
+            if (sortedByStandings[0]) {
+              tournamentStats.winner = sortedByStandings[0].name;
+              playerStatsMap[sortedByStandings[0].name].tournamentWins++;
+              playerStatsMap[sortedByStandings[0].name].goldMedals++;
             }
-            if (sortedByWinRate[1]) {
-              tournamentStats.runnerUp = sortedByWinRate[1].name;
-              playerStatsMap[sortedByWinRate[1].name].silverMedals++;
+            if (sortedByStandings[1]) {
+              tournamentStats.runnerUp = sortedByStandings[1].name;
+              playerStatsMap[sortedByStandings[1].name].silverMedals++;
             }
-            if (sortedByWinRate[2]) {
-              tournamentStats.thirdPlace = sortedByWinRate[2].name;
-              playerStatsMap[sortedByWinRate[2].name].bronzeMedals++;
+            if (sortedByStandings[2]) {
+              tournamentStats.thirdPlace = sortedByStandings[2].name;
+              playerStatsMap[sortedByStandings[2].name].bronzeMedals++;
             }
           } else if (tournamentStats.winner) {
             // Award medals from knockout stage

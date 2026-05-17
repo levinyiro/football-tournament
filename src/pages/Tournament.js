@@ -36,6 +36,7 @@ function Tournament() {
             )}
             <div className='tournament-title-section'>
               <h1 className="mb-3">{tournament.title}</h1>
+              <p className="text-muted mb-3">{tournament.date}</p>
               {isLoading && (
                 <div className="spinner-border text-light d-inline ms-2" role="status">
                   <span className="visually-hidden">Loading...</span>
