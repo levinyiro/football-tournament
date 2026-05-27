@@ -5,7 +5,6 @@ import '../styles/stats.scss';
 function Statistics() {
   const [sortedPlayers, setSortedPlayers] = useState([]);
   const [tournaments, setTournaments] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [overallStats, setOverallStats] = useState({
     totalMatches: 0,
     totalGoals: 0,
@@ -15,7 +14,6 @@ function Statistics() {
 
   useEffect(() => {
     const fetchAndProcessData = async () => {
-      setIsLoading(true);
       try {
         await Data.fetchTournaments();
         const tournamentsData = Data.tournaments;
@@ -286,27 +284,19 @@ function Statistics() {
           playerStatsMap[name].tournaments = Array.from(playerStatsMap[name].tournaments);
         });
 
-        // Sort players by medals (primary), then by win rate (secondary)
+        // Sort players Olympic-style: gold, then silver, then bronze, then win rate
         const sorted = Object.entries(playerStatsMap).sort((a, b) => {
-          const totalMedalsA = a[1].goldMedals + a[1].silverMedals + a[1].bronzeMedals;
-          const totalMedalsB = b[1].goldMedals + b[1].silverMedals + b[1].bronzeMedals;
-
-          // Primary sort: by total medals (descending)
-          if (totalMedalsA !== totalMedalsB) {
-            return totalMedalsB - totalMedalsA;
-          }
-
-          // Secondary sort: by gold medals (descending)
+          // Primary sort: by gold medals (descending)
           if (a[1].goldMedals !== b[1].goldMedals) {
             return b[1].goldMedals - a[1].goldMedals;
           }
 
-          // Tertiary sort: by silver medals (descending)
+          // Secondary sort: by silver medals (descending)
           if (a[1].silverMedals !== b[1].silverMedals) {
             return b[1].silverMedals - a[1].silverMedals;
           }
 
-          // Quaternary sort: by bronze medals (descending)
+          // Tertiary sort: by bronze medals (descending)
           if (a[1].bronzeMedals !== b[1].bronzeMedals) {
             return b[1].bronzeMedals - a[1].bronzeMedals;
           }
@@ -332,27 +322,10 @@ function Statistics() {
       } catch (error) {
         console.error('Error fetching statistics:', error);
       }
-      setIsLoading(false);
     };
 
     fetchAndProcessData();
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="Statistics">
-        <div className="header">
-          <h1>⚽ FIFA Turné Statisztikák</h1>
-        </div>
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
-          <div className="spinner-border text-light" role="status">
-            <span className="visually-hidden">Betöltés...</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
 
   return (
     <div className="Statistics">
