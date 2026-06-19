@@ -88,10 +88,28 @@ $transition-easing: ease;
 // Statistics Component Styles
 // ============================================
 
+@keyframes statsFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .Statistics {
   padding: $spacing-2xl 0;
   min-height: 100vh;
   background-color: #3a0ca3;
+
+  .stat-card,
+  .top-card,
+  .chart-container,
+  .tournament-winner-card {
+    animation: statsFadeInUp 0.5s $transition-easing both;
+  }
 }
 
 // ============================================
@@ -212,14 +230,19 @@ $transition-easing: ease;
   }
 
   .top-card-value {
-    @include stat-text(1.8em, bold);
-    color: $text-dark;
+    @include stat-text(1.7em, bold);
+    background: linear-gradient(135deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: $spacing-xs;
+    line-height: 1.2;
   }
 
   .top-card-detail {
-    @include stat-text($font-size-base, 400);
+    @include stat-text($font-size-sm, 500);
     color: $text-light;
+    line-height: 1.4;
   }
 }
 
@@ -269,6 +292,99 @@ $transition-easing: ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   transition: all $transition-speed $transition-easing;
 
+  &.full-width {
+    margin-bottom: $spacing-xl;
+  }
+
+  .chart-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    .chart-title {
+      margin-bottom: 0;
+      text-align: left;
+    }
+  }
+
+  .metric-toggle {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    padding: 4px;
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 999px;
+    border: 1px solid rgba(102, 126, 234, 0.15);
+
+    .metric-btn {
+      border: none;
+      background: transparent;
+      color: $text-light;
+      font-family: $font-family-primary;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      @include transition;
+
+      &:hover {
+        color: $primary-color;
+        background: rgba(102, 126, 234, 0.12);
+      }
+
+      &.active {
+        color: #fff;
+        background: linear-gradient(135deg, $primary-color, $secondary-color);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+      }
+    }
+  }
+
+  .participant-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-lg;
+
+    .participant-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1.5px solid #e0e0e0;
+      background: #fff;
+      color: $text-muted;
+      font-family: $font-family-primary;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      cursor: pointer;
+      @include transition;
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      &:not(.active) {
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+
   &:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     border-color: rgba(102, 126, 234, 0.25);
@@ -284,6 +400,74 @@ $transition-easing: ease;
 
   svg {
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.05));
+  }
+}
+
+// ============================================
+// Custom Chart Tooltip
+// ============================================
+
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 10px;
+  padding: $spacing-sm $spacing-md;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+
+  .tooltip-title {
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $primary-color;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+    line-height: 1.3;
+  }
+
+  .tooltip-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 240px;
+    overflow: hidden;
+  }
+
+  .tooltip-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-md;
+    font-size: $font-size-sm;
+
+    &.leader {
+      .tooltip-label,
+      .tooltip-value {
+        font-weight: 800;
+      }
+    }
+
+    .tooltip-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: $text-dark;
+      font-weight: 600;
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+    }
+
+    .tooltip-value {
+      color: $text-dark;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
   }
 }
 
@@ -468,7 +652,7 @@ $transition-easing: ease;
 .Statistics .header-row,
 .Statistics .player-row {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   gap: $spacing-md;
   padding: $spacing-md 0;
   align-items: center;
